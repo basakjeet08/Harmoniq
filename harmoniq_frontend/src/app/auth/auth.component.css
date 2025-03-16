@@ -8,6 +8,6 @@
   display: flex;
   flex-direction: column;
 
-  background-color: var(--background--color);
-  color: var(--on--background--color);
+  align-items: center;
+  justify-content: center;
 }
