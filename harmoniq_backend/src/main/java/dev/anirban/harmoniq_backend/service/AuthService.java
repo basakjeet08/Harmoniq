@@ -70,4 +70,27 @@ public class AuthService {
 
         return user;
     }
+
+    // This function registers a Guest Account
+    public UserDto loginAsGuest() {
+        // Creating a Guest User
+        User user = userService.createGuest();
+
+        authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getEmail(),
+                        "Guest Password"
+                )
+        );
+
+        // Generating the tokens
+        String[] tokens = generateTokenWrapper(user);
+        UserDto userDto = user.toUserDto();
+
+        // Setting the tokens in the user dto
+        userDto.setToken(tokens[0]);
+        userDto.setRefreshToken(tokens[1]);
+
+        return userDto;
+    }
 }

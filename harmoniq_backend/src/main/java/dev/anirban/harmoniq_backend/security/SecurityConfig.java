@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_MODERATOR_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_MEMBER_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_ENDPOINT).permitAll()
+                                .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_AS_GUEST_ENDPOINT).permitAll()
 
                                 // For any other or all requests
                                 .anyRequest().authenticated()

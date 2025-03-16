@@ -37,4 +37,11 @@ public class AuthController {
         UserDto userDto = service.loginUser(authRequest);
         return new ResponseWrapper<>("User Logged in Successfully !!", userDto);
     }
+
+    // this function handles any register guest request and returns the member created
+    @PostMapping(UrlConstants.LOGIN_AS_GUEST_ENDPOINT)
+    public ResponseWrapper<UserDto> handleLoginAsGuestRequest() {
+        UserDto userDto = service.loginAsGuest();
+        return new ResponseWrapper<>("User Logged in as guest Successfully !!", userDto);
+    }
 }
