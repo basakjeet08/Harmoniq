@@ -1,1 +1,97 @@
-<p>register works!</p>
+<!-- Loading State -->
+<app-loader [isLoading]="isLoading" />
+
+<!-- Error State -->
+<app-error-card
+  [errorMessage]="errorMessage"
+  (onCancelClick)="onErrorCancelClick()"
+/>
+
+<!-- Idle State -->
+<form
+  *ngIf="!isLoading && !errorMessage"
+  class="card-container col-container p-40 g-24"
+  #formContainer="ngForm"
+  (ngSubmit)="onRegisterClick()"
+>
+  <h3>Register as Member</h3>
+
+  <!-- Email input container -->
+  <div class="col-container">
+    <input
+      type="email"
+      name="email"
+      placeholder="Enter Email"
+      required
+      email
+      [(ngModel)]="userInput.email"
+      #email="ngModel"
+    />
+
+    <!-- Error text for Email input -->
+    <p class="error-text" *ngIf="!email.valid && email.touched">
+      Please enter the Email
+    </p>
+  </div>
+
+  <!-- Password Container -->
+  <div class="col-container">
+    <input
+      type="password"
+      name="password"
+      placeholder="Enter Password"
+      required
+      minlength="5"
+      [(ngModel)]="userInput.password"
+      #password="ngModel"
+    />
+
+    <!-- Error text for password input -->
+    <p class="error-text" *ngIf="password.touched && password.invalid">
+      Please enter the Password of length < 5
+    </p>
+  </div>
+
+  <!-- Confirm Password Container -->
+  <div class="col-container">
+    <input
+      type="password"
+      name="confirmPassword"
+      placeholder="Confirm Password"
+      required
+      [(ngModel)]="userInput.confirmPassword"
+      #confirmPassword="ngModel"
+    />
+
+    <!-- Error Text for Confirm Password Container -->
+    <p
+      class="error-text"
+      *ngIf="
+        confirmPassword.touched &&
+        (confirmPassword.value !== password.value || confirmPassword.invalid)
+      "
+    >
+      Please check the values for both the password fields
+    </p>
+  </div>
+
+  <!-- Anonymous User Text Declaration -->
+  <p class="small-text">
+    Names and profile pics will be <span class="highlight">Anonymous.</span>
+  </p>
+
+  <!-- Container for the buttons -->
+  <div class="row-container w-full">
+    <button class="flex" type="submit" [disabled]="!formContainer.valid">
+      Register User
+    </button>
+
+    <button
+      type="button"
+      class="destructive-btn flex"
+      (click)="onGoToLoginClick()"
+    >
+      Go to Login Page
+    </button>
+  </div>
+</form>
