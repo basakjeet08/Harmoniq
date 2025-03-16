@@ -1,0 +1,10 @@
+<!-- Error Dialog Container -->
+<div class="card-container col-container outer-container" *ngIf="errorMessage">
+  <!-- Error Text Message -->
+  <p class="error-text">{{ errorMessage }}</p>
+
+  <!-- Button to remove error message -->
+  <div class="center">
+    <button class="destructive-btn" (click)="onCancelClick()">Cancel</button>
+  </div>
+</div>
