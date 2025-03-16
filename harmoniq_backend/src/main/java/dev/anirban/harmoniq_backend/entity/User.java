@@ -1,0 +1,67 @@
+package dev.anirban.harmoniq_backend.entity;
+
+import dev.anirban.harmoniq_backend.dto.response.UserDto;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.UuidGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+
+
+@Getter
+@Setter
+@ToString
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "User_DB")
+public class User implements UserDetails {
+
+    public enum Type {
+        MODERATOR, MEMBER, GUEST
+    }
+
+    @Id
+    @UuidGenerator
+    @Column(name = "id")
+    private String id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Type role;
+
+    public UserDto toUserDto() {
+        return UserDto
+                .builder()
+                .id(id)
+                .name(name)
+                .email(email)
+                .role(role.toString())
+                .build();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.toString()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+}
