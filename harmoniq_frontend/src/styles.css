@@ -1,1 +1,155 @@
-/* You can add global styles to this file, and also import other style files */
+/* Default CSS for the whole webpage */
+@import url("https://fonts.googleapis.com/css2?family=McLaren&display=swap");
+
+/* Basic Utility Variables */
+:root {
+  /* Color Variables */
+  --primary--color: #8752cc;
+  --background--color: #1c1f22;
+  --on--background--color: #ffffff;
+  --card--color: #282b2e;
+  --card--variant--color: #494848;
+  --error--color: rgb(241, 61, 61);
+  --confirm--color: rgb(48, 150, 48);
+
+  /* Border Radius Variables */
+  --border--radius: 6px;
+
+  /* Small Padding for Buttons and Inputs */
+  --padding--small: 10px 12px;
+}
+
+/* Styles for every elements */
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "McLaren", cursive;
+  box-sizing: border-box;
+}
+
+/* Body style to prevent inconsistencies when the scroll bar pops up */
+body {
+  overflow-x: hidden;
+}
+
+/* Basic Style for the headings */
+h1,
+h2,
+h3 {
+  color: var(--primary--color);
+}
+
+/* Basic Image CSS */
+img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  border-radius: var(--border--radius);
+}
+
+/* Primary Button CSS */
+button {
+  padding: var(--padding--small);
+  background-color: var(--primary--color);
+  border: none;
+  outline: none;
+  border-radius: var(--border--radius);
+  color: var(--on--background--color);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:active {
+  opacity: 0.3;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
+/* Other buttons Color CSS */
+button.secondary-btn {
+  background-color: var(--confirm--color);
+}
+
+/* Destructive Button */
+button.destructive-btn {
+  background-color: var(--error--color);
+}
+
+/* Input fields CSS */
+input,
+textarea {
+  padding: var(--padding--small);
+  border-radius: var(--border--radius);
+  outline: none;
+  border: 1px solid var(--card--variant--color);
+  color: var(--on--background--color);
+  background-color: transparent;
+}
+
+textarea {
+  min-width: 350px;
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+input:focus,
+textarea:focus {
+  border: 1px solid var(--primary--color);
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 1px dashed var(--error--color);
+}
+
+/* Horizontal Line CSS */
+hr {
+  width: 70%;
+  border: 1px dashed var(--card--variant--color);
+}
+
+/* Utility Container CSS */
+.row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: 16px;
+}
+
+.col-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+/* Utility Card CSS */
+.card-container {
+  padding: 24px;
+
+  border-radius: var(--border--radius);
+  background-color: var(--card--color);
+
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.hover-primary:hover {
+  background-color: var(--primary--color);
+}
+
+/* Utility Error text for text fields if needed */
+.error-text {
+  font-size: 12px;
+  color: var(--error--color);
+}
