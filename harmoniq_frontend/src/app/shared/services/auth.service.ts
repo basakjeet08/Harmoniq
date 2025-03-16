@@ -70,6 +70,17 @@ export class AuthService implements AuthInterface {
       );
   }
 
+  // This function sends a login request for the user as a guest
+  loginAsGuest(): Observable<User> {
+    return this.http
+      .post<ResponseWrapper<User>>(`${this.URL}/login/guest`, null)
+      .pipe(
+        map((response) => response.data),
+        tap((user: User) => this.setUserInLocal(user)),
+        catchError(this.apiErrorHandler.handleApiError)
+      );
+  }
+
   // This function logs out the user
   logout(): void {
     this.user = undefined;

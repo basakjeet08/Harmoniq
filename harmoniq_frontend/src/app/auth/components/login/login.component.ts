@@ -44,7 +44,22 @@ export class LoginComponent {
 
   // This function is invoked when the user clicks on login as Guest Button
   onLoginAsGuestClick() {
-    console.log('Login As Guest Clicked');
+    // Setting the loading state
+    this.isLoading = true;
+
+    // Calling the API
+    this.authService.loginAsGuest().subscribe({
+      // Success State
+      next: () => {
+        this.isLoading = false;
+      },
+
+      // Error State
+      error: (error: Error) => {
+        this.isLoading = false;
+        this.errorMessage = error.message;
+      },
+    });
   }
 
   // This function is invoked when the user clicks on the go to Register button

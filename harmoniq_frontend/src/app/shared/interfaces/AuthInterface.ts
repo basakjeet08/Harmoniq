@@ -14,5 +14,7 @@ export interface AuthInterface {
 
   login(user: { email: string; password: string }): Observable<User>;
 
+  loginAsGuest(): Observable<User>;
+
   logout(): void;
 }
