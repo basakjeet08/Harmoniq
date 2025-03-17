@@ -1,0 +1,35 @@
+:host {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-container {
+  width: 80%;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
+  gap: 24px;
+}
+
+.center {
+  align-self: center;
+  justify-self: center;
+}
+
+.card-hover:hover {
+  cursor: pointer;
+  background-color: var(--card--variant--color);
+}
+
+.card-variant-color {
+  background-color: var(--card--variant--color);
+}
+
+.highlight {
+  color: var(--primary--color);
+}

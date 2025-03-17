@@ -1,1 +1,68 @@
-<p>home works!</p>
+<!-- Grid Container for the whole Layout -->
+<div class="grid-container">
+  <!-- Profile Section for the Threads Feature -->
+  <div class="col-container">
+    <!-- Title -->
+    <h3>Profile Section</h3>
+
+    <!-- Loading State for the Profile Container -->
+    <app-loader class="center" *ngIf="isLoading" [isLoading]="isLoading" />
+
+    <!-- Error State of the Profile Api call -->
+    <app-error-card
+      class="center"
+      *ngIf="errorMessage"
+      [errorMessage]="errorMessage"
+      (onCancelClick)="onErrorCancelClick()"
+    />
+
+    <!-- This is the profile container Success State -->
+    <div *ngIf="!isLoading && !errorMessage">
+      <p>Success State : Not Yet Implemented</p>
+    </div>
+  </div>
+
+  <div class="col-container">
+    <!-- Card container to view Feed Page -->
+    <div
+      class="card-container col-container card-hover"
+      (click)="onNavigateToFeedClick()"
+    >
+      <h3>Navigate to Feed . . .</h3>
+
+      <p>
+        Click me to head to the <span class="highlight">feed page</span>, where
+        you can see the all the threads listed by various individuals.
+      </p>
+    </div>
+
+    <!-- Card Container to View The Thread Creation Page -->
+    <div
+      class="card-container col-container card-hover"
+      (click)="onPostThreadClick()"
+      @slideUpEnterAnimation
+    >
+      <h3>Post a new Thread . . .</h3>
+
+      <p>
+        Click me to head to the
+        <span class="highlight">post thread page</span>, where you can post new
+        threads.
+      </p>
+    </div>
+
+    <!-- Card Container to View Thread History Page -->
+    <div
+      class="card-container col-container card-hover"
+      (click)="onViewHistoryClick()"
+    >
+      <h3>View my Threads . . .</h3>
+
+      <p>
+        Click here to head to the
+        <span class="highlight">Thread History page </span>, where you can see
+        your created threads.
+      </p>
+    </div>
+  </div>
+</div>
