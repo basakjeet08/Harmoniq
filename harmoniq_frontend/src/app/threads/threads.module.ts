@@ -19,7 +19,7 @@ const threadRoutes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'feed', component: FeedComponent },
-      { path: 'details', component: DetailsComponent },
+      { path: 'details/:id', component: DetailsComponent },
       { path: 'add', component: AddComponent },
       { path: 'history', component: HistoryComponent },
     ],

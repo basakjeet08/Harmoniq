@@ -8,12 +8,25 @@
   />
 </div>
 
+<!-- Loading State -->
+<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
+
+<!-- Error State -->
+<app-error-card
+  *ngIf="errorMessage"
+  [errorMessage]="errorMessage"
+  (onCancelClick)="onErrorCancelClick()"
+/>
+
 <!-- This is the Thread list container -->
-<div class="col-container">
+<div class="col-container" *ngIf="!isLoading && !errorMessage">
   <!-- Each Thread Component -->
-  <div class="col-container center">
+  <div class="col-container center" *ngFor="let thread of threadList">
     <!-- Thread Card Content -->
-    <div class="card-container col-container">
+    <div
+      class="card-container col-container w-full"
+      (click)="onThreadCardClick(thread.id)"
+    >
       <!-- Profile Header Container -->
       <div class="row-container">
         <!-- Profile Pic -->
@@ -25,25 +38,19 @@
 
         <!-- Name and Account Type -->
         <div>
-          <p class="thread-title">Lorem, ipsum dolor.</p>
-          <p class="thread-title">Member</p>
+          <p class="thread-title">{{ thread.createdBy.name }}</p>
+          <p class="thread-title">{{ thread.createdBy.role | titlecase }}</p>
         </div>
       </div>
 
       <!-- Thread Description -->
-      <p class="thread-description">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti
-        exercitationem dolores eum, vel nesciunt facere cum adipisci beatae
-        laborum maiores asperiores quisquam autem tempora voluptate architecto
-        tempore velit distinctio, nulla accusantium temporibus omnis optio
-        excepturi! Aut numquam in aperiam accusantium.
-      </p>
+      <p class="thread-description">{{ thread.description }}</p>
 
       <!-- Tags for this Thread -->
       <div class="row-container">
-        <p class="thread-tag">Tags</p>
-        <p class="thread-tag">Tags</p>
-        <p class="thread-tag">Tags</p>
+        <p class="thread-tag">Depression</p>
+        <p class="thread-tag">Mental Trauma</p>
+        <p class="thread-tag">Stress</p>
       </div>
     </div>
 

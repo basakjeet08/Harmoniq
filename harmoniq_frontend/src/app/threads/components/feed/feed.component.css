@@ -18,6 +18,10 @@
   align-items: center;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .card-container:hover {
   background-color: var(--card--variant--color);
   cursor: pointer;
