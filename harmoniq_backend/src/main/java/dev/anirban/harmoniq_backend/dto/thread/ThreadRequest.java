@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.dto.request;
+package dev.anirban.harmoniq_backend.dto.thread;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

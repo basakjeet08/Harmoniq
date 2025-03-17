@@ -1,6 +1,6 @@
 package dev.anirban.harmoniq_backend.service;
 
-import dev.anirban.harmoniq_backend.dto.request.ThreadRequest;
+import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;

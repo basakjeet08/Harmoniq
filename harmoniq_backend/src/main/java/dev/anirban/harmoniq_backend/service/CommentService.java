@@ -1,6 +1,6 @@
 package dev.anirban.harmoniq_backend.service;
 
-import dev.anirban.harmoniq_backend.dto.request.CommentRequest;
+import dev.anirban.harmoniq_backend.dto.comment.CommentRequest;
 import dev.anirban.harmoniq_backend.entity.Comment;
 import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.entity.User;

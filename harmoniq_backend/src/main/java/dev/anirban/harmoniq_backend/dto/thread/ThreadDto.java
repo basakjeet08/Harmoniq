@@ -1,5 +1,6 @@
-package dev.anirban.harmoniq_backend.dto.response;
+package dev.anirban.harmoniq_backend.dto.thread;
 
+import dev.anirban.harmoniq_backend.dto.response.UserDto;
 import lombok.*;
 
 @Getter

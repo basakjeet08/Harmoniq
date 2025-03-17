@@ -1,9 +1,9 @@
 package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
-import dev.anirban.harmoniq_backend.dto.request.ThreadRequest;
+import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
-import dev.anirban.harmoniq_backend.dto.response.ThreadDto;
+import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
 import dev.anirban.harmoniq_backend.service.ThreadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
