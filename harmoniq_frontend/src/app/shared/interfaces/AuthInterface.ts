@@ -1,20 +1,20 @@
 import { Observable } from 'rxjs';
-import { User } from '../Models/User';
+import { AuthResponse } from '../Models/auth/AuthResponse';
 
 export interface AuthInterface {
-  getUser(): User | undefined;
+  getUser(): AuthResponse | undefined;
 
-  getUserFromLocal(): User | undefined;
+  getUserFromLocal(): AuthResponse | undefined;
 
-  getUserSubject(): Observable<User | undefined>;
+  getUserSubject(): Observable<AuthResponse | undefined>;
 
-  setUserInLocal(user: User): void;
+  setUserInLocal(user: AuthResponse): void;
 
-  registerMember(user: { email: string; password: string }): Observable<User>;
+  registerMember(user: { email: string; password: string }): Observable<AuthResponse>;
 
-  login(user: { email: string; password: string }): Observable<User>;
+  login(user: { email: string; password: string }): Observable<AuthResponse>;
 
-  loginAsGuest(): Observable<User>;
+  loginAsGuest(): Observable<AuthResponse>;
 
   logout(): void;
 }

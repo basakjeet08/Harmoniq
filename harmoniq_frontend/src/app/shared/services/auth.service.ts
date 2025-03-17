@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AuthInterface } from '../interfaces/AuthInterface';
 import { catchError, map, Observable, Subject, tap } from 'rxjs';
-import { User } from '../Models/User';
+import { AuthResponse } from '../Models/auth/AuthResponse';
 import { HttpClient } from '@angular/common/http';
 import { ApiErrorHandlerService } from './api-error-handler.service';
-import { ResponseWrapper } from '../Models/ResponseWrapper';
+import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService implements AuthInterface {
@@ -13,8 +13,8 @@ export class AuthService implements AuthInterface {
   private USER_DATA_TOKEN = 'USER_DATA';
 
   // User Subject which will transfer state data to all the required places
-  private user: User | undefined = undefined;
-  private userSubject = new Subject<User | undefined>();
+  private user: AuthResponse | undefined = undefined;
+  private userSubject = new Subject<AuthResponse | undefined>();
 
   // Injecting the necessary dependencies
   constructor(
@@ -26,23 +26,23 @@ export class AuthService implements AuthInterface {
   }
 
   // This function returns the current user data
-  getUser(): User | undefined {
+  getUser(): AuthResponse | undefined {
     return this.user ? { ...this.user } : undefined;
   }
 
   // This function returns the current User Observable
-  getUserSubject(): Observable<User | undefined> {
+  getUserSubject(): Observable<AuthResponse | undefined> {
     return this.userSubject.asObservable();
   }
 
   // This function returns the current stored user in the local storage
-  getUserFromLocal(): User | undefined {
+  getUserFromLocal(): AuthResponse | undefined {
     const data = localStorage.getItem(this.USER_DATA_TOKEN);
     return data ? JSON.parse(data) : undefined;
   }
 
   // This function stores the user data to the local storage
-  setUserInLocal(user: User): void {
+  setUserInLocal(user: AuthResponse): void {
     this.user = user;
     this.userSubject.next(this.getUser());
 
@@ -50,9 +50,9 @@ export class AuthService implements AuthInterface {
   }
 
   // This function registers the user as a member
-  registerMember(user: { email: string; password: string }): Observable<User> {
+  registerMember(user: { email: string; password: string }): Observable<AuthResponse> {
     return this.http
-      .post<ResponseWrapper<User>>(`${this.URL}/register/member`, user)
+      .post<ResponseWrapper<AuthResponse>>(`${this.URL}/register/member`, user)
       .pipe(
         map((response) => response.data),
         catchError(this.apiErrorHandler.handleApiError)
@@ -60,23 +60,23 @@ export class AuthService implements AuthInterface {
   }
 
   // This function sends a login request for the user
-  login(user: { email: string; password: string }): Observable<User> {
+  login(user: { email: string; password: string }): Observable<AuthResponse> {
     return this.http
-      .post<ResponseWrapper<User>>(`${this.URL}/login`, user)
+      .post<ResponseWrapper<AuthResponse>>(`${this.URL}/login`, user)
       .pipe(
         map((response) => response.data),
-        tap((user: User) => this.setUserInLocal(user)),
+        tap((user: AuthResponse) => this.setUserInLocal(user)),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }
 
   // This function sends a login request for the user as a guest
-  loginAsGuest(): Observable<User> {
+  loginAsGuest(): Observable<AuthResponse> {
     return this.http
-      .post<ResponseWrapper<User>>(`${this.URL}/login/guest`, null)
+      .post<ResponseWrapper<AuthResponse>>(`${this.URL}/login/guest`, null)
       .pipe(
         map((response) => response.data),
-        tap((user: User) => this.setUserInLocal(user)),
+        tap((user: AuthResponse) => this.setUserInLocal(user)),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }
