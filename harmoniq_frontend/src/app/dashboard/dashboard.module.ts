@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../shared/guards/auth.guard';
+import { SharedModule } from '../shared/shared.module';
 
 // These are the routes for the dashboard module
 const dashboardRoutes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'chatbot', pathMatch: 'full' },
       {
@@ -28,6 +29,6 @@ const dashboardRoutes: Routes = [
 
 @NgModule({
   declarations: [DashboardComponent],
-  imports: [CommonModule, RouterModule.forChild(dashboardRoutes)],
+  imports: [CommonModule, RouterModule.forChild(dashboardRoutes), SharedModule],
 })
 export class DashboardModule {}

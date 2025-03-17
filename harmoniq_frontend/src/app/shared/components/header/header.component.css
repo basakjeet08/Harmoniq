@@ -1,0 +1,23 @@
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+
+  border-radius: var(--border--radius);
+  background-color: var(--card--color);
+
+  transition: all 0.3s ease-in-out;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: 16px;
+
+  list-style: none;
+}
