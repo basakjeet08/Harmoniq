@@ -1,6 +1,6 @@
 import { UserDto } from '../user/UserDto';
 
-class ThreadHistoryItem {
+export class ThreadHistoryItem {
   constructor(readonly id: string, readonly description: string) {}
 }
 
