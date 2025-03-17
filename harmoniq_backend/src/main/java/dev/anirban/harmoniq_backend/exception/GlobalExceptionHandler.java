@@ -38,4 +38,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
+
+    // Handle Un Authorized Exception
+    @ExceptionHandler(UnAuthorized.class)
+    public ResponseEntity<ResponseWrapper<Void>> handleUnAuthorizedException(UnAuthorized exception) {
+        ResponseWrapper<Void> response = new ResponseWrapper<>(exception.getMessage(), null);
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
+    }
 }

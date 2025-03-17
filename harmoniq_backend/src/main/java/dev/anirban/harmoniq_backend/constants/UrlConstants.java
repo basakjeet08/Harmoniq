@@ -14,6 +14,9 @@ public class UrlConstants {
 
     // Thread Endpoints
     public static final String THREAD_CREATE_ENDPOINT = "/thread";
+    public static final String THREAD_FETCH_BY_ID_ENDPOINT = "/thread/{id}";
+    public static final String THREAD_FETCH_ALL_ENDPOINT = "/thread";
+    public static final String THREAD_DELETE_ENDPOINT = "/thread/{id}";
 
     // Comment Endpoints
     public static final String COMMENT_CREATE_ENDPOINT = "/comment";

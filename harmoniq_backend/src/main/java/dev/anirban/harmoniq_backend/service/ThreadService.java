@@ -4,6 +4,7 @@ import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
+import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ThreadRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +44,22 @@ public class ThreadService {
         return threadRepo
                 .findById(id)
                 .orElseThrow(() -> new ThreadNotFound(id));
+    }
+
+    // This function fetches all the threads from the Database
+    public List<Thread> findAll() {
+        return threadRepo.findAll();
+    }
+
+    // This function deletes all the threads from the database
+    public void deleteById(String id, UserDetails userDetails) {
+        // Checking if the thread is present
+        Thread savedThread = findById(id);
+
+        // Checking if the user is the creator of the thread
+        if (!savedThread.getCreatedBy().getUsername().equals(userDetails.getUsername()))
+            throw new UnAuthorized();
+
+        threadRepo.deleteById(id);
     }
 }

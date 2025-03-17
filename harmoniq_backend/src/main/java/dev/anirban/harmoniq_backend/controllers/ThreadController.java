@@ -1,16 +1,18 @@
 package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
+import dev.anirban.harmoniq_backend.dto.thread.ThreadDetailsResponse;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
+import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.service.ThreadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,5 +28,34 @@ public class ThreadController {
     ) {
         ThreadDto thread = service.create(threadRequest, userDetails).toThreadDto();
         return new ResponseWrapper<>("Thread created Successfully !!", thread);
+    }
+
+    // This function handles the thread find by ID Requests
+    @GetMapping(UrlConstants.THREAD_FETCH_BY_ID_ENDPOINT)
+    public ResponseWrapper<ThreadDetailsResponse> handleThreadFindByIdRequest(@PathVariable String id) {
+        ThreadDetailsResponse threadDto = ThreadDetailsResponse.generateThreadDetailsResponse(service.findById(id));
+        return new ResponseWrapper<>("Thread data fetched Successfully !!", threadDto);
+    }
+
+    // This function handles the thread fetch all Requests
+    @GetMapping(UrlConstants.THREAD_FETCH_ALL_ENDPOINT)
+    public ResponseWrapper<List<ThreadDto>> handleThreadFindAllRequest() {
+        List<ThreadDto> threadDtoList = service
+                .findAll()
+                .stream()
+                .map(Thread::toThreadDto)
+                .toList();
+
+        return new ResponseWrapper<>("Thread List fetched Successfully !!", threadDtoList);
+    }
+
+    // This function deleted the given thread
+    @DeleteMapping(UrlConstants.THREAD_DELETE_ENDPOINT)
+    public ResponseWrapper<Void> handleDeleteRequest(
+            @PathVariable String id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        service.deleteById(id, userDetails);
+        return new ResponseWrapper<>("Thread Deleted Successfully !!", null);
     }
 }
