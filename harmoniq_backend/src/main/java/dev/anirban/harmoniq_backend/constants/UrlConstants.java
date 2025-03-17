@@ -11,4 +11,10 @@ public class UrlConstants {
     public static final String REGISTER_MEMBER_ENDPOINT = "/register/member";
     public static final String LOGIN_ENDPOINT = "/login";
     public static final String LOGIN_AS_GUEST_ENDPOINT = "/login/guest";
+
+    // Thread Endpoints
+    public static final String THREAD_CREATE_ENDPOINT = "/thread";
+
+    // Comment Endpoints
+    public static final String COMMENT_CREATE_ENDPOINT = "/comment";
 }

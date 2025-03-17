@@ -28,4 +28,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
+
+    // Handling Thread not found Exception
+    @ExceptionHandler(ThreadNotFound.class)
+    public ResponseEntity<ResponseWrapper<Void>> handleThreadNotFound(ThreadNotFound exception) {
+        ResponseWrapper<Void> response = new ResponseWrapper<>(exception.getMessage(), null);
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
 }

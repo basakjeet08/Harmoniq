@@ -1,6 +1,7 @@
 package dev.anirban.harmoniq_backend.security;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
+import dev.anirban.harmoniq_backend.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +51,12 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_MEMBER_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_AS_GUEST_ENDPOINT).permitAll()
+
+                                // Thread Endpoints
+                                .requestMatchers(HttpMethod.POST, UrlConstants.THREAD_CREATE_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+
+                                //
+                                .requestMatchers(HttpMethod.POST, UrlConstants.COMMENT_CREATE_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
                                 // For any other or all requests
                                 .anyRequest().authenticated()
