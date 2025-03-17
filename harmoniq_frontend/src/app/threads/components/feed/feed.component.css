@@ -1,8 +1,14 @@
 :host {
   height: 100%;
-  width: 100%;
+  width: 50%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  padding: 12px;
+}
+
+.input-container {
+  width: 70%;
 }

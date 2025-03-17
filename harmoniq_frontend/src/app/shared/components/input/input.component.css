@@ -1,0 +1,19 @@
+:host {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-container {
+  width: 100%;
+
+  border-radius: var(--border--radius);
+  border: 1px dashed var(--card--variant--color);
+}
+
+.input-element {
+  flex: 1;
+  border: none;
+}
