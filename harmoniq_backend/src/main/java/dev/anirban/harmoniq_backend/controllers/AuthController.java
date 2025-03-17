@@ -1,9 +1,9 @@
 package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
-import dev.anirban.harmoniq_backend.dto.request.AuthRequest;
-import dev.anirban.harmoniq_backend.dto.response.ResponseWrapper;
-import dev.anirban.harmoniq_backend.dto.response.UserDto;
+import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
+import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
+import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,29 +19,29 @@ public class AuthController {
 
     // This function handles any register moderator request and returns the moderator object created
     @PostMapping(UrlConstants.REGISTER_MODERATOR_ENDPOINT)
-    public ResponseWrapper<UserDto> handleModeratorRegisterRequest(@RequestBody AuthRequest authRequest) {
-        UserDto admin = service.registerModerator(authRequest).toUserDto();
-        return new ResponseWrapper<>("Moderator Created Successfully !!", admin);
+    public ResponseWrapper<AuthResponse> handleModeratorRegisterRequest(@RequestBody AuthRequest authRequest) {
+        AuthResponse moderator = service.registerModerator(authRequest).toAuthResponse();
+        return new ResponseWrapper<>("Moderator Created Successfully !!", moderator);
     }
 
     // This function handles any register member request and returns the member created
     @PostMapping(UrlConstants.REGISTER_MEMBER_ENDPOINT)
-    public ResponseWrapper<UserDto> handleMemberRegisterRequest(@RequestBody AuthRequest authRequest) {
-        UserDto librarian = service.registerMember(authRequest).toUserDto();
-        return new ResponseWrapper<>("Member Created Successfully !!", librarian);
+    public ResponseWrapper<AuthResponse> handleMemberRegisterRequest(@RequestBody AuthRequest authRequest) {
+        AuthResponse member = service.registerMember(authRequest).toAuthResponse();
+        return new ResponseWrapper<>("Member Created Successfully !!", member);
     }
 
     // This function handles the login requests and returns the tokens
     @PostMapping(UrlConstants.LOGIN_ENDPOINT)
-    public ResponseWrapper<UserDto> handleLoginRequest(@RequestBody AuthRequest authRequest) {
-        UserDto userDto = service.loginUser(authRequest);
-        return new ResponseWrapper<>("User Logged in Successfully !!", userDto);
+    public ResponseWrapper<AuthResponse> handleLoginRequest(@RequestBody AuthRequest authRequest) {
+        AuthResponse loggedUser = service.loginUser(authRequest);
+        return new ResponseWrapper<>("User Logged in Successfully !!", loggedUser);
     }
 
     // this function handles any register guest request and returns the member created
     @PostMapping(UrlConstants.LOGIN_AS_GUEST_ENDPOINT)
-    public ResponseWrapper<UserDto> handleLoginAsGuestRequest() {
-        UserDto userDto = service.loginAsGuest();
-        return new ResponseWrapper<>("User Logged in as guest Successfully !!", userDto);
+    public ResponseWrapper<AuthResponse> handleLoginAsGuestRequest() {
+        AuthResponse guestUser = service.loginAsGuest();
+        return new ResponseWrapper<>("User Logged in as guest Successfully !!", guestUser);
     }
 }

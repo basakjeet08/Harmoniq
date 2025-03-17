@@ -1,7 +1,7 @@
 package dev.anirban.harmoniq_backend.service;
 
-import dev.anirban.harmoniq_backend.dto.request.AuthRequest;
-import dev.anirban.harmoniq_backend.dto.response.UserDto;
+import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
+import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
@@ -48,7 +48,7 @@ public class AuthService {
     }
 
     // This function logs in the user and returns the tokens for his subsequent requests
-    public UserDto loginUser(AuthRequest authRequest) {
+    public AuthResponse loginUser(AuthRequest authRequest) {
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authRequest.getEmail(),
@@ -62,7 +62,7 @@ public class AuthService {
                 .orElseThrow(() -> new UserNotFound(authRequest.getEmail()));
 
         String[] tokens = generateTokenWrapper(userDetails);
-        UserDto user = userDetails.toUserDto();
+        AuthResponse user = userDetails.toAuthResponse();
 
         // Setting the token in the user dto
         user.setToken(tokens[0]);
@@ -72,7 +72,7 @@ public class AuthService {
     }
 
     // This function registers a Guest Account
-    public UserDto loginAsGuest() {
+    public AuthResponse loginAsGuest() {
         // Creating a Guest User
         User user = userService.createGuest();
 
@@ -85,7 +85,7 @@ public class AuthService {
 
         // Generating the tokens
         String[] tokens = generateTokenWrapper(user);
-        UserDto userDto = user.toUserDto();
+        AuthResponse userDto = user.toAuthResponse();
 
         // Setting the tokens in the user dto
         userDto.setToken(tokens[0]);

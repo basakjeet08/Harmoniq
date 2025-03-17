@@ -1,6 +1,6 @@
 package dev.anirban.harmoniq_backend.service;
 
-import dev.anirban.harmoniq_backend.dto.request.AuthRequest;
+import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.repo.UserRepository;
 import lombok.RequiredArgsConstructor;

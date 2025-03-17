@@ -1,6 +1,6 @@
 package dev.anirban.harmoniq_backend.exception;
 
-import dev.anirban.harmoniq_backend.dto.response.ResponseWrapper;
+import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
