@@ -8,6 +8,7 @@ import { AddComponent } from './components/add/add.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DetailsComponent } from './components/details/details.component';
 import { HomeComponent } from './components/home/home.component';
+import { FormsModule } from '@angular/forms';
 
 // These are the routes for the threads module
 const threadRoutes: Routes = [
@@ -34,6 +35,11 @@ const threadRoutes: Routes = [
     DetailsComponent,
     HomeComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(threadRoutes), SharedModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(threadRoutes),
+    SharedModule,
+    FormsModule,
+  ],
 })
 export class ThreadsModule {}
