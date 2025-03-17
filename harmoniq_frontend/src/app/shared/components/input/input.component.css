@@ -13,6 +13,10 @@
   border: 1px dashed var(--card--variant--color);
 }
 
+.input-container:focus-within {
+  border: 1px dashed var(--primary--color);
+}
+
 .input-element {
   flex: 1;
   border: none;

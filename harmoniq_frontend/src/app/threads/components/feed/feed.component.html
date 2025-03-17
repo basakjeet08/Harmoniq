@@ -1,8 +1,53 @@
 <!-- This is the Component which draws the Search Input -->
-<app-input
-  class="input-container"
-  [placeholder]="'Enter the tag to search'"
-  [buttonText]="'Search'"
-  [type]="'text'"
-  (onButtonClick)="onSearchClick($event)"
-/>
+<div class="input-container">
+  <app-input
+    [placeholder]="'Enter the tag to search'"
+    [buttonText]="'Search'"
+    [type]="'text'"
+    (onButtonClick)="onSearchClick($event)"
+  />
+</div>
+
+<!-- This is the Thread list container -->
+<div class="col-container">
+  <!-- Each Thread Component -->
+  <div class="col-container center">
+    <!-- Thread Card Content -->
+    <div class="card-container col-container">
+      <!-- Profile Header Container -->
+      <div class="row-container">
+        <!-- Profile Pic -->
+        <img
+          class="profile-image"
+          src="https://plus.unsplash.com/premium_vector-1722702997995-266ee207b17e?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Profile Image"
+        />
+
+        <!-- Name and Account Type -->
+        <div>
+          <p class="thread-title">Lorem, ipsum dolor.</p>
+          <p class="thread-title">Member</p>
+        </div>
+      </div>
+
+      <!-- Thread Description -->
+      <p class="thread-description">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti
+        exercitationem dolores eum, vel nesciunt facere cum adipisci beatae
+        laborum maiores asperiores quisquam autem tempora voluptate architecto
+        tempore velit distinctio, nulla accusantium temporibus omnis optio
+        excepturi! Aut numquam in aperiam accusantium.
+      </p>
+
+      <!-- Tags for this Thread -->
+      <div class="row-container">
+        <p class="thread-tag">Tags</p>
+        <p class="thread-tag">Tags</p>
+        <p class="thread-tag">Tags</p>
+      </div>
+    </div>
+
+    <!-- Horizontal Divider -->
+    <hr />
+  </div>
+</div>
