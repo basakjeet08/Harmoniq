@@ -51,6 +51,11 @@ public class ThreadService {
         return threadRepo.findAll();
     }
 
+    // This function fetches the threads which are created by the specified user
+    public List<Thread> findByCreatedBy_Email(UserDetails userDetails) {
+        return threadRepo.findByCreatedBy_Email(userDetails.getUsername());
+    }
+
     // This function deletes all the threads from the database
     public void deleteById(String id, UserDetails userDetails) {
         // Checking if the thread is present

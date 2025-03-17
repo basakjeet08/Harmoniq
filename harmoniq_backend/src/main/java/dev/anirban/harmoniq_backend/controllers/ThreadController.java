@@ -2,6 +2,7 @@ package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDetailsResponse;
+import dev.anirban.harmoniq_backend.dto.thread.ThreadHistoryResponse;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
@@ -47,6 +48,16 @@ public class ThreadController {
                 .toList();
 
         return new ResponseWrapper<>("Thread List fetched Successfully !!", threadDtoList);
+    }
+
+    // This function handles the thread fetch of the specified user requests
+    @GetMapping(UrlConstants.THREAD_FETCH_BY_CREATED_BY_USER)
+    public ResponseWrapper<ThreadHistoryResponse> handleThreadHistoryOfUserResponse(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        List<Thread> threadList = service.findByCreatedBy_Email(userDetails);
+        ThreadHistoryResponse response = ThreadHistoryResponse.generateThreadHistoryResponse(threadList);
+        return new ResponseWrapper<>("Thread history of the given user is successful !!", response);
     }
 
     // This function deleted the given thread
