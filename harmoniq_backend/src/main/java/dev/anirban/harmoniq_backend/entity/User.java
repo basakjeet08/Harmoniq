@@ -1,7 +1,7 @@
 package dev.anirban.harmoniq_backend.entity;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
-import dev.anirban.harmoniq_backend.dto.response.UserDto;
+import dev.anirban.harmoniq_backend.dto.user.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
