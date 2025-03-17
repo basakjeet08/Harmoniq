@@ -39,6 +39,11 @@ export class FeedComponent implements OnInit {
       next: (threadList: ThreadDto[]) => {
         this.isLoading = false;
         this.threadList = threadList;
+
+        if (this.threadList.length === 0) {
+          this.errorMessage = `There are no Threads Posted yet. Head over to the
+          Post a Thread section to post the first Thread !!`;
+        }
       },
 
       // Error State
