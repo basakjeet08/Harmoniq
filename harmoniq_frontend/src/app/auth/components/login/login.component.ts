@@ -32,6 +32,9 @@ export class LoginComponent {
       // Success State
       next: () => {
         this.isLoading = false;
+
+        // Redirecting to the dashboard page
+        this.navigateToDashboard();
       },
 
       // Error State
@@ -52,6 +55,9 @@ export class LoginComponent {
       // Success State
       next: () => {
         this.isLoading = false;
+
+        // Redirect to the dashboard page
+        this.navigateToDashboard();
       },
 
       // Error State
@@ -60,6 +66,11 @@ export class LoginComponent {
         this.errorMessage = error.message;
       },
     });
+  }
+
+  // This function navigates to the dashboard page
+  navigateToDashboard() {
+    this.router.navigate(['../../', 'dashboard'], { relativeTo: this.route });
   }
 
   // This function is invoked when the user clicks on the go to Register button
