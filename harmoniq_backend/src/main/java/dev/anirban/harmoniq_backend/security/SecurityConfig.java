@@ -56,6 +56,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, UrlConstants.THREAD_CREATE_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
                                 .requestMatchers(HttpMethod.GET, UrlConstants.THREAD_FETCH_BY_ID_ENDPOINT).authenticated()
                                 .requestMatchers(HttpMethod.GET, UrlConstants.THREAD_FETCH_ALL_ENDPOINT).authenticated()
+                                .requestMatchers(HttpMethod.GET, UrlConstants.THREAD_FETCH_BY_CREATED_BY_USER).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
                                 .requestMatchers(HttpMethod.DELETE, UrlConstants.THREAD_DELETE_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
                                 // Comment Endpoints
