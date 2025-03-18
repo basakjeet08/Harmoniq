@@ -12,11 +12,18 @@ export class ThreadCardComponent {
   @Input('description') description: string = '';
   @Input('tagList') tagList: string[] = [];
   @Input('isHoverEffect') isHoverEffect: boolean = true;
+  @Input('showDelete') showDelete: boolean = false;
 
   @Output('onThreadClick') threadEmitter = new EventEmitter<void>();
+  @Output('onDeleteClick') deleteEmitter = new EventEmitter<void>();
 
   // This function is invoked when the thread card is clicked
   onThreadClick() {
     this.threadEmitter.emit();
+  }
+
+  // This function is invoked when the delete button is clicked
+  onDeleteClick() {
+    this.deleteEmitter.emit();
   }
 }
