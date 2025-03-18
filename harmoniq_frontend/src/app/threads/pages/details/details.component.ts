@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadDetailResponse } from 'src/app/shared/Models/thread/ThreadDetailResponse';
+import { CommentService } from 'src/app/shared/services/comment.service';
 import { ThreadService } from 'src/app/shared/services/thread.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class DetailsComponent implements OnInit {
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
+    private commentService: CommentService,
     private route: ActivatedRoute
   ) {}
 
@@ -57,7 +59,25 @@ export class DetailsComponent implements OnInit {
 
   // This function is invoked when the user clicks on the comment button
   onCommentClick(comment: string) {
-    console.log(comment);
+    // Setting the loading state
+    this.isLoading = true;
+
+    // Calling the api to create a comment
+    this.commentService
+      .create({ comment, threadId: this.threadDetail!.id })
+      .subscribe({
+        // Success state
+        next: () => {
+          this.isLoading = false;
+          this.fetchThreadData(this.threadDetail!.id);
+        },
+
+        // Error State
+        error: (error: Error) => {
+          this.isLoading = false;
+          this.errorMessage = error.message;
+        },
+      });
   }
 
   // This function is invoked when the user clicks on the cancel Error Button
