@@ -9,6 +9,8 @@ import { HistoryComponent } from './pages/history/history.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FormsModule } from '@angular/forms';
+import { ThreadCardComponent } from './components/thread-card/thread-card.component';
+import { CommentCardComponent } from './components/comment-card/comment-card.component';
 
 // These are the routes for the threads module
 const threadRoutes: Routes = [
@@ -34,6 +36,8 @@ const threadRoutes: Routes = [
     HistoryComponent,
     DetailsComponent,
     HomeComponent,
+    ThreadCardComponent,
+    CommentCardComponent,
   ],
   imports: [
     CommonModule,

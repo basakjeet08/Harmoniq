@@ -1,0 +1,54 @@
+:host {
+  width: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.card-essentials {
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  background-color: var(--card--variant--color);
+}
+
+.profile-image {
+  height: 48px;
+  width: 48px;
+
+  border-radius: 50%;
+}
+
+.thread-title {
+  font-size: 12px;
+  color: var(--secondary--color);
+}
+
+.thread-description {
+  font-size: 14px;
+}
+
+.tag-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.thread-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 8px;
+
+  border-radius: var(--border--radius);
+  border: 1px dashed var(--secondary--color);
+
+  font-size: 12px;
+  opacity: 0.8;
+}

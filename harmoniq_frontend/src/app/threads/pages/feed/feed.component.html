@@ -22,37 +22,14 @@
 <div class="col-container w-full" *ngIf="!isLoading && !errorMessage">
   <!-- Each Thread Component -->
   <div class="col-container center w-full" *ngFor="let thread of threadList">
-    <!-- Thread Card Content -->
-    <div
-      class="card-container col-container w-full"
-      (click)="onThreadCardClick(thread.id)"
-    >
-      <!-- Profile Header Container -->
-      <div class="row-container">
-        <!-- Profile Pic -->
-        <img
-          class="profile-image"
-          src="https://plus.unsplash.com/premium_vector-1722702997995-266ee207b17e?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Profile Image"
-        />
-
-        <!-- Name and Account Type -->
-        <div>
-          <p class="thread-title">{{ thread.createdBy.name }}</p>
-          <p class="thread-title">{{ thread.createdBy.role | titlecase }}</p>
-        </div>
-      </div>
-
-      <!-- Thread Description -->
-      <p class="thread-description">{{ thread.description }}</p>
-
-      <!-- Tags for this Thread -->
-      <div class="row-container">
-        <p class="thread-tag">Depression</p>
-        <p class="thread-tag">Mental Trauma</p>
-        <p class="thread-tag">Stress</p>
-      </div>
-    </div>
+    <!-- Thread Card Component-->
+    <app-thread-card
+      [creatorName]="thread.createdBy.name"
+      [creatorRole]="thread.createdBy.role"
+      [description]="thread.description"
+      [tagList]="['Depression', 'Mental Trauma', 'Stress']"
+      (onThreadClick)="onThreadCardClick(thread.id)"
+    />
 
     <!-- Horizontal Divider -->
     <hr />
