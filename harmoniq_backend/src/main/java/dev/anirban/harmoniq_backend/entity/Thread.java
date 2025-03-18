@@ -24,7 +24,7 @@ public class Thread {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "created_at", nullable = false)
