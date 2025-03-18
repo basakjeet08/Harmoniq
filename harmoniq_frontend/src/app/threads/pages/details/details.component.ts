@@ -45,8 +45,6 @@ export class DetailsComponent implements OnInit {
       next: (threadDetail: ThreadDetailResponse) => {
         this.isLoading = false;
         this.threadDetail = threadDetail;
-
-        console.log(this.threadDetail);
       },
 
       // Error State
