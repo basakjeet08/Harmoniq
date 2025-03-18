@@ -34,6 +34,7 @@ public class Thread {
     private User createdBy;
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy("createdAt DESC")
     private List<Comment> comments;
 
     public ThreadDto toThreadDto() {

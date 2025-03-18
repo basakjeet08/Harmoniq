@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -32,6 +34,7 @@ public class CommentService {
         Comment comment = Comment
                 .builder()
                 .content(commentRequest.getComment())
+                .createdAt(LocalDateTime.now())
                 .createdBy(user)
                 .thread(commentedThread)
                 .build();
