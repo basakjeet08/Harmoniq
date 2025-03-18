@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class ThreadService {
         Thread thread = Thread
                 .builder()
                 .description(threadRequest.getDescription())
+                .createdAt(LocalDateTime.now())
                 .createdBy(user)
                 .comments(new ArrayList<>())
                 .build();
@@ -47,13 +49,13 @@ public class ThreadService {
     }
 
     // This function fetches all the threads from the Database
-    public List<Thread> findAll() {
-        return threadRepo.findAll();
+    public List<Thread> findAllByOrderByCreatedAtDesc() {
+        return threadRepo.findAllByOrderByCreatedAtDesc();
     }
 
     // This function fetches the threads which are created by the specified user
     public List<Thread> findByCreatedBy_Email(UserDetails userDetails) {
-        return threadRepo.findByCreatedBy_Email(userDetails.getUsername());
+        return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
     }
 
     // This function deletes all the threads from the database

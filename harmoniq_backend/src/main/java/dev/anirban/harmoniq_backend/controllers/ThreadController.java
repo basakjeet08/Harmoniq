@@ -42,7 +42,7 @@ public class ThreadController {
     @GetMapping(UrlConstants.THREAD_FETCH_ALL_ENDPOINT)
     public ResponseWrapper<List<ThreadDto>> handleThreadFindAllRequest() {
         List<ThreadDto> threadDtoList = service
-                .findAll()
+                .findAllByOrderByCreatedAtDesc()
                 .stream()
                 .map(Thread::toThreadDto)
                 .toList();
