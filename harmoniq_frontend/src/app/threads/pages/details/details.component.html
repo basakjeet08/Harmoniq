@@ -21,6 +21,7 @@
 
   <!-- Comment Input Component -->
   <app-input
+    *ngIf="!isGuest"
     [placeholder]="'Add a Comment'"
     [buttonText]="'Add a Comment'"
     [type]="'text'"

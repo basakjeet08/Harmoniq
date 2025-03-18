@@ -1,7 +1,7 @@
 <!-- This is the page header -->
 <app-header>
   <!-- Link to the chatbot Page -->
-  <li>
+  <li *ngIf="!isGuest">
     <button
       routerLink="chatbot"
       routerLinkActive="active"

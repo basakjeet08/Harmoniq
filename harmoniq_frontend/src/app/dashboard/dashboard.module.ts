@@ -4,19 +4,21 @@ import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../shared/guards/auth.guard';
 import { SharedModule } from '../shared/shared.module';
+import { guestGuard } from '../shared/guards/guest.guard';
 
 // These are the routes for the dashboard module
 const dashboardRoutes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'chatbot', pathMatch: 'full' },
       {
         path: 'chatbot',
         loadChildren: () =>
           import('./../chatbot/chatbot.module').then((m) => m.ChatbotModule),
+        canActivate: [guestGuard],
       },
       {
         path: 'threads',

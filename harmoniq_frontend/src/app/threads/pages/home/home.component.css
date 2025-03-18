@@ -8,6 +8,7 @@
 }
 
 .grid-container {
+  height: 80%;
   width: 80%;
 
   display: grid;

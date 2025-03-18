@@ -11,6 +11,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { FormsModule } from '@angular/forms';
 import { ThreadCardComponent } from './components/thread-card/thread-card.component';
 import { CommentCardComponent } from './components/comment-card/comment-card.component';
+import { guestGuard } from '../shared/guards/guest.guard';
 
 // These are the routes for the threads module
 const threadRoutes: Routes = [
@@ -22,8 +23,12 @@ const threadRoutes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'feed', component: FeedComponent },
       { path: 'details/:id', component: DetailsComponent },
-      { path: 'add', component: AddComponent },
-      { path: 'history', component: HistoryComponent },
+      { path: 'add', component: AddComponent, canActivate: [guestGuard] },
+      {
+        path: 'history',
+        component: HistoryComponent,
+        canActivate: [guestGuard],
+      },
     ],
   },
 ];

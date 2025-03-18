@@ -1,7 +1,7 @@
 <!-- Grid Container for the whole Layout -->
 <div class="grid-container">
   <!-- Profile Section for the Threads Feature -->
-  <div class="col-container">
+  <div class="col-container card-container">
     <!-- Title -->
     <h3>Profile Section</h3>
 
@@ -38,6 +38,7 @@
 
     <!-- Card Container to View The Thread Creation Page -->
     <div
+      *ngIf="!isGuest"
       class="card-container col-container card-hover"
       (click)="onPostThreadClick()"
     >
@@ -52,6 +53,7 @@
 
     <!-- Card Container to View Thread History Page -->
     <div
+      *ngIf="!isGuest"
       class="card-container col-container card-hover"
       (click)="onViewHistoryClick()"
     >
