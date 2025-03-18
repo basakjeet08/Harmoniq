@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ThreadsComponent } from './threads.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { FeedComponent } from './components/feed/feed.component';
-import { AddComponent } from './components/add/add.component';
-import { HistoryComponent } from './components/history/history.component';
-import { DetailsComponent } from './components/details/details.component';
-import { HomeComponent } from './components/home/home.component';
+import { FeedComponent } from './pages/feed/feed.component';
+import { AddComponent } from './pages/add/add.component';
+import { HistoryComponent } from './pages/history/history.component';
+import { DetailsComponent } from './pages/details/details.component';
+import { HomeComponent } from './pages/home/home.component';
 import { FormsModule } from '@angular/forms';
 
 // These are the routes for the threads module
