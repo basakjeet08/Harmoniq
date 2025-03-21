@@ -17,7 +17,7 @@ public class AuthController {
     // This is the auth service which acts as a business logic layer for this controller
     private final AuthService service;
 
-    // This function handles any register member request and returns the member created
+    // This function handles register request
     @PostMapping(UrlConstants.REGISTER_ENDPOINT)
     public ResponseWrapper<AuthResponse> handleRegisterRequest(@RequestBody AuthRequest authRequest) {
         AuthResponse member = service.register(authRequest).toAuthResponse();
@@ -31,7 +31,7 @@ public class AuthController {
         return new ResponseWrapper<>("User Logged in Successfully !!", loggedUser);
     }
 
-    // this function handles any register guest request and returns the member created
+    // this function registers guest user and returns the guest account created with tokens
     @PostMapping(UrlConstants.LOGIN_AS_GUEST_ENDPOINT)
     public ResponseWrapper<AuthResponse> handleLoginAsGuestRequest() {
         AuthResponse guestUser = service.loginAsGuest();

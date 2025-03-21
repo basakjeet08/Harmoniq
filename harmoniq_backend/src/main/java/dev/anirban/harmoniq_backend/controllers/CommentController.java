@@ -21,7 +21,7 @@ public class CommentController {
 
     // This function handles the creation request for a Comment
     @PostMapping(UrlConstants.CREATE_COMMENT_ENDPOINT)
-    public ResponseWrapper<CommentDto> handleCommentCreationRequest(
+    public ResponseWrapper<CommentDto> handleCreateCommentRequest(
             @PathVariable("threadId") String threadId,
             @RequestBody CommentRequest commentRequest,
             @AuthenticationPrincipal UserDetails userDetails

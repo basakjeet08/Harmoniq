@@ -53,7 +53,7 @@ public class SecurityConfig {
 
                                 // Thread Endpoints
                                 .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_THREAD_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_BY_THREAD_ID_ENDPOINT).authenticated()
+                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_THREAD_BY_ID_ENDPOINT).authenticated()
                                 .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_ALL_THREADS_ENDPOINT).authenticated()
                                 .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
                                 .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())

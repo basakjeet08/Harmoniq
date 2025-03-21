@@ -23,7 +23,7 @@ public class ThreadController {
 
     // This function handles the thread creation requests
     @PostMapping(UrlConstants.CREATE_THREAD_ENDPOINT)
-    public ResponseWrapper<ThreadDto> handleThreadCreationRequest(
+    public ResponseWrapper<ThreadDto> handleCreateThreadRequest(
             @RequestBody ThreadRequest threadRequest,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
@@ -31,9 +31,9 @@ public class ThreadController {
         return new ResponseWrapper<>("Thread created Successfully !!", thread);
     }
 
-    // This function handles the thread fetch all Requests
+    // This function handles requests to fetch all threads
     @GetMapping(UrlConstants.FETCH_ALL_THREADS_ENDPOINT)
-    public ResponseWrapper<List<ThreadDto>> handleThreadFindAllRequest() {
+    public ResponseWrapper<List<ThreadDto>> handleFetchAllThreadsRequest() {
         List<ThreadDto> threadDtoList = service
                 .findAllByOrderByCreatedAtDesc()
                 .stream()
@@ -43,14 +43,14 @@ public class ThreadController {
         return new ResponseWrapper<>("Thread List fetched Successfully !!", threadDtoList);
     }
 
-    // This function handles the thread find by ID Requests
-    @GetMapping(UrlConstants.FETCH_BY_THREAD_ID_ENDPOINT)
-    public ResponseWrapper<ThreadDetailsResponse> handleThreadFindByIdRequest(@PathVariable String id) {
+    // This function handle fetch the thread by id Requests
+    @GetMapping(UrlConstants.FETCH_THREAD_BY_ID_ENDPOINT)
+    public ResponseWrapper<ThreadDetailsResponse> handleFindThreadByIdRequest(@PathVariable String id) {
         ThreadDetailsResponse threadDto = ThreadDetailsResponse.generateThreadDetailsResponse(service.findById(id));
         return new ResponseWrapper<>("Thread data fetched Successfully !!", threadDto);
     }
 
-    // This function handles the thread fetch of the specified user requests
+    // This function fetches the threads of the current user
     @GetMapping(UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT)
     public ResponseWrapper<ThreadHistoryResponse> handleCurrentUserThreadsRequest(
             @AuthenticationPrincipal UserDetails userDetails
@@ -62,7 +62,7 @@ public class ThreadController {
 
     // This function deleted the given thread
     @DeleteMapping(UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT)
-    public ResponseWrapper<Void> handleDeleteRequest(
+    public ResponseWrapper<Void> handleDeleteThreadByIdRequest(
             @PathVariable String id,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
