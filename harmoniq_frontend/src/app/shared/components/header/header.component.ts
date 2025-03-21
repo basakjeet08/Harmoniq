@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   // Injecting the necessary dependencies
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private profileService: ProfileService, private router: Router) {}
 
   // This function is invoked when the user clicks the logout button
   onLogoutClick() {
     // Clearing out the cache of the current user data and navigating back to login page
-    this.authService.logout();
+    this.profileService.logout();
     this.router.navigate(['/auth']);
   }
 }

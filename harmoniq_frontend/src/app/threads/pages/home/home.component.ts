@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Roles } from 'src/app/shared/Models/user/Roles';
-import { UserDto } from 'src/app/shared/Models/user/UserDto';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { ProfileService } from 'src/app/shared/services/profile.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,6 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 })
 export class HomeComponent implements OnInit {
   // This is the user details variable
-  userData: UserDto | undefined;
   isGuest: boolean = false;
 
   // loading and Error states
@@ -20,15 +18,14 @@ export class HomeComponent implements OnInit {
 
   // Injecting the necessary dependencies
   constructor(
-    private authService: AuthService,
+    private profileService: ProfileService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   // Fetching the user data and checking if the user is a guest user
   ngOnInit(): void {
-    this.userData = this.authService.getUser();
-    this.isGuest = this.userData?.role === Roles.GUEST;
+    this.isGuest = this.profileService.getUser()?.role === Roles.GUEST;
   }
 
   // This function is invoked when the user clicks on the navigate to feed card

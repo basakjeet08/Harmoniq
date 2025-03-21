@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadDetailResponse } from 'src/app/shared/Models/thread/ThreadDetailResponse';
 import { Roles } from 'src/app/shared/Models/user/Roles';
-import { UserDto } from 'src/app/shared/Models/user/UserDto';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { CommentService } from 'src/app/shared/services/comment.service';
+import { ProfileService } from 'src/app/shared/services/profile.service';
 import { ThreadService } from 'src/app/shared/services/thread.service';
 
 @Component({
@@ -14,7 +13,6 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
 })
 export class DetailsComponent implements OnInit {
   // This is the data for the component
-  userData: UserDto | undefined;
   isGuest: boolean = false;
 
   threadDetail: ThreadDetailResponse | null = null;
@@ -25,7 +23,7 @@ export class DetailsComponent implements OnInit {
 
   // Injecting the necessary dependencies
   constructor(
-    private authService: AuthService,
+    private profileService: ProfileService,
     private threadService: ThreadService,
     private commentService: CommentService,
     private route: ActivatedRoute
@@ -34,8 +32,7 @@ export class DetailsComponent implements OnInit {
   // Fetching the thread id and then fetching its details
   ngOnInit(): void {
     // Setting the user data
-    this.userData = this.authService.getUser();
-    this.isGuest = this.userData?.role === Roles.GUEST;
+    this.isGuest = this.profileService.getUser()?.role === Roles.GUEST;
 
     const threadId = this.route.snapshot.params['id'] || '';
 

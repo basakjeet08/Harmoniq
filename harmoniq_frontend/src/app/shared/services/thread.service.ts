@@ -15,6 +15,7 @@ import {
   FETCH_CURRENT_USER_THREADS_ENDPOINT,
   FETCH_THREAD_BY_ID_ENDPOINT,
 } from '../constants/url-constants';
+import { ProfileService } from './profile.service';
 
 @Injectable({ providedIn: 'root' })
 export class ThreadService implements ThreadInterface {
@@ -25,13 +26,13 @@ export class ThreadService implements ThreadInterface {
   constructor(
     private http: HttpClient,
     private apiErrorHandler: ApiErrorHandlerService,
-    authService: AuthService
+    profileService: ProfileService
   ) {
     // Storing the token in the variable
-    this.token = authService.getUser()?.token || 'Invalid Token';
+    this.token = profileService.getUser()?.token || 'Invalid Token';
 
     // Subscribing to the user changes
-    authService.getUserSubject().subscribe({
+    profileService.getUserSubject().subscribe({
       next: (user) => (this.token = user?.token || 'Invalid Token'),
     });
   }
