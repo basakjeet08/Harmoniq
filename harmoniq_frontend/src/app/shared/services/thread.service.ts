@@ -8,11 +8,17 @@ import { ThreadDetailResponse } from '../Models/thread/ThreadDetailResponse';
 import { ThreadDto } from '../Models/thread/ThreadDto';
 import { ThreadHistoryResponse } from '../Models/thread/ThreadHistoryResponse';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
+import {
+  CREATE_THREAD_ENDPOINT,
+  DELETE_THREAD_BY_ID_ENDPOINT,
+  FETCH_ALL_THREADS_ENDPOINT,
+  FETCH_CURRENT_USER_THREADS_ENDPOINT,
+  FETCH_THREAD_BY_ID_ENDPOINT,
+} from '../constants/url-constants';
 
 @Injectable({ providedIn: 'root' })
 export class ThreadService implements ThreadInterface {
   // Storing the urls
-  private url = 'http://localhost:8080/thread';
   private token: string;
 
   // Injecting the necessary dependencies
@@ -40,7 +46,11 @@ export class ThreadService implements ThreadInterface {
   // This function sends a POST Request to create a thread
   create(thread: { description: string }): Observable<ThreadDto> {
     return this.http
-      .post<ResponseWrapper<ThreadDto>>(this.url, thread, this.getHeaders())
+      .post<ResponseWrapper<ThreadDto>>(
+        CREATE_THREAD_ENDPOINT,
+        thread,
+        this.getHeaders()
+      )
       .pipe(
         map((response) => response.data),
         catchError(this.apiErrorHandler.handleApiError)
@@ -51,7 +61,7 @@ export class ThreadService implements ThreadInterface {
   findById(id: string): Observable<ThreadDetailResponse> {
     return this.http
       .get<ResponseWrapper<ThreadDetailResponse>>(
-        `${this.url}/${id}`,
+        FETCH_THREAD_BY_ID_ENDPOINT.replace(':id', id),
         this.getHeaders()
       )
       .pipe(
@@ -63,7 +73,10 @@ export class ThreadService implements ThreadInterface {
   // This function fetches all the threads from the backend
   findAll(): Observable<ThreadDto[]> {
     return this.http
-      .get<ResponseWrapper<ThreadDto[]>>(this.url, this.getHeaders())
+      .get<ResponseWrapper<ThreadDto[]>>(
+        FETCH_ALL_THREADS_ENDPOINT,
+        this.getHeaders()
+      )
       .pipe(
         map((response) => response.data),
         catchError(this.apiErrorHandler.handleApiError)
@@ -74,7 +87,7 @@ export class ThreadService implements ThreadInterface {
   fetchThreadHistory(): Observable<ThreadHistoryResponse> {
     return this.http
       .get<ResponseWrapper<ThreadHistoryResponse>>(
-        `${this.url}/user`,
+        FETCH_CURRENT_USER_THREADS_ENDPOINT,
         this.getHeaders()
       )
       .pipe(
@@ -86,7 +99,10 @@ export class ThreadService implements ThreadInterface {
   // This function deletes the given thread
   deleteById(id: string): Observable<void> {
     return this.http
-      .delete<ResponseWrapper<void>>(`${this.url}/${id}`, this.getHeaders())
+      .delete<ResponseWrapper<void>>(
+        DELETE_THREAD_BY_ID_ENDPOINT.replace(':id', id),
+        this.getHeaders()
+      )
       .pipe(
         map((response) => response.data),
         catchError(this.apiErrorHandler.handleApiError)

@@ -6,11 +6,11 @@ import { CommentInterface } from '../interfaces/CommentInterface';
 import { catchError, map, Observable } from 'rxjs';
 import { CommentDto } from '../Models/comment/CommentDto';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
+import { CREATE_COMMENT_ENDPOINT } from '../constants/url-constants';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService implements CommentInterface {
   // Storing the urls
-  private url = 'http://localhost:8080/comment';
   private token: string;
 
   constructor(
@@ -41,7 +41,7 @@ export class CommentService implements CommentInterface {
   }): Observable<CommentDto> {
     return this.http
       .post<ResponseWrapper<CommentDto>>(
-        this.url,
+        CREATE_COMMENT_ENDPOINT.replace(':threadId', commentRequest.threadId),
         commentRequest,
         this.getHeaders()
       )

@@ -5,11 +5,15 @@ import { AuthResponse } from '../Models/auth/AuthResponse';
 import { HttpClient } from '@angular/common/http';
 import { ApiErrorHandlerService } from './api-error-handler.service';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
+import {
+  LOGIN_AS_GUEST,
+  LOGIN_ENDPOINT,
+  REGISTER_ENDPOINT,
+} from '../constants/url-constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService implements AuthInterface {
   // Api URL and local storage tokens
-  private URL = 'http://localhost:8080';
   private USER_DATA_TOKEN = 'USER_DATA';
 
   // User Subject which will transfer state data to all the required places
@@ -50,9 +54,12 @@ export class AuthService implements AuthInterface {
   }
 
   // This function registers the user as a member
-  registerMember(user: { email: string; password: string }): Observable<AuthResponse> {
+  registerMember(user: {
+    email: string;
+    password: string;
+  }): Observable<AuthResponse> {
     return this.http
-      .post<ResponseWrapper<AuthResponse>>(`${this.URL}/register/member`, user)
+      .post<ResponseWrapper<AuthResponse>>(REGISTER_ENDPOINT, user)
       .pipe(
         map((response) => response.data),
         catchError(this.apiErrorHandler.handleApiError)
@@ -62,7 +69,7 @@ export class AuthService implements AuthInterface {
   // This function sends a login request for the user
   login(user: { email: string; password: string }): Observable<AuthResponse> {
     return this.http
-      .post<ResponseWrapper<AuthResponse>>(`${this.URL}/login`, user)
+      .post<ResponseWrapper<AuthResponse>>(LOGIN_ENDPOINT, user)
       .pipe(
         map((response) => response.data),
         tap((user: AuthResponse) => this.setUserInLocal(user)),
@@ -73,7 +80,7 @@ export class AuthService implements AuthInterface {
   // This function sends a login request for the user as a guest
   loginAsGuest(): Observable<AuthResponse> {
     return this.http
-      .post<ResponseWrapper<AuthResponse>>(`${this.URL}/login/guest`, null)
+      .post<ResponseWrapper<AuthResponse>>(LOGIN_AS_GUEST, null)
       .pipe(
         map((response) => response.data),
         tap((user: AuthResponse) => this.setUserInLocal(user)),
