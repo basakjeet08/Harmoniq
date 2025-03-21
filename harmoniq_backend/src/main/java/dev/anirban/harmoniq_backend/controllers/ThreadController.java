@@ -22,7 +22,7 @@ public class ThreadController {
     private final ThreadService service;
 
     // This function handles the thread creation requests
-    @PostMapping(UrlConstants.THREAD_CREATE_ENDPOINT)
+    @PostMapping(UrlConstants.CREATE_THREAD_ENDPOINT)
     public ResponseWrapper<ThreadDto> handleThreadCreationRequest(
             @RequestBody ThreadRequest threadRequest,
             @AuthenticationPrincipal UserDetails userDetails
@@ -31,15 +31,8 @@ public class ThreadController {
         return new ResponseWrapper<>("Thread created Successfully !!", thread);
     }
 
-    // This function handles the thread find by ID Requests
-    @GetMapping(UrlConstants.THREAD_FETCH_BY_ID_ENDPOINT)
-    public ResponseWrapper<ThreadDetailsResponse> handleThreadFindByIdRequest(@PathVariable String id) {
-        ThreadDetailsResponse threadDto = ThreadDetailsResponse.generateThreadDetailsResponse(service.findById(id));
-        return new ResponseWrapper<>("Thread data fetched Successfully !!", threadDto);
-    }
-
     // This function handles the thread fetch all Requests
-    @GetMapping(UrlConstants.THREAD_FETCH_ALL_ENDPOINT)
+    @GetMapping(UrlConstants.FETCH_ALL_THREADS_ENDPOINT)
     public ResponseWrapper<List<ThreadDto>> handleThreadFindAllRequest() {
         List<ThreadDto> threadDtoList = service
                 .findAllByOrderByCreatedAtDesc()
@@ -50,9 +43,16 @@ public class ThreadController {
         return new ResponseWrapper<>("Thread List fetched Successfully !!", threadDtoList);
     }
 
+    // This function handles the thread find by ID Requests
+    @GetMapping(UrlConstants.FETCH_BY_THREAD_ID_ENDPOINT)
+    public ResponseWrapper<ThreadDetailsResponse> handleThreadFindByIdRequest(@PathVariable String id) {
+        ThreadDetailsResponse threadDto = ThreadDetailsResponse.generateThreadDetailsResponse(service.findById(id));
+        return new ResponseWrapper<>("Thread data fetched Successfully !!", threadDto);
+    }
+
     // This function handles the thread fetch of the specified user requests
-    @GetMapping(UrlConstants.THREAD_FETCH_BY_CREATED_BY_USER)
-    public ResponseWrapper<ThreadHistoryResponse> handleThreadHistoryOfUserResponse(
+    @GetMapping(UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT)
+    public ResponseWrapper<ThreadHistoryResponse> handleCurrentUserThreadsRequest(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         List<Thread> threadList = service.findByCreatedBy_Email(userDetails);
@@ -61,7 +61,7 @@ public class ThreadController {
     }
 
     // This function deleted the given thread
-    @DeleteMapping(UrlConstants.THREAD_DELETE_ENDPOINT)
+    @DeleteMapping(UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT)
     public ResponseWrapper<Void> handleDeleteRequest(
             @PathVariable String id,
             @AuthenticationPrincipal UserDetails userDetails

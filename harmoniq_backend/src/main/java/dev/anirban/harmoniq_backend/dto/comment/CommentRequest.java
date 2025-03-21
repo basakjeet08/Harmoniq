@@ -11,5 +11,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommentRequest {
     private String comment;
-    private String threadId;
 }

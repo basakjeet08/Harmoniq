@@ -3,22 +3,21 @@ package dev.anirban.harmoniq_backend.constants;
 public class UrlConstants {
 
     // Root Endpoints for testing and running
-    public static final String PUBLIC_ROUTE = "/public-root";
-    public static final String PRIVATE_ROUTE = "/private-root";
+    public static final String PUBLIC_ROUTE = "/api/root/public";
+    public static final String PRIVATE_ROUTE = "/api/root/private";
 
     // Authentication Endpoints
-    public static final String REGISTER_MODERATOR_ENDPOINT = "/register/moderator";
-    public static final String REGISTER_MEMBER_ENDPOINT = "/register/member";
-    public static final String LOGIN_ENDPOINT = "/login";
-    public static final String LOGIN_AS_GUEST_ENDPOINT = "/login/guest";
+    public static final String REGISTER_ENDPOINT = "/api/auth/register";
+    public static final String LOGIN_ENDPOINT = "/api/auth/login";
+    public static final String LOGIN_AS_GUEST_ENDPOINT = "/api/auth/login/guests";
 
     // Thread Endpoints
-    public static final String THREAD_CREATE_ENDPOINT = "/thread";
-    public static final String THREAD_FETCH_BY_ID_ENDPOINT = "/thread/{id}";
-    public static final String THREAD_FETCH_ALL_ENDPOINT = "/thread";
-    public static final String THREAD_FETCH_BY_CREATED_BY_USER = "/thread/user";
-    public static final String THREAD_DELETE_ENDPOINT = "/thread/{id}";
+    public static final String CREATE_THREAD_ENDPOINT = "/api/threads";
+    public static final String FETCH_ALL_THREADS_ENDPOINT = "/api/threads";
+    public static final String FETCH_BY_THREAD_ID_ENDPOINT = "/api/threads/{id}";
+    public static final String DELETE_THREAD_BY_ID_ENDPOINT = "/api/threads/{id}";
+    public static final String FETCH_CURRENT_USER_THREADS_ENDPOINT = "/api/users/me/threads";
 
     // Comment Endpoints
-    public static final String COMMENT_CREATE_ENDPOINT = "/comment";
+    public static final String CREATE_COMMENT_ENDPOINT = "/api/threads/{threadId}/comments";
 }

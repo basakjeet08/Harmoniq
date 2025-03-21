@@ -23,20 +23,12 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
 
-    // This function registers moderator
-    public User registerModerator(AuthRequest authRequest) {
-        if (userService.findByEmail(authRequest.getEmail()).isPresent())
-            throw new EmailAlreadyExists(authRequest.getEmail());
-
-        return userService.createModerator(authRequest);
-    }
-
     // This function registers a Member
-    public User registerMember(AuthRequest authRequest) {
+    public User register(AuthRequest authRequest) {
         if (userService.findByEmail(authRequest.getEmail()).isPresent())
             throw new EmailAlreadyExists(authRequest.getEmail());
 
-        return userService.createMember(authRequest);
+        return userService.create(authRequest);
     }
 
     // This function generates the token wrapper for the user

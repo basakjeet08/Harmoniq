@@ -17,17 +17,10 @@ public class AuthController {
     // This is the auth service which acts as a business logic layer for this controller
     private final AuthService service;
 
-    // This function handles any register moderator request and returns the moderator object created
-    @PostMapping(UrlConstants.REGISTER_MODERATOR_ENDPOINT)
-    public ResponseWrapper<AuthResponse> handleModeratorRegisterRequest(@RequestBody AuthRequest authRequest) {
-        AuthResponse moderator = service.registerModerator(authRequest).toAuthResponse();
-        return new ResponseWrapper<>("Moderator Created Successfully !!", moderator);
-    }
-
     // This function handles any register member request and returns the member created
-    @PostMapping(UrlConstants.REGISTER_MEMBER_ENDPOINT)
-    public ResponseWrapper<AuthResponse> handleMemberRegisterRequest(@RequestBody AuthRequest authRequest) {
-        AuthResponse member = service.registerMember(authRequest).toAuthResponse();
+    @PostMapping(UrlConstants.REGISTER_ENDPOINT)
+    public ResponseWrapper<AuthResponse> handleRegisterRequest(@RequestBody AuthRequest authRequest) {
+        AuthResponse member = service.register(authRequest).toAuthResponse();
         return new ResponseWrapper<>("Member Created Successfully !!", member);
     }
 

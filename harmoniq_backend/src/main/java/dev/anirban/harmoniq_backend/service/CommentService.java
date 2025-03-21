@@ -21,14 +21,14 @@ public class CommentService {
     private final ThreadService threadService;
 
     // This function creates a comment and returns the created comment
-    public Comment create(CommentRequest commentRequest, UserDetails userDetails) {
+    public Comment create(String threadId, CommentRequest commentRequest, UserDetails userDetails) {
         // Fetching the user details
         User user = userService
                 .findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
 
         // Fetching the thread by its id
-        Thread commentedThread = threadService.findById(commentRequest.getThreadId());
+        Thread commentedThread = threadService.findById(threadId);
 
         // Creating the comment object
         Comment comment = Comment

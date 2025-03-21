@@ -41,16 +41,16 @@ public class ThreadService {
         return threadRepo.save(thread);
     }
 
+    // This function fetches all the threads from the Database
+    public List<Thread> findAllByOrderByCreatedAtDesc() {
+        return threadRepo.findAllByOrderByCreatedAtDesc();
+    }
+
     // This function searches the thread by its id
     public Thread findById(String id) {
         return threadRepo
                 .findById(id)
                 .orElseThrow(() -> new ThreadNotFound(id));
-    }
-
-    // This function fetches all the threads from the Database
-    public List<Thread> findAllByOrderByCreatedAtDesc() {
-        return threadRepo.findAllByOrderByCreatedAtDesc();
     }
 
     // This function fetches the threads which are created by the specified user
