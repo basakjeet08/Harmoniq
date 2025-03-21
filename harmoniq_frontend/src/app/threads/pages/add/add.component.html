@@ -1,0 +1,50 @@
+<!-- Loading State -->
+<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
+
+<!-- Error State -->
+<app-error-card
+  *ngIf="errorMessage"
+  [errorMessage]="errorMessage"
+  (onCancelClick)="onErrorCancelClick()"
+/>
+
+<!-- This is the form container -->
+<form
+  *ngIf="!isLoading && !errorMessage"
+  class="card-container col-container p-40 g-24"
+  #formContainer="ngForm"
+  (ngSubmit)="onPostClick()"
+>
+  <h3>Post a Thread</h3>
+
+  <!-- Description Container -->
+  <div class="col-container">
+    <textarea
+      name="description"
+      placeholder="Write Content Here"
+      required
+      [(ngModel)]="userInput.description"
+      #description="ngModel"
+    ></textarea>
+
+    <!-- Error text for Description input -->
+    <p class="error-text" *ngIf="description.invalid && description.touched">
+      Please enter a Description
+    </p>
+  </div>
+
+  <!-- Container for the buttons -->
+  <div class="row-container">
+    <button class="flex" type="submit" [disabled]="formContainer.invalid">
+      Post Thread
+    </button>
+
+    <button
+      class="destructive-btn flex"
+      type="button"
+      (click)="onCancelClick()"
+    >
+      Cancel & Go Back
+    </button>
+  </div>
+</form>

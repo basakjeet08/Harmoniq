@@ -1,0 +1,13 @@
+<!-- Input Container Box -->
+<div class="input-container row-container">
+  <!-- This is the input field -->
+  <input
+    class="input-element"
+    [type]="type"
+    [placeholder]="placeholder"
+    [(ngModel)]="userInput"
+  />
+
+  <!-- This is the submit button -->
+  <button (click)="onButtonClick()">{{ buttonText }}</button>
+</div>

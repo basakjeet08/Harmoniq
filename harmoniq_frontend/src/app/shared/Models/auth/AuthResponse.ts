@@ -1,10 +1,6 @@
-export enum Roles {
-  MODERATOR = 'MODERATOR',
-  MEMBER = 'MEMBER',
-  GUEST = 'GUEST',
-}
+import { Roles } from "../user/Roles";
 
-export class User {
+export class AuthResponse {
   constructor(
     readonly id: string,
     readonly name: string,
