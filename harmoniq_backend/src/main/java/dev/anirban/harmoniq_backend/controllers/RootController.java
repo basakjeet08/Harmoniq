@@ -1,7 +1,7 @@
 package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
-import dev.anirban.harmoniq_backend.dto.response.ResponseWrapper;
+import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
