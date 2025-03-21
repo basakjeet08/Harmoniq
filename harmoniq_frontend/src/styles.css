@@ -5,6 +5,7 @@
 :root {
   /* Color Variables */
   --primary--color: #8752cc;
+  --secondary--color: rgb(241, 61, 61);
   --background--color: #1c1f22;
   --on--background--color: #ffffff;
   --card--color: #282b2e;

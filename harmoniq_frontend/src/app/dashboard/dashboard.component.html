@@ -1,0 +1,31 @@
+<!-- This is the page header -->
+<app-header>
+  <!-- Link to the chatbot Page -->
+  <li *ngIf="!isGuest">
+    <button
+      routerLink="chatbot"
+      routerLinkActive="active"
+      class="navigation-btn"
+    >
+      Chat Bot
+    </button>
+  </li>
+
+  <!-- Link to the threads page -->
+  <li>
+    <button
+      routerLink="threads"
+      routerLinkActive="active"
+      class="navigation-btn"
+    >
+      Threads
+    </button>
+  </li>
+</app-header>
+
+<!-- Child Routes of this Module -->
+<main>
+  <div class="outer-container">
+    <router-outlet />
+  </div>
+</main>

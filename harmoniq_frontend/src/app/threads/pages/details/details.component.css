@@ -1,0 +1,15 @@
+:host {
+  height: 100%;
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 16px;
+  padding: 12px;
+}
+
+.w-full {
+  width: 100%;
+}
