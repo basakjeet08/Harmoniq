@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.dto.response;
+package dev.anirban.harmoniq_backend.dto.user;
 
 import lombok.*;
 
@@ -12,7 +12,4 @@ public class UserDto {
     private String name;
     private String email;
     private String role;
-
-    private String token;
-    private String refreshToken;
 }

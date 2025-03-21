@@ -1,6 +1,7 @@
 package dev.anirban.harmoniq_backend.entity;
 
-import dev.anirban.harmoniq_backend.dto.response.UserDto;
+import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
+import dev.anirban.harmoniq_backend.dto.user.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -48,6 +49,16 @@ public class User implements UserDetails {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    public AuthResponse toAuthResponse() {
+        return AuthResponse
+                .builder()
+                .id(id)
+                .name(name)
+                .email(email)
+                .role(role.toString())
+                .build();
+    }
 
     public UserDto toUserDto() {
         return UserDto

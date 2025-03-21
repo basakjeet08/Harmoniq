@@ -1,6 +1,7 @@
 package dev.anirban.harmoniq_backend.security;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
+import dev.anirban.harmoniq_backend.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,10 +47,19 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, UrlConstants.PRIVATE_ROUTE).authenticated()
 
                                 // Authentication and login Endpoints
-                                .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_MODERATOR_ENDPOINT).permitAll()
-                                .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_MEMBER_ENDPOINT).permitAll()
+                                .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_AS_GUEST_ENDPOINT).permitAll()
+
+                                // Thread Endpoints
+                                .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_THREAD_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_THREAD_BY_ID_ENDPOINT).authenticated()
+                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_ALL_THREADS_ENDPOINT).authenticated()
+                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                                .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+
+                                // Comment Endpoints
+                                .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_COMMENT_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
                                 // For any other or all requests
                                 .anyRequest().authenticated()
