@@ -1,23 +1,32 @@
-/* Default CSS for the whole webpage */
 @import url("https://fonts.googleapis.com/css2?family=McLaren&display=swap");
 
 /* Basic Utility Variables */
 :root {
-  /* Color Variables */
-  --primary--color: #8752cc;
-  --secondary--color: rgb(241, 61, 61);
-  --background--color: #1c1f22;
-  --on--background--color: #ffffff;
-  --card--color: #282b2e;
-  --card--variant--color: #494848;
-  --error--color: rgb(241, 61, 61);
-  --confirm--color: rgb(48, 150, 48);
+  /* Main Website Colors */
+  --primary: #7986cb;
+  --secondary: #64b5f6;
+  --accent: #66bb6a;
+
+  /* Background and Card colors */
+  --background: #121212;
+  --surface: #1e1e1e;
+  --surface-variant: #282b2e;
+
+  /* Text Colors */
+  --text: #e0e0e0;
+  --text-muted: #a0a0a0;
+
+  /* Different Message Colors */
+  --success: #81c784;
+  --error: #e57373;
+  --warning: #ffca28;
+  --info: #64b5f6;
 
   /* Border Radius Variables */
-  --border--radius: 6px;
+  --border-radius: 6px;
 
   /* Small Padding for Buttons and Inputs */
-  --padding--small: 10px 12px;
+  --padding-small: 10px 12px;
 }
 
 /* Styles for every elements */
@@ -36,121 +45,207 @@ body {
 /* Basic Style for the headings */
 h1,
 h2,
-h3 {
-  color: var(--primary--color);
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary);
 }
 
 /* Basic Image CSS */
 img {
   width: 100%;
-  height: 100%;
+  height: auto;
 
   object-fit: cover;
-  border-radius: var(--border--radius);
+  border-radius: var(--border-radius);
 }
 
 /* Primary Button CSS */
-button {
-  padding: var(--padding--small);
-  background-color: var(--primary--color);
+.btn {
+  display: inline-block;
+  padding: var(--padding-small);
+
   border: none;
-  outline: none;
-  border-radius: var(--border--radius);
-  color: var(--on--background--color);
-  cursor: pointer;
+  border-radius: var(--border-radius);
+
   white-space: nowrap;
+
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
 
-button:hover {
-  opacity: 0.8;
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--text);
 }
 
-button:active {
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--text);
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+.btn:hover {
+  filter: brightness(1.2);
+}
+
+.btn:active {
   opacity: 0.3;
 }
 
-button:disabled {
+.btn:disabled {
   opacity: 0.5;
-}
-
-/* Other buttons Color CSS */
-button.secondary-btn {
-  background-color: var(--confirm--color);
-}
-
-/* Destructive Button */
-button.destructive-btn {
-  background-color: var(--error--color);
 }
 
 /* Input fields CSS */
 input,
 textarea {
-  padding: var(--padding--small);
-  border-radius: var(--border--radius);
+  padding: var(--padding-small);
+  border-radius: var(--border-radius);
   outline: none;
-  border: 1px solid var(--card--variant--color);
-  color: var(--on--background--color);
+  border: 1px solid var(--surface-variant);
+  color: var(--text);
   background-color: transparent;
 }
 
 textarea {
-  min-width: 350px;
+  width: 100%;
+  max-width: 500px;
+  min-width: 400px;
   min-height: 150px;
+
   resize: vertical;
   line-height: 1.5;
 }
 
-input:focus,
-textarea:focus {
-  border: 1px solid var(--primary--color);
+input:focus-visible,
+textarea:focus-visible {
+  border: 2px solid var(--primary);
 }
 
 input.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
-  border: 1px dashed var(--error--color);
+  border: 1px dashed var(--error);
 }
 
 /* Horizontal Line CSS */
 hr {
   width: 70%;
-  border: 1px dashed var(--card--variant--color);
+  border: 1px dashed var(--surface-variant);
+}
+
+/* Utility Padding CSS */
+.p-4 {
+  padding: 4px;
+}
+
+.p-8 {
+  padding: 8px;
+}
+
+.p-16 {
+  padding: 16px;
+}
+
+.p-24 {
+  padding: 24px;
+}
+
+.p-32 {
+  padding: 32px;
+}
+
+.p-40 {
+  padding: 40px;
+}
+
+/* Gapping Utility CSS */
+.g-4 {
+  gap: 4px;
+}
+
+.g-8 {
+  gap: 8px;
+}
+
+.g-16 {
+  gap: 16px;
+}
+
+.g-24 {
+  gap: 24px;
+}
+
+.g-32 {
+  gap: 32px;
 }
 
 /* Utility Container CSS */
-.row-container {
+.flex {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  gap: 16px;
 }
 
-.col-container {
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-col {
   display: flex;
   flex-direction: column;
+}
 
-  gap: 16px;
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 /* Utility Card CSS */
 .card-container {
-  padding: 24px;
+  border-radius: var(--border-radius);
 
-  border-radius: var(--border--radius);
-  background-color: var(--card--color);
+  background-color: var(--surface);
+  color: var(--text);
 
   transition: all 0.3s ease-in-out;
 }
 
 /* Hover Effect */
 .hover-primary:hover {
-  background-color: var(--primary--color);
+  background-color: var(--primary);
+}
+
+.hover-secondary:hover {
+  background-color: var(--secondary);
+}
+
+.hover-accent:hover {
+  background-color: var(--accent);
+}
+
+.hover-success:hover {
+  background-color: var(--success);
+}
+
+.hover-error:hover {
+  background-color: var(--error);
+}
+
+.hover-warning:hover {
+  background-color: var(--warning);
+}
+
+.hover-info:hover {
+  background-color: var(--info);
 }
 
 /* Utility Error text for text fields if needed */
 .error-text {
   font-size: 12px;
-  color: var(--error--color);
+  color: var(--error);
 }
