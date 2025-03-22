@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ToastMessage, ToastService } from './toast.service';
-import { toastAnimation } from '../animations/toast-animation';
+import { toastAnimation } from '../../animations/toast-animation';
 
 @Component({
   selector: 'app-toast',

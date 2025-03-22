@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { slideDownAndUpAnimation } from '../animations/slide-down-animation';
+import { slideDownAndUpAnimation } from '../../animations/slide-down-animation';
 import { LoaderService } from './loader.service';
 
 @Component({
