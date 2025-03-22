@@ -1,26 +1,7 @@
-.p-40 {
-  padding: 40px;
-}
-
-.g-24 {
-  gap: 24px;
-}
-
-.w-full {
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-}
-
-.flex {
-  flex: 1;
-}
-
 .small-text {
   font-size: 12px;
 }
 
 .highlight {
-  color: var(--primary--color);
+  color: var(--primary);
 }

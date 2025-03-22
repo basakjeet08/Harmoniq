@@ -3,9 +3,9 @@
 /* Basic Utility Variables */
 :root {
   /* Main Website Colors */
-  --primary: #7986cb;
-  --secondary: #64b5f6;
-  --accent: #66bb6a;
+  --primary: #6e55ca;
+  --secondary: #3a86c4;
+  --accent: #29942e;
 
   /* Background and Card colors */
   --background: #121212;
@@ -18,9 +18,9 @@
 
   /* Different Message Colors */
   --success: #81c784;
-  --error: #e57373;
+  --error: #e64646;
   --warning: #ffca28;
-  --info: #64b5f6;
+  --info: #42a3f1;
 
   /* Border Radius Variables */
   --border-radius: 6px;
@@ -39,6 +39,15 @@
 
 /* Body style to prevent inconsistencies when the scroll bar pops up */
 body {
+  min-height: 100vh;
+  min-width: 100vw;
+
+  height: 100%;
+  width: 100%;
+
+  background-color: var(--background);
+  color: var(--text);
+
   overflow-x: hidden;
 }
 
@@ -87,6 +96,11 @@ img {
 
 .btn-accent {
   background-color: var(--accent);
+  color: var(--text);
+}
+
+.btn-destructive {
+  background-color: var(--error);
   color: var(--text);
 }
 
@@ -186,17 +200,23 @@ hr {
 }
 
 /* Utility Container CSS */
-.flex {
+.flex-1 {
+  flex: 1;
+}
+
+.row-container {
   display: flex;
 }
 
-.flex-center {
-  display: flex;
+.items-center {
   align-items: center;
+}
+
+.justify-center {
   justify-content: center;
 }
 
-.flex-col {
+.col-container {
   display: flex;
   flex-direction: column;
 }
@@ -206,13 +226,18 @@ hr {
 }
 
 /* Utility Card CSS */
-.card-container {
+.card-container,
+.variant-card-container {
   border-radius: var(--border-radius);
 
   background-color: var(--surface);
   color: var(--text);
 
   transition: all 0.3s ease-in-out;
+}
+
+.variant-card-container {
+  background-color: var(--surface-variant);
 }
 
 /* Hover Effect */

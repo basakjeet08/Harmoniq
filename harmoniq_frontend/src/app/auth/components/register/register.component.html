@@ -18,7 +18,7 @@
   <h3>Register as Member</h3>
 
   <!-- Email input container -->
-  <div class="col-container">
+  <div class="col-container g-8">
     <input
       type="email"
       name="email"
@@ -36,7 +36,7 @@
   </div>
 
   <!-- Password Container -->
-  <div class="col-container">
+  <div class="col-container g-8">
     <input
       type="password"
       name="password"
@@ -54,7 +54,7 @@
   </div>
 
   <!-- Confirm Password Container -->
-  <div class="col-container">
+  <div class="col-container g-8">
     <input
       type="password"
       name="confirmPassword"
@@ -82,9 +82,9 @@
   </p>
 
   <!-- Container for the buttons -->
-  <div class="row-container w-full">
+  <div class="row-container g-24">
     <button
-      class="flex"
+      class="flex-1 btn btn-primary"
       type="submit"
       [disabled]="
         formContainer.invalid || password.value !== confirmPassword.value
@@ -95,7 +95,7 @@
 
     <button
       type="button"
-      class="destructive-btn flex"
+      class="flex-1 btn btn-destructive"
       (click)="onGoToLoginClick()"
     >
       Go to Login Page
