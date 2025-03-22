@@ -32,6 +32,10 @@ export class RegisterComponent {
       // Success State
       next: () => {
         this.loaderService.endLoading();
+        this.toastService.showToast({
+          type: 'success',
+          message: 'User registered to the website successfully !!',
+        });
         this.successEmitter.emit();
       },
 
