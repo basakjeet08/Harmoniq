@@ -243,30 +243,42 @@ hr {
 /* Hover Effect */
 .hover-primary:hover {
   background-color: var(--primary);
+  cursor: pointer;
 }
 
 .hover-secondary:hover {
   background-color: var(--secondary);
+  cursor: pointer;
 }
 
 .hover-accent:hover {
   background-color: var(--accent);
+  cursor: pointer;
+}
+
+.hover-variant:hover {
+  background-color: var(--surface-variant);
+  cursor: pointer;
 }
 
 .hover-success:hover {
   background-color: var(--success);
+  cursor: pointer;
 }
 
 .hover-error:hover {
   background-color: var(--error);
+  cursor: pointer;
 }
 
 .hover-warning:hover {
   background-color: var(--warning);
+  cursor: pointer;
 }
 
 .hover-info:hover {
   background-color: var(--info);
+  cursor: pointer;
 }
 
 /* Utility Error text for text fields if needed */

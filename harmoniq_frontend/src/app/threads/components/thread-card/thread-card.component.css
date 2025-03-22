@@ -1,7 +1,4 @@
-:host {
-  width: 100%;
-}
-
+:host,
 .w-full {
   width: 100%;
 }
@@ -11,7 +8,7 @@
 }
 
 .card-hover:hover {
-  background-color: var(--card--variant--color);
+  background-color: var(--surface-variant);
 }
 
 .space {
@@ -25,35 +22,23 @@
   border-radius: 50%;
 }
 
-.thread-title {
+.thread-title,
+.role {
   font-size: 12px;
-  color: var(--secondary--color);
+  color: var(--primary);
+}
+
+.role {
+  color: var(--secondary);
 }
 
 .thread-description {
   font-size: 14px;
+  color: var(--text-muted);
   white-space: pre-line;
 }
 
-.tag-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
 .thread-tag {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 8px;
-
-  border-radius: var(--border--radius);
-  border: 1px dashed var(--secondary--color);
-
   font-size: 12px;
-  opacity: 0.8;
+  color: var(--text-muted);
 }

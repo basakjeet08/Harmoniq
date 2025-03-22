@@ -19,3 +19,7 @@
 .active {
   background-color: var(--surface-variant);
 }
+
+.outer-container {
+  width: 100%;
+}

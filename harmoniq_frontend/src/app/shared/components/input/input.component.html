@@ -1,5 +1,5 @@
 <!-- Input Container Box -->
-<div class="input-container row-container p-4">
+<div class="input-container row-container p-8">
   <!-- This is the input field -->
   <input
     class="input-element flex-1"
@@ -9,5 +9,7 @@
   />
 
   <!-- This is the submit button -->
-  <button (click)="onButtonClick()">{{ buttonText }}</button>
+  <button class="btn btn-primary" (click)="onButtonClick()">
+    {{ buttonText }}
+  </button>
 </div>

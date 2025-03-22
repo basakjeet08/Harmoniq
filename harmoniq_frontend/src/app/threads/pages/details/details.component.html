@@ -9,7 +9,7 @@
 />
 
 <!-- Main Component -->
-<div class="col-container w-full" *ngIf="!isLoading && !errorMessage">
+<div class="w-full col-container g-16" *ngIf="!isLoading && !errorMessage">
   <!-- Thread Card Component-->
   <app-thread-card
     [creatorName]="threadDetail?.createdBy?.name || 'Invalid name'"

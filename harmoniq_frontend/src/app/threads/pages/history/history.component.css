@@ -14,10 +14,6 @@
   align-self: flex-start;
 }
 
-.center {
-  align-items: center;
-}
-
 .w-full {
   width: 100%;
 }

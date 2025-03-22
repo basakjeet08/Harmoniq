@@ -1,11 +1,11 @@
 <div
-  class="card-container col-container card-essentials w-full"
+  class="w-full card-container col-container card-essentials g-16 p-16"
   (click)="onThreadClick()"
   [ngClass]="{ 'card-hover': isHoverEffect }"
 >
   <!-- Profile Header Container which contains the user image , user name and role -->
-  <div class="row-container space">
-    <div class="row-container">
+  <div class="row-container g-16 items-center space">
+    <div class="row-container g-8 items-center">
       <!-- Profile Pic -->
       <img
         class="profile-image"
@@ -16,13 +16,13 @@
       <!-- Name and Account Type -->
       <div>
         <p class="thread-title">{{ creatorName }}</p>
-        <p class="thread-title">{{ creatorRole | titlecase }}</p>
+        <p class="role">{{ creatorRole | titlecase }}</p>
       </div>
     </div>
 
     <!-- Delete Button -->
     <button
-      class="destructive-btn"
+      class="btn btn-destructive"
       (click)="onDeleteClick()"
       *ngIf="showDelete"
     >
@@ -34,7 +34,12 @@
   <p class="thread-description">{{ description }}</p>
 
   <!-- Tags for this Thread -->
-  <div class="tag-container">
-    <p class="thread-tag" *ngFor="let tag of tagList">{{ tag }}</p>
+  <div class="row-container items-center g-16 flex-wrap">
+    <small
+      class="variant-card-container row-container items-center justify-center p-8 thread-tag"
+      *ngFor="let tag of tagList"
+    >
+      {{ tag }}
+    </small>
   </div>
 </div>

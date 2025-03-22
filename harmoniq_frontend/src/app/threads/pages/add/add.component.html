@@ -18,7 +18,7 @@
   <h3>Post a Thread</h3>
 
   <!-- Description Container -->
-  <div class="col-container">
+  <div class="col-container g-8">
     <textarea
       name="description"
       placeholder="Write Content Here"
@@ -34,13 +34,17 @@
   </div>
 
   <!-- Container for the buttons -->
-  <div class="row-container">
-    <button class="flex" type="submit" [disabled]="formContainer.invalid">
+  <div class="row-container g-24">
+    <button
+      class="flex-1 btn btn-primary"
+      type="submit"
+      [disabled]="formContainer.invalid"
+    >
       Post Thread
     </button>
 
     <button
-      class="destructive-btn flex"
+      class="flex-1 btn btn-destructive"
       type="button"
       (click)="onCancelClick()"
     >

@@ -1,16 +1,20 @@
 <!-- Grid Container for the whole Layout -->
 <div class="grid-container">
   <!-- Profile Section for the Threads Feature -->
-  <div class="col-container card-container">
+  <div class="col-container card-container p-24 g-16">
     <!-- Title -->
     <h3>Profile Section</h3>
 
     <!-- Loading State for the Profile Container -->
-    <app-loader class="center" *ngIf="isLoading" [isLoading]="isLoading" />
+    <app-loader
+      class="items-center"
+      *ngIf="isLoading"
+      [isLoading]="isLoading"
+    />
 
     <!-- Error State of the Profile Api call -->
     <app-error-card
-      class="center"
+      class="justify-center"
       *ngIf="errorMessage"
       [errorMessage]="errorMessage"
       (onCancelClick)="onErrorCancelClick()"
@@ -22,10 +26,10 @@
     </div>
   </div>
 
-  <div class="col-container">
+  <div class="col-container g-16">
     <!-- Card container to view Feed Page -->
     <div
-      class="card-container col-container card-hover"
+      class="card-container col-container p-16 g-8 hover-variant"
       (click)="onNavigateToFeedClick()"
     >
       <h3>Navigate to Feed . . .</h3>
@@ -39,7 +43,7 @@
     <!-- Card Container to View The Thread Creation Page -->
     <div
       *ngIf="!isGuest"
-      class="card-container col-container card-hover"
+      class="card-container col-container p-16 g-8 hover-variant"
       (click)="onPostThreadClick()"
     >
       <h3>Post a new Thread . . .</h3>
@@ -54,7 +58,7 @@
     <!-- Card Container to View Thread History Page -->
     <div
       *ngIf="!isGuest"
-      class="card-container col-container card-hover"
+      class="card-container col-container p-16 g-8 hover-variant"
       (click)="onViewHistoryClick()"
     >
       <h3>View my Threads . . .</h3>

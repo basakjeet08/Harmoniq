@@ -17,20 +17,6 @@
   gap: 24px;
 }
 
-.center {
-  align-self: center;
-  justify-self: center;
-}
-
-.card-hover:hover {
-  cursor: pointer;
-  background-color: var(--card--variant--color);
-}
-
-.card-variant-color {
-  background-color: var(--card--variant--color);
-}
-
 .highlight {
-  color: var(--primary--color);
+  color: var(--primary);
 }
