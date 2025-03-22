@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { slideDownAndUpAnimation } from '../animations/slide-down-animation';
+import { LoaderService } from './loader.service';
 
 @Component({
   selector: 'app-loader',
@@ -8,6 +9,11 @@ import { slideDownAndUpAnimation } from '../animations/slide-down-animation';
   animations: [slideDownAndUpAnimation],
 })
 export class LoaderComponent {
-  // This variable stores if the loader should be visible or not
-  @Input('isLoading') isLoading: boolean = false;
+  // This is the variable for the component
+  state: boolean = false;
+
+  // Injecting the necessary dependencies
+  constructor(private loaderService: LoaderService) {
+    this.loaderService.loaderState$.subscribe((state) => (this.state = state));
+  }
 }

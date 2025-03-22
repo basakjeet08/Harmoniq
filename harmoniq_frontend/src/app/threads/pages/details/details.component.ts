@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadDetailResponse } from 'src/app/shared/Models/thread/ThreadDetailResponse';
 import { Roles } from 'src/app/shared/Models/user/Roles';
@@ -15,11 +16,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
 export class DetailsComponent implements OnInit {
   // This is the data for the component
   isGuest: boolean = false;
-
   threadDetail: ThreadDetailResponse | null = null;
-
-  // These are the loading and error states
-  isLoading: boolean = false;
 
   // Injecting the necessary dependencies
   constructor(
@@ -27,6 +24,7 @@ export class DetailsComponent implements OnInit {
     private threadService: ThreadService,
     private commentService: CommentService,
     private toastService: ToastService,
+    private loaderService: LoaderService,
     private route: ActivatedRoute
   ) {}
 
@@ -35,7 +33,7 @@ export class DetailsComponent implements OnInit {
     // Setting the user data
     this.isGuest = this.profileService.getUser()?.role === Roles.GUEST;
 
-    const threadId = this.route.snapshot.params['id'] || '';
+    const threadId = this.route.snapshot.params['id'];
 
     // Checking if there is a thread ID provided
     if (threadId) {
@@ -43,7 +41,7 @@ export class DetailsComponent implements OnInit {
     } else {
       this.toastService.showToast({
         type: 'error',
-        message: 'There is no ID Provided for Threads',
+        message: 'There is no ID provided for the thread',
       });
     }
   }
@@ -51,19 +49,19 @@ export class DetailsComponent implements OnInit {
   // This function fetches the thread Details from the API Call
   fetchThreadData(threadId: string) {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the Api
     this.threadService.findById(threadId).subscribe({
       // Success State
       next: (threadDetail: ThreadDetailResponse) => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
         this.threadDetail = threadDetail;
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
         this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
@@ -72,7 +70,7 @@ export class DetailsComponent implements OnInit {
   // This function is invoked when the user clicks on the comment button
   onCommentClick(comment: string) {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the api to create a comment
     this.commentService
@@ -80,13 +78,13 @@ export class DetailsComponent implements OnInit {
       .subscribe({
         // Success state
         next: () => {
-          this.isLoading = false;
+          this.loaderService.endLoading();
           this.fetchThreadData(this.threadDetail!.id);
         },
 
         // Error State
         error: (error: Error) => {
-          this.isLoading = false;
+          this.loaderService.endLoading();
           this.toastService.showToast({
             type: 'error',
             message: error.message,

@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { LoaderService } from 'src/app/shared/components/loader/loader.service';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -12,29 +14,31 @@ export class LoginComponent {
 
   // These are the event emitters which will notify the parent about the api state
   @Output('onSuccess') successEmitter = new EventEmitter<void>();
-  @Output('onLoading') loadingEmitter = new EventEmitter<boolean>();
-  @Output('onError') errorEmitter = new EventEmitter<string>();
 
   // Injecting the necessary dependencies
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private loaderService: LoaderService,
+    private toastService: ToastService
+  ) {}
 
   // This function is invoked when the user clicks the login button
   onLoginClick() {
     // Setting the loading state
-    this.loadingEmitter.emit(true);
+    this.loaderService.startLoading();
 
     // Calling the API
     this.authService.login(this.userInput).subscribe({
       // Success State
       next: () => {
-        this.loadingEmitter.emit(false);
+        this.loaderService.endLoading();
         this.successEmitter.emit();
       },
 
       // Error State
       error: (error: Error) => {
-        this.loadingEmitter.emit(false);
-        this.errorEmitter.emit(error.message);
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }
@@ -42,20 +46,20 @@ export class LoginComponent {
   // This function is invoked when the user clicks on login as Guest Button
   onLoginAsGuestClick() {
     // Setting the loading state
-    this.loadingEmitter.emit(true);
+    this.loaderService.startLoading();
 
     // Calling the API
     this.authService.loginAsGuest().subscribe({
       // Success State
       next: () => {
-        this.loadingEmitter.emit(false);
+        this.loaderService.endLoading();
         this.successEmitter.emit();
       },
 
       // Error State
       error: (error: Error) => {
-        this.loadingEmitter.emit(false);
-        this.errorEmitter.emit(error.message);
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }

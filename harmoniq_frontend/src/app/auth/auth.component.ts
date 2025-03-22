@@ -12,9 +12,6 @@ export class AuthComponent {
   isLoginMode: boolean = true;
   userInput = { email: '', password: '', confirmPassword: '' };
 
-  // Loading States
-  isLoading: boolean = false;
-
   // Injecting the necessary dependencies
   constructor(
     private router: Router,
@@ -25,16 +22,6 @@ export class AuthComponent {
   // This function is called when the user wants to toggle login or register
   toggleAuthMode() {
     this.isLoginMode = !this.isLoginMode;
-  }
-
-  // This function is called when the loading state changes
-  onLoadingChange(newState: boolean) {
-    this.isLoading = newState;
-  }
-
-  // This function is called when the Error State is changed
-  onErrorChange(newState: string) {
-    this.toastService.showToast({ type: 'error', message: newState });
   }
 
   // This function is invoked when the user registration is successful

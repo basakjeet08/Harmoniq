@@ -1,6 +1,3 @@
-<!-- Loading State -->
-<app-loader [isLoading]="isLoading" />
-
 <!-- Idle State -->
 <div class="auth-container card-container">
   <!-- Register Component Masked Container -->
@@ -10,8 +7,6 @@
       *ngIf="!isLoginMode"
       class="flex-1 p-40 items-center justify-center"
       (onSuccess)="onRegistrationSuccess()"
-      (onLoading)="onLoadingChange($event)"
-      (onError)="onErrorChange($event)"
     />
 
     <!-- Register Mask Component -->
@@ -40,8 +35,6 @@
       *ngIf="isLoginMode"
       class="flex-1 p-40 items-center justify-center"
       (onSuccess)="onLoginSuccess()"
-      (onLoading)="onLoadingChange($event)"
-      (onError)="onErrorChange($event)"
     />
 
     <!-- Register Mask Component -->

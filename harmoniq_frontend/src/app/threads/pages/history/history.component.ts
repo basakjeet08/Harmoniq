@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import {
   ThreadHistoryItem,
@@ -18,13 +19,11 @@ export class HistoryComponent {
   threadList: ThreadHistoryItem[] = [];
   createdByUser: UserDto | null = null;
 
-  // These are the loading and error state variables
-  isLoading: boolean = false;
-
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
     private toastService: ToastService,
+    private loaderService: LoaderService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -37,13 +36,13 @@ export class HistoryComponent {
   // This function fetches the history data from the API
   fetchThreadHistory() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the API
     this.threadService.fetchThreadHistory().subscribe({
       // Success State
       next: (threadHistory: ThreadHistoryResponse) => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
         this.threadList = threadHistory.threadList;
         this.createdByUser = threadHistory.createdBy;
 
@@ -58,7 +57,7 @@ export class HistoryComponent {
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
         this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
@@ -72,19 +71,19 @@ export class HistoryComponent {
   // This function is invoked when the user clicks on the delete button
   onDeleteThreadClick(id: string) {
     // Setting the loading State
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the API
     this.threadService.deleteById(id).subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
         this.fetchThreadHistory();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
         this.toastService.showToast({ type: 'error', message: error.message });
       },
     });

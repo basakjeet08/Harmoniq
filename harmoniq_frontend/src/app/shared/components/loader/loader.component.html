@@ -1,10 +1,12 @@
 <!-- Loader Animation -->
 <div
-  *ngIf="isLoading"
+  *ngIf="state"
   class="variant-card-container row-container g-16 p-16 items-center"
   @slideDownAndUpAnimation
 >
   <span class="loader"></span>
 
-  <p>Please wait while we load the data.</p>
+  <p class="secondary-text caption-text">
+    Please wait while we load the data !!
+  </p>
 </div>
