@@ -24,9 +24,9 @@
 
     <!-- Delete Button -->
     <button
+      *ngIf="showDelete"
       class="btn btn-destructive"
       (click)="onDeleteClick()"
-      *ngIf="showDelete"
     >
       Delete
     </button>

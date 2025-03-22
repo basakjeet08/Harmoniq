@@ -31,6 +31,12 @@ export class AddComponent {
       // Success State
       next: () => {
         this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Thread created successfully !!',
+        });
+
         this.location.back();
       },
 

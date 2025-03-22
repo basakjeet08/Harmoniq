@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { InputComponent } from './../../../shared/components/input/input.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
@@ -18,6 +19,9 @@ export class DetailsComponent implements OnInit {
   isGuest: boolean = false;
   threadDetail: ThreadDetailResponse | null = null;
 
+  // Child Input Component
+  @ViewChild(InputComponent) input!: InputComponent;
+
   // Injecting the necessary dependencies
   constructor(
     private profileService: ProfileService,
@@ -30,19 +34,13 @@ export class DetailsComponent implements OnInit {
 
   // Fetching the thread id and then fetching its details
   ngOnInit(): void {
-    // Setting the user data
+    // Setting the user data and the thread id
     this.isGuest = this.profileService.getUser()?.role === Roles.GUEST;
-
     const threadId = this.route.snapshot.params['id'];
 
     // Checking if there is a thread ID provided
     if (threadId) {
       this.fetchThreadData(threadId);
-    } else {
-      this.toastService.showToast({
-        type: 'error',
-        message: 'There is no ID provided for the thread',
-      });
     }
   }
 
@@ -56,6 +54,12 @@ export class DetailsComponent implements OnInit {
       // Success State
       next: (threadDetail: ThreadDetailResponse) => {
         this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Thread data fetched successfully !!',
+        });
+
         this.threadDetail = threadDetail;
       },
 
@@ -79,6 +83,13 @@ export class DetailsComponent implements OnInit {
         // Success state
         next: () => {
           this.loaderService.endLoading();
+
+          this.toastService.showToast({
+            type: 'success',
+            message: 'New comment is added to this thread !!',
+          });
+
+          this.input.resetComponent();
           this.fetchThreadData(this.threadDetail!.id);
         },
 

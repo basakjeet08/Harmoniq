@@ -9,13 +9,14 @@
   >
     <!-- Thread Card Content -->
     <app-thread-card
-      [creatorName]="createdByUser?.name || 'Invalid Name'"
-      [creatorRole]="createdByUser?.role || 'Invalid Role'"
+      *ngIf="createdByUser"
+      [creatorName]="createdByUser.name"
+      [creatorRole]="createdByUser.role"
       [description]="thread.description"
       [tagList]="['Depression', 'Mental Trauma', 'Stress']"
       [showDelete]="true"
-      (onThreadClick)="onThreadCardClick(thread.id)"
       (onDeleteClick)="onDeleteThreadClick(thread.id)"
+      [isHoverEffect]="false"
     />
 
     <!-- Horizontal Divider -->

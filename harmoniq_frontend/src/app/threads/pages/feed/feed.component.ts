@@ -38,12 +38,18 @@ export class FeedComponent implements OnInit {
       // Success State
       next: (threadList: ThreadDto[]) => {
         this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Threads fetched Successfully !!',
+        });
+
         this.threadList = threadList;
 
         if (this.threadList.length === 0) {
           this.toastService.showToast({
             type: 'info',
-            message: `There are no Threads Posted yet. Head over to the post a thread section to post the first Thread !!`,
+            message: `There are no Threads Posted yet. Head over to the post a thread section to post your first Thread !!`,
           });
         }
       },

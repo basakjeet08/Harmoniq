@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import {
@@ -23,9 +22,7 @@ export class HistoryComponent {
   constructor(
     private threadService: ThreadService,
     private toastService: ToastService,
-    private loaderService: LoaderService,
-    private router: Router,
-    private route: ActivatedRoute
+    private loaderService: LoaderService
   ) {}
 
   // Fetching the history thread list when the component is loaded
@@ -63,11 +60,6 @@ export class HistoryComponent {
     });
   }
 
-  // This function is executed when the user clicks on any of the card for Thread
-  onThreadCardClick(id: string) {
-    this.router.navigate(['../', 'details', id], { relativeTo: this.route });
-  }
-
   // This function is invoked when the user clicks on the delete button
   onDeleteThreadClick(id: string) {
     // Setting the loading State
@@ -78,6 +70,12 @@ export class HistoryComponent {
       // Success State
       next: () => {
         this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Thread deleted successfully !!',
+        });
+
         this.fetchThreadHistory();
       },
 
