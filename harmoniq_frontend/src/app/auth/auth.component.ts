@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,12 +12,15 @@ export class AuthComponent {
   isLoginMode: boolean = true;
   userInput = { email: '', password: '', confirmPassword: '' };
 
-  // Loading and Error States
+  // Loading States
   isLoading: boolean = false;
-  errorMessage: string | null = null;
 
   // Injecting the necessary dependencies
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastService: ToastService
+  ) {}
 
   // This function is called when the user wants to toggle login or register
   toggleAuthMode() {
@@ -30,21 +34,20 @@ export class AuthComponent {
 
   // This function is called when the Error State is changed
   onErrorChange(newState: string) {
-    this.errorMessage = newState;
+    this.toastService.showToast({ type: 'error', message: newState });
   }
 
   // This function is invoked when the user registration is successful
   onRegistrationSuccess() {
     this.isLoginMode = true;
+    this.toastService.showToast({
+      type: 'success',
+      message: 'User Registered Successfully !!',
+    });
   }
 
   // This function is invoked when the user login is successfull
   onLoginSuccess() {
     this.router.navigate(['../', 'dashboard'], { relativeTo: this.route });
-  }
-
-  // This function is invoked when the user clicks on the cancel error button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

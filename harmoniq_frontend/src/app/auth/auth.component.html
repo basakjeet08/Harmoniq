@@ -2,11 +2,7 @@
 <app-loader [isLoading]="isLoading" />
 
 <!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
+<app-toast />
 
 <!-- Idle State -->
 <div class="auth-container card-container">

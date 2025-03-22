@@ -5,6 +5,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { HeaderComponent } from './components/header/header.component';
 import { InputComponent } from './components/input/input.component';
 import { FormsModule } from '@angular/forms';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -12,13 +13,15 @@ import { FormsModule } from '@angular/forms';
     LoaderComponent,
     HeaderComponent,
     InputComponent,
+    ToastComponent,
   ],
   imports: [CommonModule, FormsModule],
   exports: [
-    LoaderComponent,
     ErrorCardComponent,
+    LoaderComponent,
     HeaderComponent,
     InputComponent,
+    ToastComponent,
   ],
 })
 export class SharedModule {}

@@ -1,0 +1,15 @@
+<!-- Each Toast Item -->
+<div *ngFor="let toast of toasts" class="toast-item" [ngClass]="toast.type">
+  <p
+    class="body-text"
+    [ngClass]="{
+      'error-text': toast.type === 'error',
+      'success-text': toast.type === 'success',
+      'warning-text': toast.type === 'warning',
+      'info-text': toast.type === 'info'
+    }"
+  >
+    {{ toast.type | titlecase }}
+  </p>
+  <small class="caption-text">{{ toast.message }}</small>
+</div>

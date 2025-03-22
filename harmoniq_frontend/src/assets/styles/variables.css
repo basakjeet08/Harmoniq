@@ -20,6 +20,12 @@
   --warning: #ffca28;
   --info: #42a3f1;
 
+  /* Rgba Colors of the toasts */
+  --success-rgb: 129, 199, 132;
+  --error-rgb: 230, 70, 70;
+  --warning-rgb: 255, 202, 40;
+  --info-rgb: 66, 163, 241;
+
   /* Border Radius Variables */
   --border-radius: 6px;
 
