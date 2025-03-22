@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadDetailResponse } from 'src/app/shared/Models/thread/ThreadDetailResponse';
 import { Roles } from 'src/app/shared/Models/user/Roles';
 import { CommentService } from 'src/app/shared/services/comment.service';
@@ -19,13 +20,13 @@ export class DetailsComponent implements OnInit {
 
   // These are the loading and error states
   isLoading: boolean = false;
-  errorMessage: string | null = null;
 
   // Injecting the necessary dependencies
   constructor(
     private profileService: ProfileService,
     private threadService: ThreadService,
     private commentService: CommentService,
+    private toastService: ToastService,
     private route: ActivatedRoute
   ) {}
 
@@ -40,7 +41,10 @@ export class DetailsComponent implements OnInit {
     if (threadId) {
       this.fetchThreadData(threadId);
     } else {
-      this.errorMessage = 'There is no ID Provided ';
+      this.toastService.showToast({
+        type: 'error',
+        message: 'There is no ID Provided for Threads',
+      });
     }
   }
 
@@ -60,7 +64,7 @@ export class DetailsComponent implements OnInit {
       // Error State
       error: (error: Error) => {
         this.isLoading = false;
-        this.errorMessage = error.message;
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }
@@ -83,13 +87,11 @@ export class DetailsComponent implements OnInit {
         // Error State
         error: (error: Error) => {
           this.isLoading = false;
-          this.errorMessage = error.message;
+          this.toastService.showToast({
+            type: 'error',
+            message: error.message,
+          });
         },
       });
-  }
-
-  // This function is invoked when the user clicks on the cancel Error Button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

@@ -1,16 +1,8 @@
 <!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
+<app-loader [isLoading]="isLoading" />
 
 <!-- This is the form container -->
 <form
-  *ngIf="!isLoading && !errorMessage"
   class="card-container col-container p-40 g-24"
   #formContainer="ngForm"
   (ngSubmit)="onPostClick()"

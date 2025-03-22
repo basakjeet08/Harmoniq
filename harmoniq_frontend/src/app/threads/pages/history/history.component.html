@@ -1,17 +1,10 @@
+<!-- Loading State -->
+<app-loader [isLoading]="isLoading" />
+
 <h2 class="align-start">Your Thread History Page . . .</h2>
 
-<!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
-
 <!-- This is the History Thread list container -->
-<div class="w-full col-container g-16" *ngIf="!isLoading && !errorMessage">
+<div class="w-full col-container g-16">
   <!-- Each Thread Component -->
   <div
     class="w-full col-container items-center g-16"

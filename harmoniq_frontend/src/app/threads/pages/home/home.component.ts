@@ -12,10 +12,6 @@ export class HomeComponent implements OnInit {
   // This is the user details variable
   isGuest: boolean = false;
 
-  // loading and Error states
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
-
   // Injecting the necessary dependencies
   constructor(
     private profileService: ProfileService,
@@ -41,10 +37,5 @@ export class HomeComponent implements OnInit {
   // This function is invoked when the user clicks on the view Thread History Card
   onViewHistoryClick() {
     this.router.navigate(['../', 'history'], { relativeTo: this.route });
-  }
-
-  // This funciton is invoked when the error cancel button is clicked
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

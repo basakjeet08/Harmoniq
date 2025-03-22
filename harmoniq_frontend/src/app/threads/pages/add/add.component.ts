@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadService } from 'src/app/shared/services/thread.service';
 
 @Component({
@@ -11,13 +12,13 @@ export class AddComponent {
   // These are the details inputted by the user
   userInput = { description: '' };
 
-  // These are the loading and error states
+  // These are the loading
   isLoading: boolean = false;
-  errorMessage: string | null = null;
 
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
+    private toastService: ToastService,
     private location: Location
   ) {}
 
@@ -37,7 +38,7 @@ export class AddComponent {
       // Error State
       error: (error: Error) => {
         this.isLoading = false;
-        this.errorMessage = error.message;
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }
@@ -45,10 +46,5 @@ export class AddComponent {
   // This function is invoked when the user clicks on cancel button
   onCancelClick() {
     this.location.back();
-  }
-
-  // This function is invoked when the user clicks on the cancel error button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

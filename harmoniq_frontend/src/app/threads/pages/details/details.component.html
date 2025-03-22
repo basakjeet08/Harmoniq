@@ -1,15 +1,8 @@
 <!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
+<app-loader [isLoading]="isLoading" />
 
 <!-- Main Component -->
-<div class="w-full col-container g-16" *ngIf="!isLoading && !errorMessage">
+<div class="w-full col-container g-16">
   <!-- Thread Card Component-->
   <app-thread-card
     [creatorName]="threadDetail?.createdBy?.name || 'Invalid name'"

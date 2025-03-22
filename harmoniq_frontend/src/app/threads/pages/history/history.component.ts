@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import {
   ThreadHistoryItem,
   ThreadHistoryResponse,
@@ -19,11 +20,11 @@ export class HistoryComponent {
 
   // These are the loading and error state variables
   isLoading: boolean = false;
-  errorMessage: string | null = null;
 
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
+    private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -48,15 +49,17 @@ export class HistoryComponent {
 
         // Checking if the database is empty
         if (!this.threadList) {
-          this.errorMessage = `There are no Threads Posted yet. Head over to the
-          Post a Thread section to post the first Thread !!`;
+          this.toastService.showToast({
+            type: 'info',
+            message: `There are no Threads Posted yet. Head over to the Post a Thread section to post the first Thread !!`,
+          });
         }
       },
 
       // Error State
       error: (error: Error) => {
         this.isLoading = false;
-        this.errorMessage = error.message;
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }
@@ -82,13 +85,8 @@ export class HistoryComponent {
       // Error State
       error: (error: Error) => {
         this.isLoading = false;
-        this.errorMessage = error.message;
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
-  }
-
-  // This function is invoked when the user clicks on the cancel Error Button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

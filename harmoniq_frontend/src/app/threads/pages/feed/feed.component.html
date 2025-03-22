@@ -9,17 +9,10 @@
 </div>
 
 <!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
+<app-loader [isLoading]="isLoading" />
 
 <!-- This is the Thread list container -->
-<div class="w-full col-container g-16" *ngIf="!isLoading && !errorMessage">
+<div class="w-full col-container g-16">
   <!-- Each Thread Component -->
   <div
     class="w-full col-container items-center g-16"

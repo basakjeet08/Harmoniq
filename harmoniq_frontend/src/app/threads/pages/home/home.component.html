@@ -5,23 +5,8 @@
     <!-- Title -->
     <h2>Profile Section</h2>
 
-    <!-- Loading State for the Profile Container -->
-    <app-loader
-      class="items-center"
-      *ngIf="isLoading"
-      [isLoading]="isLoading"
-    />
-
-    <!-- Error State of the Profile Api call -->
-    <app-error-card
-      class="justify-center"
-      *ngIf="errorMessage"
-      [errorMessage]="errorMessage"
-      (onCancelClick)="onErrorCancelClick()"
-    />
-
     <!-- This is the profile container Success State -->
-    <div *ngIf="!isLoading && !errorMessage">
+    <div>
       <p>Success State : Not Yet Implemented</p>
     </div>
   </div>

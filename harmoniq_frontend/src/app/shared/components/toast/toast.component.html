@@ -1,5 +1,10 @@
 <!-- Each Toast Item -->
-<div *ngFor="let toast of toasts" class="toast-item" [ngClass]="toast.type">
+<div
+  *ngFor="let toast of toasts"
+  class="toast-item"
+  [ngClass]="toast.type"
+  @toastAnimation
+>
   <p
     class="body-text"
     [ngClass]="{
