@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ToastMessage, ToastService } from './toast.service';
-import { toastAnimation } from '../../animations/toast-animation';
+import { slideUpAnimation } from '../../animations/slide-up-animation';
 
 @Component({
   selector: 'app-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.css'],
-  animations: [toastAnimation],
+  animations: [slideUpAnimation],
 })
 export class ToastComponent {
   // This is the toast data for the component

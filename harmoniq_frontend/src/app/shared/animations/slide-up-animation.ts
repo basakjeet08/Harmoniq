@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 
-export const toastAnimation = trigger('toastAnimation', [
+export const slideUpAnimation = trigger('slideUpAnimation', [
   // Enter Animation - fade in and slide up
   transition(':enter', [
     style({ transform: 'translateY(40px)', opacity: 0 }),
