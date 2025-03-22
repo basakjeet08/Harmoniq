@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserDto } from '../shared/Models/user/UserDto';
 import { Roles } from '../shared/Models/user/Roles';
 import { ProfileService } from '../shared/services/profile.service';
+import { ToastService } from '../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +15,23 @@ export class DashboardComponent implements OnInit {
   isGuest: boolean = false;
 
   // injecting the necessary dependencies
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    private toastService: ToastService
+  ) {}
 
   // Checking if the user is a guest user or not
   ngOnInit(): void {
     this.userData = this.profileService.getUser();
     this.isGuest = this.userData?.role === Roles.GUEST;
+
+    if (this.isGuest) {
+      this.toastService.showToast({
+        type: 'warning',
+        message:
+          "You are logged into the guest mode which lasts for only an hour. You won't be able to post any thread or chat with the chatbot. Please create a account and log in to access those features !!",
+        duration: 4500,
+      });
+    }
   }
 }
