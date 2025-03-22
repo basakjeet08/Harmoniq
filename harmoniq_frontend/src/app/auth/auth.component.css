@@ -28,6 +28,10 @@
   flex-direction: column;
 }
 
+.z-99 {
+  z-index: 99;
+}
+
 .text-center {
   text-align: center;
 }

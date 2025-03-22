@@ -1,5 +1,5 @@
 <!-- Idle State -->
-<div class="auth-container card-container">
+<div class="auth-container card-container" @scaleUpAnimation>
   <!-- Register Component Masked Container -->
   <div class="auth-item">
     <!-- Register Component -->
@@ -7,12 +7,14 @@
       *ngIf="!isLoginMode"
       class="flex-1 p-40 items-center justify-center"
       (onSuccess)="onRegistrationSuccess()"
+      @slideLeftAnimation
     />
 
     <!-- Register Mask Component -->
     <div
       *ngIf="isLoginMode"
-      class="variant-card-container col-container g-32 flex-1 p-24 items-center justify-center"
+      class="variant-card-container col-container g-32 flex-1 p-24 items-center justify-center z-99"
+      @slideLeftAnimation
     >
       <h1>New to the Game ?</h1>
 
@@ -35,12 +37,14 @@
       *ngIf="isLoginMode"
       class="flex-1 p-40 items-center justify-center"
       (onSuccess)="onLoginSuccess()"
+      @slideRightAnimation
     />
 
     <!-- Login Mask Component -->
     <div
       *ngIf="!isLoginMode"
-      class="variant-card-container col-container g-32 flex-1 p-24 items-center justify-center"
+      class="variant-card-container col-container g-32 flex-1 p-24 items-center justify-center z-99"
+      @slideRightAnimation
     >
       <h1>Old Dog ?</h1>
 

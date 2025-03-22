@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { scaleUpAnimation } from '../shared/animations/scale-up-animation';
+import { slideLeftAnimation } from '../shared/animations/slide-left-animation';
+import { slideRightAnimation } from '../shared/animations/slide-right-animation';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
+  animations: [scaleUpAnimation, slideLeftAnimation, slideRightAnimation],
 })
 export class AuthComponent {
   // These are the details inputted by the user
