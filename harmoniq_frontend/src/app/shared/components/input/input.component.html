@@ -9,7 +9,11 @@
   />
 
   <!-- This is the submit button -->
-  <button class="btn btn-primary" (click)="onButtonClick()">
+  <button
+    class="btn btn-primary"
+    [disabled]="!userInput"
+    (click)="onButtonClick()"
+  >
     {{ buttonText }}
   </button>
 </div>

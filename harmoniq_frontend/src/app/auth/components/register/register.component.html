@@ -30,7 +30,7 @@
     />
 
     <!-- Error text for Email input -->
-    <p class="error-text" *ngIf="!email.valid && email.touched">
+    <p class="error-text caption-text" *ngIf="!email.valid && email.touched">
       Please enter the Email
     </p>
   </div>
@@ -48,7 +48,10 @@
     />
 
     <!-- Error text for password input -->
-    <p class="error-text" *ngIf="password.touched && password.invalid">
+    <p
+      class="error-text caption-text"
+      *ngIf="password.touched && password.invalid"
+    >
       Please enter the Password of length < 5
     </p>
   </div>
@@ -66,7 +69,7 @@
 
     <!-- Error Text for Confirm Password Container -->
     <p
-      class="error-text"
+      class="error-text caption-text"
       *ngIf="
         confirmPassword.touched &&
         (confirmPassword.value !== password.value || confirmPassword.invalid)
@@ -77,8 +80,8 @@
   </div>
 
   <!-- Anonymous User Text Declaration -->
-  <p class="small-text">
-    Names and profile pics will be <span class="highlight">Anonymous.</span>
+  <p class="caption-text">
+    Names and profile pics will be <span class="primary-text">Anonymous.</span>
   </p>
 
   <!-- Container for the buttons -->

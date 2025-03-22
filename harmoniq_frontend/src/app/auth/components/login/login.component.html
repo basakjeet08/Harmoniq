@@ -30,7 +30,7 @@
     />
 
     <!-- Error text for Email input -->
-    <p class="error-text" *ngIf="!email.valid && email.touched">
+    <p class="error-text caption-text" *ngIf="!email.valid && email.touched">
       Please enter the Email
     </p>
   </div>
@@ -47,7 +47,10 @@
     />
 
     <!-- Error text for password input -->
-    <p class="error-text" *ngIf="!password.valid && password.touched">
+    <p
+      class="error-text caption-text"
+      *ngIf="!password.valid && password.touched"
+    >
       Please enter the Password
     </p>
   </div>
