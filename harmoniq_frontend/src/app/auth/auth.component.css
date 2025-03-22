@@ -24,6 +24,7 @@
 
 .auth-item {
   min-width: 300px;
+  min-height: 412px;
   display: flex;
   flex-direction: column;
 }
