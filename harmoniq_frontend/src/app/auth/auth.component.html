@@ -1,1 +1,72 @@
-<router-outlet />
+<!-- Loading State -->
+<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
+
+<!-- Error State -->
+<app-error-card
+  *ngIf="errorMessage"
+  [errorMessage]="errorMessage"
+  (onCancelClick)="onErrorCancelClick()"
+/>
+
+<!-- Idle State -->
+<div class="auth-container card-container">
+  <!-- Register Component Masked Container -->
+  <div class="auth-item">
+    <!-- Register Component -->
+    <app-register
+      *ngIf="!isLoginMode"
+      class="flex-1 p-40 items-center justify-center"
+      (onSuccess)="onRegistrationSuccess()"
+      (onLoading)="onLoadingChange($event)"
+      (onError)="onErrorChange($event)"
+    />
+
+    <!-- Register Mask Component -->
+    <div
+      *ngIf="isLoginMode"
+      class="variant-card-container col-container g-32 flex-1 p-24 items-center justify-center"
+    >
+      <h1>New to the Game ?</h1>
+
+      <p class="text-center body-text muted-text">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos nulla
+        debitis nesciunt dolores in illum autem consectetur id, fuga explicabo
+        cumque error officia, possimus laboriosam.
+      </p>
+
+      <button class="w-70 btn btn-secondary" (click)="toggleAuthMode()">
+        Register User
+      </button>
+    </div>
+  </div>
+
+  <!-- Login Component Masked Container -->
+  <div class="auth-item">
+    <!-- Login Component -->
+    <app-login
+      *ngIf="isLoginMode"
+      class="flex-1 p-40 items-center justify-center"
+      (onSuccess)="onLoginSuccess()"
+      (onLoading)="onLoadingChange($event)"
+      (onError)="onErrorChange($event)"
+    />
+
+    <!-- Register Mask Component -->
+    <div
+      *ngIf="!isLoginMode"
+      class="variant-card-container col-container g-32 flex-1 p-24 items-center justify-center"
+    >
+      <h1>Old Dog ?</h1>
+
+      <p class="text-center body-text muted-text">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur
+        voluptatibus ut ipsum earum sed! In soluta sunt eos odit dolor sequi
+        asperiores voluptates itaque ratione?
+      </p>
+
+      <button class="w-70 btn btn-secondary" (click)="toggleAuthMode()">
+        Register User
+      </button>
+    </div>
+  </div>
+</div>

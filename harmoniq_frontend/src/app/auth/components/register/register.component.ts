@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
@@ -11,9 +11,10 @@ export class RegisterComponent {
   // These are the details inputted by the user
   userInput = { email: '', password: '', confirmPassword: '' };
 
-  // Error and loading states
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
+  // These are the event emitters which will notify the parent about the api state
+  @Output('onSuccess') successEmitter = new EventEmitter<void>();
+  @Output('onLoading') loadingEmitter = new EventEmitter<boolean>();
+  @Output('onError') errorEmitter = new EventEmitter<string>();
 
   // Injecting the necessary dependencies
   constructor(
@@ -25,22 +26,20 @@ export class RegisterComponent {
   // This function is invoked when the user clicks the register button
   onRegisterClick() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loadingEmitter.emit(true);
 
     // Calling the api to register the user
     this.authService.registerMember(this.userInput).subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
-
-        // Redirecting to the login page
-        this.onGoToLoginClick();
+        this.loadingEmitter.emit(false);
+        this.successEmitter.emit();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loadingEmitter.emit(false);
+        this.errorEmitter.emit(error.message);
       },
     });
   }
@@ -48,10 +47,5 @@ export class RegisterComponent {
   // This function is invoked when the user clicks on the go to login button
   onGoToLoginClick() {
     this.router.navigate(['../', 'login'], { relativeTo: this.route });
-  }
-
-  // This function is invoked when the user clicks on the cancel error button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

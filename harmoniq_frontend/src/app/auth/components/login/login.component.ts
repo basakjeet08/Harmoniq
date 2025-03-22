@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -11,36 +10,31 @@ export class LoginComponent {
   // These are the details inputted by the user
   userInput = { email: '', password: '' };
 
-  // Loading and Error States
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
+  // These are the event emitters which will notify the parent about the api state
+  @Output('onSuccess') successEmitter = new EventEmitter<void>();
+  @Output('onLoading') loadingEmitter = new EventEmitter<boolean>();
+  @Output('onError') errorEmitter = new EventEmitter<string>();
 
   // Injecting the necessary dependencies
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private authService: AuthService) {}
 
   // This function is invoked when the user clicks the login button
   onLoginClick() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loadingEmitter.emit(true);
 
     // Calling the API
     this.authService.login(this.userInput).subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
-
-        // Redirecting to the dashboard page
-        this.navigateToDashboard();
+        this.loadingEmitter.emit(false);
+        this.successEmitter.emit();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loadingEmitter.emit(false);
+        this.errorEmitter.emit(error.message);
       },
     });
   }
@@ -48,38 +42,21 @@ export class LoginComponent {
   // This function is invoked when the user clicks on login as Guest Button
   onLoginAsGuestClick() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loadingEmitter.emit(true);
 
     // Calling the API
     this.authService.loginAsGuest().subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
-
-        // Redirect to the dashboard page
-        this.navigateToDashboard();
+        this.loadingEmitter.emit(false);
+        this.successEmitter.emit();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loadingEmitter.emit(false);
+        this.errorEmitter.emit(error.message);
       },
     });
-  }
-
-  // This function navigates to the dashboard page
-  navigateToDashboard() {
-    this.router.navigate(['../../', 'dashboard'], { relativeTo: this.route });
-  }
-
-  // This function is invoked when the user clicks on the go to Register button
-  onGoToRegisterClick() {
-    this.router.navigate(['../', 'register'], { relativeTo: this.route });
-  }
-
-  // This function is invoked when the user clicks on the cancel Error Button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

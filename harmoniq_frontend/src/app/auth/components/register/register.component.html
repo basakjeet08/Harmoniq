@@ -1,17 +1,6 @@
-<!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
-
 <!-- Idle State -->
 <form
-  *ngIf="!isLoading && !errorMessage"
-  class="card-container col-container p-40 g-24"
+  class="card-container col-container g-24"
   #formContainer="ngForm"
   (ngSubmit)="onRegisterClick()"
 >
@@ -84,24 +73,14 @@
     Names and profile pics will be <span class="primary-text">Anonymous.</span>
   </p>
 
-  <!-- Container for the buttons -->
-  <div class="row-container g-24">
-    <button
-      class="flex-1 btn btn-primary"
-      type="submit"
-      [disabled]="
-        formContainer.invalid || password.value !== confirmPassword.value
-      "
-    >
-      Register User
-    </button>
-
-    <button
-      type="button"
-      class="flex-1 btn btn-destructive"
-      (click)="onGoToLoginClick()"
-    >
-      Go to Login Page
-    </button>
-  </div>
+  <!-- Register Button -->
+  <button
+    class="flex-1 btn btn-primary"
+    type="submit"
+    [disabled]="
+      formContainer.invalid || password.value !== confirmPassword.value
+    "
+  >
+    Register User
+  </button>
 </form>

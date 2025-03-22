@@ -1,17 +1,6 @@
-<!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
-
 <!-- Idle State -->
 <form
-  *ngIf="!isLoading && !errorMessage"
-  class="card-container col-container p-40 g-24"
+  class="col-container g-24"
   #formContainer="ngForm"
   (ngSubmit)="onLoginClick()"
 >
@@ -55,32 +44,22 @@
     </p>
   </div>
 
-  <!-- Container for the buttons -->
-  <div class="col-container g-16">
-    <div class="row-container g-16">
-      <button
-        class="flex-1 btn btn-primary"
-        type="submit"
-        [disabled]="!formContainer.valid"
-      >
-        Login User
-      </button>
-
-      <button
-        class="flex-1 btn btn-accent"
-        type="button"
-        (click)="onLoginAsGuestClick()"
-      >
-        Login as Guest
-      </button>
-    </div>
+  <!-- Container for the Login buttons -->
+  <div class="row-container g-16">
+    <button
+      class="flex-1 btn btn-primary"
+      type="submit"
+      [disabled]="!formContainer.valid"
+    >
+      Login User
+    </button>
 
     <button
+      class="flex-1 btn btn-accent"
       type="button"
-      class="flex-1 btn btn-destructive"
-      (click)="onGoToRegisterClick()"
+      (click)="onLoginAsGuestClick()"
     >
-      Go to Register Page
+      Login as Guest
     </button>
   </div>
 </form>
