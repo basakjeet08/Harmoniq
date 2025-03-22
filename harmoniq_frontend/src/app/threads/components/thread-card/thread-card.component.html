@@ -15,8 +15,10 @@
 
       <!-- Name and Account Type -->
       <div>
-        <p class="thread-title">{{ creatorName }}</p>
-        <p class="role">{{ creatorRole | titlecase }}</p>
+        <p class="body-text primary-text">{{ creatorName }}</p>
+        <small class="caption-text secondary-text">
+          {{ creatorRole | titlecase }}
+        </small>
       </div>
     </div>
 
@@ -31,12 +33,12 @@
   </div>
 
   <!-- Thread Description -->
-  <p class="thread-description">{{ description }}</p>
+  <p class="body-text muted-text">{{ description }}</p>
 
   <!-- Tags for this Thread -->
   <div class="row-container items-center g-16 flex-wrap">
     <small
-      class="variant-card-container row-container items-center justify-center p-8 thread-tag"
+      class="variant-card-container row-container items-center justify-center p-8 caption-text muted-text"
       *ngFor="let tag of tagList"
     >
       {{ tag }}

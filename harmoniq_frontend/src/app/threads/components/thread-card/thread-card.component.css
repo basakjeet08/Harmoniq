@@ -21,24 +21,3 @@
 
   border-radius: 50%;
 }
-
-.thread-title,
-.role {
-  font-size: 12px;
-  color: var(--primary);
-}
-
-.role {
-  color: var(--secondary);
-}
-
-.thread-description {
-  font-size: 14px;
-  color: var(--text-muted);
-  white-space: pre-line;
-}
-
-.thread-tag {
-  font-size: 12px;
-  color: var(--text-muted);
-}

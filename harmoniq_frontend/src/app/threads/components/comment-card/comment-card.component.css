@@ -39,22 +39,3 @@
 
   border-radius: 50%;
 }
-
-.comment-title,
-.role {
-  font-size: 12px;
-}
-
-.comment-title {
-  color: var(--primary);
-}
-
-.role {
-  color: var(--secondary);
-}
-
-.comment-description {
-  font-size: 14px;
-  white-space: pre-line;
-  opacity: 0.8;
-}

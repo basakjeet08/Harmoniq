@@ -1,0 +1,40 @@
+.body-text {
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+.caption-text {
+  font-size: 12px;
+}
+
+.primary-text {
+  color: var(--primary);
+}
+
+.secondary-text {
+  color: var(--secondary);
+}
+
+.accent-text {
+  color: var(--accent);
+}
+
+.muted-text {
+  color: var(--text-muted);
+}
+
+.success-text {
+  color: var(--success);
+}
+
+.error-text {
+  color: var(--error);
+}
+
+.warning-text {
+  color: var(--warning);
+}
+
+.info-text {
+  color: var(--info);
+}

@@ -14,11 +14,13 @@
 
     <!-- Name and Account Type -->
     <div>
-      <p class="comment-title">{{ creatorName }}</p>
-      <p class="role">{{ creatorRole | titlecase }}</p>
+      <p class="primary-text body-text">{{ creatorName }}</p>
+      <small class="secondary-text caption-text">
+        {{ creatorRole | titlecase }}
+      </small>
     </div>
   </div>
 
   <!-- Comment Content -->
-  <p class="comment-description">{{ comment }}</p>
+  <p class="body-text muted-text">{{ comment }}</p>
 </div>
