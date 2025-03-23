@@ -19,6 +19,7 @@
     <app-thread-card
       [creatorName]="thread.createdBy.name"
       [creatorRole]="thread.createdBy.role"
+      [creatorAvatar]="thread.createdBy.avatar"
       [description]="thread.description"
       [tagList]="['Depression', 'Mental Trauma', 'Stress']"
       (onThreadClick)="onThreadCardClick(thread.id)"
