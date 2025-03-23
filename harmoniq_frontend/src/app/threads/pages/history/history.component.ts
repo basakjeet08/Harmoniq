@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { LoaderService } from 'src/app/shared/components/loader/loader.service';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import {
   ThreadHistoryItem,
   ThreadHistoryResponse,
@@ -17,15 +18,11 @@ export class HistoryComponent {
   threadList: ThreadHistoryItem[] = [];
   createdByUser: UserDto | null = null;
 
-  // These are the loading and error state variables
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
-
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
-    private router: Router,
-    private route: ActivatedRoute
+    private toastService: ToastService,
+    private loaderService: LoaderService
   ) {}
 
   // Fetching the history thread list when the component is loaded
@@ -36,59 +33,57 @@ export class HistoryComponent {
   // This function fetches the history data from the API
   fetchThreadHistory() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the API
     this.threadService.fetchThreadHistory().subscribe({
       // Success State
       next: (threadHistory: ThreadHistoryResponse) => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
         this.threadList = threadHistory.threadList;
         this.createdByUser = threadHistory.createdBy;
 
         // Checking if the database is empty
         if (!this.threadList) {
-          this.errorMessage = `There are no Threads Posted yet. Head over to the
-          Post a Thread section to post the first Thread !!`;
+          this.toastService.showToast({
+            type: 'info',
+            message: `There are no Threads Posted yet. Head over to the Post a Thread section to post the first Thread !!`,
+          });
         }
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
-  }
-
-  // This function is executed when the user clicks on any of the card for Thread
-  onThreadCardClick(id: string) {
-    this.router.navigate(['../', 'details', id], { relativeTo: this.route });
   }
 
   // This function is invoked when the user clicks on the delete button
   onDeleteThreadClick(id: string) {
     // Setting the loading State
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the API
     this.threadService.deleteById(id).subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Thread deleted successfully !!',
+        });
+
         this.fetchThreadHistory();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
-  }
-
-  // This function is invoked when the user clicks on the cancel Error Button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

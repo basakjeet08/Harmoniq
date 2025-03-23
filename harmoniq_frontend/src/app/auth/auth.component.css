@@ -10,4 +10,33 @@
 
   align-items: center;
   justify-content: center;
+
+  padding: 32px;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 900px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.auth-item {
+  min-width: 300px;
+  min-height: 412px;
+  display: flex;
+  flex-direction: column;
+}
+
+.z-99 {
+  z-index: 99;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-70 {
+  width: 60%;
 }

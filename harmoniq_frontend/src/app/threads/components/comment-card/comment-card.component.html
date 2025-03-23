@@ -3,8 +3,8 @@
   <div class="vertical-line"></div>
 </div>
 
-<div class="comment-card card-container col-container w-full">
-  <div class="row-container">
+<div class="w-full comment-card card-container col-container p-16 g-16">
+  <div class="row-container items-center g-8">
     <!-- Profile Pic -->
     <img
       class="profile-image"
@@ -14,11 +14,13 @@
 
     <!-- Name and Account Type -->
     <div>
-      <p class="comment-title">{{ creatorName }}</p>
-      <p class="comment-title">{{ creatorRole | titlecase }}</p>
+      <p class="primary-text body-text">{{ creatorName }}</p>
+      <small class="secondary-text caption-text">
+        {{ creatorRole | titlecase }}
+      </small>
     </div>
   </div>
 
   <!-- Comment Content -->
-  <p class="comment-description">{{ comment }}</p>
+  <p class="body-text muted-text">{{ comment }}</p>
 </div>

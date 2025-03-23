@@ -1,0 +1,101 @@
+/* Primary Button CSS */
+.btn {
+  display: inline-block;
+  padding: var(--padding-small);
+
+  border: none;
+  border-radius: var(--border-radius);
+
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--text);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--text);
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+.btn-destructive {
+  background-color: var(--error);
+  color: var(--text);
+}
+
+.btn:hover {
+  filter: brightness(1.2);
+}
+
+.btn:active {
+  opacity: 0.3;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+}
+
+/* Utility Card CSS */
+.card-container,
+.variant-card-container {
+  border-radius: var(--border-radius);
+
+  background-color: var(--surface);
+  color: var(--text);
+
+  transition: all 0.3s ease-in-out;
+}
+
+.variant-card-container {
+  background-color: var(--surface-variant);
+}
+
+/* Hover Effect */
+.hover-primary:hover {
+  background-color: var(--primary);
+  cursor: pointer;
+}
+
+.hover-secondary:hover {
+  background-color: var(--secondary);
+  cursor: pointer;
+}
+
+.hover-accent:hover {
+  background-color: var(--accent);
+  cursor: pointer;
+}
+
+.hover-variant:hover {
+  background-color: var(--surface-variant);
+  cursor: pointer;
+}
+
+.hover-success:hover {
+  background-color: var(--success);
+  cursor: pointer;
+}
+
+.hover-error:hover {
+  background-color: var(--error);
+  cursor: pointer;
+}
+
+.hover-warning:hover {
+  background-color: var(--warning);
+  cursor: pointer;
+}
+
+.hover-info:hover {
+  background-color: var(--info);
+  cursor: pointer;
+}

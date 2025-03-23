@@ -1,0 +1,44 @@
+:host {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  z-index: 1000;
+}
+
+.toast-item {
+  width: 400px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+  padding: 8px 16px;
+
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(16px);
+}
+
+.success {
+  background-color: rgba(var(--success-rgb), 0.1);
+  border: 1px dashed rgba(var(--success-rgb), 0.5);
+}
+
+.error {
+  background-color: rgba(var(--error-rgb), 0.1);
+  border: 1px dashed rgba(var(--error-rgb), 0.5);
+}
+
+.warning {
+  background-color: rgba(var(--warning-rgb), 0.1);
+  border: 1px dashed rgba(var(--warning-rgb), 0.5);
+}
+
+.info {
+  background-color: rgba(var(--info-rgb), 0.1);
+  border: 1px dashed rgba(var(--info-rgb), 0.5);
+}
