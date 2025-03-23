@@ -1,3 +1,36 @@
 .h-full {
   height: 100%;
 }
+
+.input-group-container {
+  border: 2px solid var(--surface-variant);
+  border-radius: var(--border-radius);
+}
+
+.input-group-container:focus-within {
+  border: 2px solid var(--primary);
+}
+
+.input-group-container:has(.ng-invalid.ng-touched) {
+  border: 1px dashed var(--error);
+}
+
+svg {
+  width: 16px;
+  height: 16px;
+
+  margin-left: 12px;
+  fill: var(--primary);
+}
+
+.info-svg {
+  width: 20px;
+  height: 20px;
+
+  fill: var(--info);
+}
+
+.input-group-container > input {
+  flex: 1;
+  border: none;
+}
