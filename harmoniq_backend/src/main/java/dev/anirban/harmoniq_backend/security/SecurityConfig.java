@@ -64,6 +64,9 @@ public class SecurityConfig {
                                 // Requests for public static resources are permitted
                                 .requestMatchers("/avatars/**").permitAll()
 
+                                // Chatbot Endpoints
+                                .requestMatchers(HttpMethod.POST, UrlConstants.PROMPT_CHATBOT_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+
                                 // For any other or all requests
                                 .anyRequest().authenticated()
                 )
