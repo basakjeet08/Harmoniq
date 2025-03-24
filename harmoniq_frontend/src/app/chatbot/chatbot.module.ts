@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatbotComponent } from './chatbot.component';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 // These are the routes for the chatbot module
 const chatbotRoutes: Routes = [{ path: '', component: ChatbotComponent }];
 
 @NgModule({
   declarations: [ChatbotComponent],
-  imports: [CommonModule, RouterModule.forChild(chatbotRoutes)],
+  imports: [CommonModule, RouterModule.forChild(chatbotRoutes), SharedModule],
 })
 export class ChatbotModule {}
