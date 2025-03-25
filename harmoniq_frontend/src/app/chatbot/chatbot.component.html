@@ -11,6 +11,11 @@
     >
       <p class="muted-text body-text">{{ message }}</p>
     </div>
+
+    <!-- Current Chat Response for showing streaming output -->
+    <div class="w-70 card-container p-24 align-left" *ngIf="chatResponse">
+      <p class="muted-text body-text">{{ chatResponse }}</p>
+    </div>
   </div>
 
   <!-- User Input -->

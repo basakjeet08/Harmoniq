@@ -11,6 +11,7 @@ import { ChatbotService } from '../shared/services/chatbot.service';
 export class ChatbotComponent {
   // This is the data for the components
   messages: string[] = [];
+  chatResponse: string | null = null;
 
   // Getting the Input component
   @ViewChild(InputComponent) input!: InputComponent;
@@ -30,17 +31,25 @@ export class ChatbotComponent {
     this.messages.push(prompt);
     this.input.resetComponent();
 
+    // let chatResponse: string = '';
     this.chatbotService.generateResponse(prompt).subscribe({
       // Success State
-      next: (response: string) => {
+      next: (chunk: string) => {
         this.loaderService.endLoading();
-        this.messages.push(response);
+        this.chatResponse = this.chatResponse + ' ' + chunk;
       },
 
       // Error State
       error: (error: Error) => {
         this.loaderService.endLoading();
+        if (this.chatResponse) this.messages.push(this.chatResponse);
         this.messages.push(error.message);
+      },
+
+      // Complete State
+      complete: () => {
+        this.loaderService.endLoading();
+        if (this.chatResponse) this.messages.push(this.chatResponse);
       },
     });
   }
