@@ -20,4 +20,7 @@ public class UrlConstants {
 
     // Comment Endpoints
     public static final String CREATE_COMMENT_ENDPOINT = "/api/threads/{threadId}/comments";
+
+    // Chatbot Endpoints
+    public static final String PROMPT_CHATBOT_ENDPOINT = "/api/chatbot";
 }

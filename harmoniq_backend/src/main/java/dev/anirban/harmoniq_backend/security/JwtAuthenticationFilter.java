@@ -1,5 +1,6 @@
 package dev.anirban.harmoniq_backend.security;
 
+import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+
+        // Skip JWT authentication for the chatbot streaming endpoint
+        String requestURI = request.getRequestURI();
+        if (requestURI.equals(UrlConstants.PROMPT_CHATBOT_ENDPOINT)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         final String authHeader = request.getHeader("Authorization");
 

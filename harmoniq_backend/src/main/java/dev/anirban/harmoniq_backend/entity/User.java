@@ -43,6 +43,9 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "avatar", nullable = false)
+    private String avatar;
+
     @Column(name = "role", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Type role;
@@ -57,6 +60,7 @@ public class User implements UserDetails {
                 .name(name)
                 .email(email)
                 .role(role.toString())
+                .avatar(avatar)
                 .build();
     }
 
@@ -67,6 +71,7 @@ public class User implements UserDetails {
                 .name(name)
                 .email(email)
                 .role(role.toString())
+                .avatar(avatar)
                 .build();
     }
 
