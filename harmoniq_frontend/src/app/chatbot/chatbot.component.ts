@@ -11,7 +11,7 @@ import { ChatbotService } from '../shared/services/chatbot.service';
 export class ChatbotComponent {
   // This is the data for the components
   messages: string[] = [];
-  chatResponse: string | null = null;
+  chatResponse: string = '';
 
   // Getting the Input component
   @ViewChild(InputComponent) input!: InputComponent;
@@ -36,7 +36,7 @@ export class ChatbotComponent {
       // Success State
       next: (chunk: string) => {
         this.loaderService.endLoading();
-        this.chatResponse = this.chatResponse + ' ' + chunk;
+        this.chatResponse = this.chatResponse + chunk;
       },
 
       // Error State
