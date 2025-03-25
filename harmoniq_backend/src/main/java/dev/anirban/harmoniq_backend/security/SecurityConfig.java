@@ -65,7 +65,7 @@ public class SecurityConfig {
                                 .requestMatchers("/avatars/**").permitAll()
 
                                 // Chatbot Endpoints
-                                .requestMatchers(HttpMethod.POST, UrlConstants.PROMPT_CHATBOT_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                                .requestMatchers(HttpMethod.POST, UrlConstants.PROMPT_CHATBOT_ENDPOINT).permitAll()
 
                                 // For any other or all requests
                                 .anyRequest().authenticated()
