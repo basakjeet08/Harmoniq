@@ -1,5 +1,7 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { LoaderService } from 'src/app/shared/components/loader/loader.service';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadService } from 'src/app/shared/services/thread.service';
 
 @Component({
@@ -11,33 +13,37 @@ export class AddComponent {
   // These are the details inputted by the user
   userInput = { description: '' };
 
-  // These are the loading and error states
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
-
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
+    private toastService: ToastService,
+    private loaderService: LoaderService,
     private location: Location
   ) {}
 
   // This function is invoked when the user clicks on the post thread button
   onPostClick() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the API
     this.threadService.create(this.userInput).subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Thread created successfully !!',
+        });
+
         this.location.back();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }
@@ -45,10 +51,5 @@ export class AddComponent {
   // This function is invoked when the user clicks on cancel button
   onCancelClick() {
     this.location.back();
-  }
-
-  // This function is invoked when the user clicks on the cancel error button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

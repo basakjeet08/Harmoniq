@@ -9,6 +9,7 @@ export class ThreadCardComponent {
   // These are the various inputs and outputs to the component
   @Input('creatorName') creatorName: string = '';
   @Input('creatorRole') creatorRole: string = '';
+  @Input('creatorAvatar') creatorAvatar: string = '';
   @Input('description') description: string = '';
   @Input('tagList') tagList: string[] = [];
   @Input('isHoverEffect') isHoverEffect: boolean = true;

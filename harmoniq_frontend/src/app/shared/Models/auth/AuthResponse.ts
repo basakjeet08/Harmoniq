@@ -1,4 +1,4 @@
-import { Roles } from "../user/Roles";
+import { Roles } from '../user/Roles';
 
 export class AuthResponse {
   constructor(
@@ -6,6 +6,7 @@ export class AuthResponse {
     readonly name: string,
     readonly email: string,
     readonly role: Roles,
+    readonly avatar: string,
 
     readonly token: string,
     readonly refreshToken: string

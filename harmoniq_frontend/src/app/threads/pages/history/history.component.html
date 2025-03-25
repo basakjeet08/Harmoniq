@@ -1,28 +1,23 @@
-<h3 class="align-start">Your Thread History Page . . .</h3>
-
-<!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
+<h2 class="align-start">Your Thread History Page . . .</h2>
 
 <!-- This is the History Thread list container -->
-<div class="col-container w-full" *ngIf="!isLoading && !errorMessage">
+<div class="w-full col-container g-16">
   <!-- Each Thread Component -->
-  <div class="col-container center w-full" *ngFor="let thread of threadList">
+  <div
+    class="w-full col-container items-center g-16"
+    *ngFor="let thread of threadList"
+  >
     <!-- Thread Card Content -->
     <app-thread-card
-      [creatorName]="createdByUser?.name || 'Invalid Name'"
-      [creatorRole]="createdByUser?.role || 'Invalid Role'"
+      *ngIf="createdByUser"
+      [creatorName]="createdByUser.name"
+      [creatorRole]="createdByUser.role"
+      [creatorAvatar]="createdByUser.avatar"
       [description]="thread.description"
       [tagList]="['Depression', 'Mental Trauma', 'Stress']"
       [showDelete]="true"
-      (onThreadClick)="onThreadCardClick(thread.id)"
       (onDeleteClick)="onDeleteThreadClick(thread.id)"
+      [isHoverEffect]="false"
     />
 
     <!-- Horizontal Divider -->

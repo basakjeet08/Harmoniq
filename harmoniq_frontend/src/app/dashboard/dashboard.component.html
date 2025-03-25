@@ -5,7 +5,7 @@
     <button
       routerLink="chatbot"
       routerLinkActive="active"
-      class="navigation-btn"
+      class="btn navigation-btn"
     >
       Chat Bot
     </button>
@@ -16,7 +16,7 @@
     <button
       routerLink="threads"
       routerLinkActive="active"
-      class="navigation-btn"
+      class="btn navigation-btn"
     >
       Threads
     </button>
@@ -24,8 +24,8 @@
 </app-header>
 
 <!-- Child Routes of this Module -->
-<main>
-  <div class="outer-container">
+<main class="flex-1 row-container justify-center">
+  <div class="outer-container row-container justify-center">
     <router-outlet />
   </div>
 </main>

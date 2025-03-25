@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { LoaderService } from 'src/app/shared/components/loader/loader.service';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -11,36 +12,37 @@ export class LoginComponent {
   // These are the details inputted by the user
   userInput = { email: '', password: '' };
 
-  // Loading and Error States
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
+  // These are the event emitters which will notify the parent about the api state
+  @Output('onSuccess') successEmitter = new EventEmitter<void>();
 
   // Injecting the necessary dependencies
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
+    private loaderService: LoaderService,
+    private toastService: ToastService
   ) {}
 
   // This function is invoked when the user clicks the login button
   onLoginClick() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the API
     this.authService.login(this.userInput).subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
-
-        // Redirecting to the dashboard page
-        this.navigateToDashboard();
+        this.loaderService.endLoading();
+        this.toastService.showToast({
+          type: 'success',
+          message: 'User logged in successfully !!',
+        });
+        this.successEmitter.emit();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }
@@ -48,38 +50,25 @@ export class LoginComponent {
   // This function is invoked when the user clicks on login as Guest Button
   onLoginAsGuestClick() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the API
     this.authService.loginAsGuest().subscribe({
       // Success State
       next: () => {
-        this.isLoading = false;
-
-        // Redirect to the dashboard page
-        this.navigateToDashboard();
+        this.loaderService.endLoading();
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Guest user created successfully !!',
+        });
+        this.successEmitter.emit();
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
-  }
-
-  // This function navigates to the dashboard page
-  navigateToDashboard() {
-    this.router.navigate(['../../', 'dashboard'], { relativeTo: this.route });
-  }
-
-  // This function is invoked when the user clicks on the go to Register button
-  onGoToRegisterClick() {
-    this.router.navigate(['../', 'register'], { relativeTo: this.route });
-  }
-
-  // This function is invoked when the user clicks on the cancel Error Button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

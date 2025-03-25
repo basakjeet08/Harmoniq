@@ -1,11 +1,29 @@
-.p-40 {
-  padding: 40px;
+.h-full {
+  height: 100%;
 }
 
-.g-24 {
-  gap: 24px;
+.input-group-container {
+  border: 2px solid var(--surface-variant);
+  border-radius: var(--border-radius);
 }
 
-.flex {
+.input-group-container:focus-within {
+  border: 2px solid var(--primary);
+}
+
+.input-group-container:has(.ng-invalid.ng-touched) {
+  border: 1px dashed var(--error);
+}
+
+svg {
+  width: 16px;
+  height: 16px;
+
+  margin-left: 12px;
+  fill: var(--primary);
+}
+
+.input-group-container > input {
   flex: 1;
+  border: none;
 }

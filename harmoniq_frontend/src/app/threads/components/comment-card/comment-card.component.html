@@ -3,22 +3,23 @@
   <div class="vertical-line"></div>
 </div>
 
-<div class="comment-card card-container col-container w-full">
-  <div class="row-container">
+<div class="w-full comment-card card-container col-container p-16 g-16">
+  <div class="row-container items-center g-8">
     <!-- Profile Pic -->
-    <img
-      class="profile-image"
-      src="https://plus.unsplash.com/premium_vector-1722702997995-266ee207b17e?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      alt="Profile Image"
-    />
+    <img class="profile-image" [src]="creatorAvatar" alt="Profile Image" />
 
     <!-- Name and Account Type -->
     <div>
-      <p class="comment-title">{{ creatorName }}</p>
-      <p class="comment-title">{{ creatorRole | titlecase }}</p>
+      <p class="primary-text body-text">{{ creatorName }}</p>
+      <small
+        class="secondary-text caption-text"
+        [ngClass]="{ 'error-text': creatorRole === 'MODERATOR' }"
+      >
+        {{ creatorRole | titlecase }}
+      </small>
     </div>
   </div>
 
   <!-- Comment Content -->
-  <p class="comment-description">{{ comment }}</p>
+  <p class="body-text muted-text">{{ comment }}</p>
 </div>
