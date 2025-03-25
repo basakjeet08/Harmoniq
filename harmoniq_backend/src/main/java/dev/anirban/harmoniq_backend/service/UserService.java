@@ -19,6 +19,8 @@ public class UserService {
 
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
+    private final RandomNameService randomNameService;
+    private final AvatarService avatarService;
 
     // This function creates a Member account
     public User create(AuthRequest authRequest) {
@@ -26,10 +28,11 @@ public class UserService {
         // Creating a user object
         User user = User
                 .builder()
-                .name("Random Anonymous Name")
+                .name(randomNameService.generateRandomName())
                 .email(authRequest.getEmail())
                 .password(encoder.encode(authRequest.getPassword()))
                 .role(User.Type.MEMBER)
+                .avatar(avatarService.generateAvatar())
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -44,10 +47,11 @@ public class UserService {
         // Creating a user object
         User user = User
                 .builder()
-                .name("Guest User Random Name")
+                .name(randomNameService.generateRandomName())
                 .email(guestId)
                 .password(encoder.encode("Guest Password"))
                 .role(User.Type.GUEST)
+                .avatar(avatarService.generateAvatar())
                 .createdAt(LocalDateTime.now())
                 .build();
 
