@@ -11,7 +11,7 @@ import { ChatbotService } from '../shared/services/chatbot.service';
 export class ChatbotComponent {
   // This is the data for the components
   messages: string[] = [];
-  chatResponse: string = '';
+  currentResponse: string = '';
 
   // Getting the Input component
   @ViewChild(InputComponent) input!: InputComponent;
@@ -22,6 +22,14 @@ export class ChatbotComponent {
     private loaderService: LoaderService
   ) {}
 
+  // This function updates the message array with chat bot responses
+  updateMessage() {
+    if (this.currentResponse) {
+      this.messages.push(this.currentResponse);
+      this.currentResponse = '';
+    }
+  }
+
   // This function sends the prompt to the service layer
   onGenerateClick(prompt: string) {
     // Setting the loading state
@@ -31,25 +39,29 @@ export class ChatbotComponent {
     this.messages.push(prompt);
     this.input.resetComponent();
 
-    // let chatResponse: string = '';
+    // Calling the API
     this.chatbotService.generateResponse(prompt).subscribe({
       // Success State
       next: (chunk: string) => {
         this.loaderService.endLoading();
-        this.chatResponse = this.chatResponse + chunk;
+        this.currentResponse = this.currentResponse + chunk;
       },
 
       // Error State
       error: (error: Error) => {
+        // Storing the chat response if any proper response is generated before the error
         this.loaderService.endLoading();
-        if (this.chatResponse) this.messages.push(this.chatResponse);
-        this.messages.push(error.message);
+        this.updateMessage();
+
+        // Storing the error as a new Response
+        this.currentResponse = error.message;
+        this.updateMessage();
       },
 
       // Complete State
       complete: () => {
         this.loaderService.endLoading();
-        if (this.chatResponse) this.messages.push(this.chatResponse);
+        this.updateMessage();
       },
     });
   }
