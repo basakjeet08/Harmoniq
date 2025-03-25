@@ -1,27 +1,19 @@
-<!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
-
 <!-- Main Component -->
-<div class="col-container w-full" *ngIf="!isLoading && !errorMessage">
+<div class="w-full col-container g-16">
   <!-- Thread Card Component-->
   <app-thread-card
-    [creatorName]="threadDetail?.createdBy?.name || 'Invalid name'"
-    [creatorRole]="threadDetail?.createdBy?.role || 'Invalid Role'"
-    [description]="threadDetail?.description || 'No Description'"
+    *ngIf="threadDetail"
+    [creatorName]="threadDetail.createdBy.name"
+    [creatorRole]="threadDetail.createdBy.role"
+    [creatorAvatar]="threadDetail.createdBy.avatar"
+    [description]="threadDetail.description"
     [tagList]="['Depression', 'Mental Trauma', 'Stress']"
     [isHoverEffect]="false"
   />
 
   <!-- Comment Input Component -->
   <app-input
-    *ngIf="!isGuest"
+    *ngIf="!isGuest && threadDetail"
     [placeholder]="'Add a Comment'"
     [buttonText]="'Add a Comment'"
     [type]="'text'"
@@ -35,6 +27,7 @@
       <app-comment-card
         [creatorName]="comment.createdBy.name"
         [creatorRole]="comment.createdBy.role"
+        [creatorAvatar]="comment.createdBy.avatar"
         [comment]="comment.content"
       />
     </div>

@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class InputComponent {
   // Inputs Provided by the parent component
+  @Input('disabled') disabled: boolean = false;
   @Input('placeholder') placeholder: string = 'Enter the Input';
   @Input('buttonText') buttonText: string = 'Submit';
   @Input('type') type: string = 'text';
@@ -20,5 +21,10 @@ export class InputComponent {
   // This function is invoked when the user clicks the input button
   onButtonClick() {
     this.buttonEvent.emit(this.userInput);
+  }
+
+  // This function is invoked when the user wants to reset the Component
+  resetComponent() {
+    this.userInput = '';
   }
 }

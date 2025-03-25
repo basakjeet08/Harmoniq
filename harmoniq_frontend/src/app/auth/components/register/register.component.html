@@ -1,72 +1,94 @@
-<!-- Loading State -->
-<app-loader *ngIf="isLoading" [isLoading]="isLoading" />
-
-<!-- Error State -->
-<app-error-card
-  *ngIf="errorMessage"
-  [errorMessage]="errorMessage"
-  (onCancelClick)="onErrorCancelClick()"
-/>
-
 <!-- Idle State -->
 <form
-  *ngIf="!isLoading && !errorMessage"
-  class="card-container col-container p-40 g-24"
+  class="col-container g-24 h-full justify-center"
   #formContainer="ngForm"
   (ngSubmit)="onRegisterClick()"
 >
   <h3>Register as Member</h3>
 
-  <!-- Email input container -->
-  <div class="col-container">
-    <input
-      type="email"
-      name="email"
-      placeholder="Enter Email"
-      required
-      email
-      [(ngModel)]="userInput.email"
-      #email="ngModel"
-    />
+  <!-- Email input container with SVG -->
+  <div class="col-container g-8">
+    <div class="row-container input-group-container g-8 items-center">
+      <!-- Email Svg -->
+      <svg viewBox="0 0 512 512">
+        <path
+          d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"
+        />
+      </svg>
+
+      <!-- Email Input -->
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your Email"
+        required
+        email
+        [(ngModel)]="userInput.email"
+        #email="ngModel"
+      />
+    </div>
 
     <!-- Error text for Email input -->
-    <p class="error-text" *ngIf="!email.valid && email.touched">
+    <p class="error-text caption-text" *ngIf="!email.valid && email.touched">
       Please enter the Email
     </p>
   </div>
 
-  <!-- Password Container -->
-  <div class="col-container">
-    <input
-      type="password"
-      name="password"
-      placeholder="Enter Password"
-      required
-      minlength="5"
-      [(ngModel)]="userInput.password"
-      #password="ngModel"
-    />
+  <!-- Password Container with SVG-->
+  <div class="col-container g-8">
+    <div class="row-container input-group-container g-8 items-center">
+      <!-- Svg Component -->
+      <svg viewBox="0 0 448 512">
+        <path
+          d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"
+        />
+      </svg>
+
+      <!-- Password Input -->
+      <input
+        type="password"
+        name="password"
+        placeholder="Set a Password"
+        required
+        minlength="5"
+        [(ngModel)]="userInput.password"
+        #password="ngModel"
+      />
+    </div>
 
     <!-- Error text for password input -->
-    <p class="error-text" *ngIf="password.touched && password.invalid">
+    <p
+      class="error-text caption-text"
+      *ngIf="password.touched && password.invalid"
+    >
       Please enter the Password of length < 5
     </p>
   </div>
 
   <!-- Confirm Password Container -->
-  <div class="col-container">
-    <input
-      type="password"
-      name="confirmPassword"
-      placeholder="Confirm Password"
-      required
-      [(ngModel)]="userInput.confirmPassword"
-      #confirmPassword="ngModel"
-    />
+  <div class="col-container g-8">
+    <div class="row-container input-group-container g-8 items-center">
+      <!-- Svg Component -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path
+          d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"
+        />
+      </svg>
+
+      <!-- Confirm Password Input -->
+      <input
+        type="password"
+        name="confirmPassword"
+        placeholder="Re - enter the Password"
+        required
+        [(ngModel)]="userInput.confirmPassword"
+        #confirmPassword="ngModel"
+      />
+    </div>
 
     <!-- Error Text for Confirm Password Container -->
     <p
-      class="error-text"
+      class="error-text caption-text"
       *ngIf="
         confirmPassword.touched &&
         (confirmPassword.value !== password.value || confirmPassword.invalid)
@@ -77,28 +99,29 @@
   </div>
 
   <!-- Anonymous User Text Declaration -->
-  <p class="small-text">
-    Names and profile pics will be <span class="highlight">Anonymous.</span>
-  </p>
+  <div class="row-container g-8 items-center">
+    <!-- Info Svg -->
+    <svg viewBox="0 0 512 512" class="info-svg">
+      <path
+        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
+      />
+    </svg>
 
-  <!-- Container for the buttons -->
-  <div class="row-container w-full">
-    <button
-      class="flex"
-      type="submit"
-      [disabled]="
-        formContainer.invalid || password.value !== confirmPassword.value
-      "
-    >
-      Register User
-    </button>
-
-    <button
-      type="button"
-      class="destructive-btn flex"
-      (click)="onGoToLoginClick()"
-    >
-      Go to Login Page
-    </button>
+    <!-- Caption Text-->
+    <p class="caption-text">
+      Names, Avatars and profile pics will all be
+      <span class="primary-text">Anonymous.</span>
+    </p>
   </div>
+
+  <!-- Register Button -->
+  <button
+    class="flex-1 btn btn-primary"
+    type="submit"
+    [disabled]="
+      formContainer.invalid || password.value !== confirmPassword.value
+    "
+  >
+    Register User
+  </button>
 </form>

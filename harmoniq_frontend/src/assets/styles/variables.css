@@ -1,0 +1,34 @@
+/* Basic Utility Variables */
+:root {
+  /* Main Website Colors */
+  --primary: #6e55ca;
+  --secondary: #3a86c4;
+  --accent: #29942e;
+
+  /* Background and Card colors */
+  --background: #121212;
+  --surface: #1e1e1e;
+  --surface-variant: #282b2e;
+
+  /* Text Colors */
+  --text: #e0e0e0;
+  --text-muted: #a0a0a0;
+
+  /* Different Message Colors */
+  --success: #81c784;
+  --error: #e64646;
+  --warning: #ffca28;
+  --info: #42a3f1;
+
+  /* Rgba Colors of the toasts */
+  --success-rgb: 129, 199, 132;
+  --error-rgb: 230, 70, 70;
+  --warning-rgb: 255, 202, 40;
+  --info-rgb: 66, 163, 241;
+
+  /* Border Radius Variables */
+  --border-radius: 6px;
+
+  /* Small Padding for Buttons and Inputs */
+  --padding-small: 10px 12px;
+}

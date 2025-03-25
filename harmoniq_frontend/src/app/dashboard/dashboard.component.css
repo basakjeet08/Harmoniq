@@ -7,31 +7,19 @@
 
   display: flex;
   flex-direction: column;
-
-  background-color: var(--background--color);
-  color: var(--on--background--color);
 }
 
 .navigation-btn {
   background-color: transparent;
-  border: 1px solid var(--card--variant--color);
+  color: var(--text);
+  border: 2px solid var(--surface-variant);
 }
 
 .navigation-btn:hover,
 .active {
-  background-color: var(--card--variant--color);
-}
-
-main {
-  flex: 1;
-
-  display: flex;
-  justify-content: center;
+  background-color: var(--surface-variant);
 }
 
 .outer-container {
   width: 100%;
-
-  display: flex;
-  justify-content: center;
 }

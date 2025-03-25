@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoaderService } from 'src/app/shared/components/loader/loader.service';
+import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadDto } from 'src/app/shared/Models/thread/ThreadDto';
 import { ThreadService } from 'src/app/shared/services/thread.service';
 
@@ -12,13 +14,11 @@ export class FeedComponent implements OnInit {
   // This is the thread list for the component
   threadList: ThreadDto[] = [];
 
-  // These are the loading and error state variables
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
-
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
+    private toastService: ToastService,
+    private loaderService: LoaderService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -31,25 +31,33 @@ export class FeedComponent implements OnInit {
   // This function fetches the feed data from the API
   fetchThreadData() {
     // Setting the loading state
-    this.isLoading = true;
+    this.loaderService.startLoading();
 
     // Calling the fetching API
     this.threadService.findAll().subscribe({
       // Success State
       next: (threadList: ThreadDto[]) => {
-        this.isLoading = false;
+        this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Threads fetched Successfully !!',
+        });
+
         this.threadList = threadList;
 
         if (this.threadList.length === 0) {
-          this.errorMessage = `There are no Threads Posted yet. Head over to the
-          Post a Thread section to post the first Thread !!`;
+          this.toastService.showToast({
+            type: 'info',
+            message: `There are no Threads Posted yet. Head over to the post a thread section to post your first Thread !!`,
+          });
         }
       },
 
       // Error State
       error: (error: Error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
   }
@@ -62,10 +70,5 @@ export class FeedComponent implements OnInit {
   // This function is executed when the user clicks on any of the card for Thread
   onThreadCardClick(id: string) {
     this.router.navigate(['../', 'details', id], { relativeTo: this.route });
-  }
-
-  // This function is invoked when the user clicks on the cancel Error Button
-  onErrorCancelClick() {
-    this.errorMessage = null;
   }
 }

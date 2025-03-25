@@ -8,17 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 // These are the routes for the Auth Components
-const authRoutes: Routes = [
-  {
-    path: '',
-    component: AuthComponent,
-    children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-    ],
-  },
-];
+const authRoutes: Routes = [{ path: '', component: AuthComponent }];
 
 @NgModule({
   declarations: [AuthComponent, LoginComponent, RegisterComponent],

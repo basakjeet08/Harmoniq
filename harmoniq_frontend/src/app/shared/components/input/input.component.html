@@ -1,13 +1,19 @@
 <!-- Input Container Box -->
-<div class="input-container row-container">
+<div class="input-container row-container p-8">
   <!-- This is the input field -->
   <input
-    class="input-element"
+    class="input-element flex-1"
     [type]="type"
     [placeholder]="placeholder"
     [(ngModel)]="userInput"
   />
 
   <!-- This is the submit button -->
-  <button (click)="onButtonClick()">{{ buttonText }}</button>
+  <button
+    class="btn btn-primary"
+    [disabled]="!userInput || disabled"
+    (click)="onButtonClick()"
+  >
+    {{ buttonText }}
+  </button>
 </div>

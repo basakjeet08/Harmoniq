@@ -9,5 +9,6 @@ export class CommentCardComponent {
   // Input Fields which will be passed by the parent component
   @Input('creatorName') creatorName: string = '';
   @Input('creatorRole') creatorRole: string = '';
+  @Input('creatorAvatar') creatorAvatar: string = '';
   @Input('comment') comment: string = '';
 }
