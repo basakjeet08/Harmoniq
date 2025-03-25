@@ -35,9 +35,15 @@ export class ChatbotService implements ChatbotInterface {
         },
         body: JSON.stringify({ prompt }),
       })
-        .then((response) => {
+        .then(async (response) => {
+          if (!response.ok) {
+            throw new Error("Can't Generate right now. Please retry again !!");
+          }
+
+          return response.body?.getReader();
+        })
+        .then((reader) => {
           // Getting the Stream Reader and text decoder
-          const reader = response.body?.getReader();
           const decoder = new TextDecoder();
 
           // Reading and processing the first received stream data
@@ -52,8 +58,7 @@ export class ChatbotService implements ChatbotInterface {
             const eventData = chunk
               .split('\n')
               .find((line) => line.startsWith('data:'))
-              ?.replace('data:', '')
-              .trim();
+              ?.replace('data:', '');
 
             // Streaming the next data for the components
             if (eventData) {
