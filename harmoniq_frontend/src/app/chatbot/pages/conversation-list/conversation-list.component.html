@@ -1,0 +1,15 @@
+<!-- <app-input class="w-50" (onButtonClick)="onCreateConversationClick()" /> -->
+
+<!-- These are the conversation cards for each conversation -->
+<div
+  class="card-container row-container p-16 g-16 w-50 space items-center"
+  *ngFor="let conversation of conversationList"
+>
+  <!-- This is the Conversation Title  -->
+  {{ conversation.title }}
+
+  <!-- This is the button to open this conversation -->
+  <button class="btn btn-accent" (click)="onOpenClick(conversation.id)">
+    Open
+  </button>
+</div>
