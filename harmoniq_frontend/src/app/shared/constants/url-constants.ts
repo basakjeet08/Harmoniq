@@ -15,3 +15,8 @@ export const DELETE_THREAD_BY_ID_ENDPOINT = `${BASE_URL}/threads/:id`;
 
 // Comment Endpoints
 export const CREATE_COMMENT_ENDPOINT = `${BASE_URL}/threads/:threadId/comments`;
+
+// Conversation Endpoints
+export const CREATE_CONVERSATION_ENDPOINT = `${BASE_URL}/conversations`;
+export const FETCH_USER_CONVERSATIONS = `${BASE_URL}/conversations`;
+export const SEND_MESSAGE = `${BASE_URL}/conversations/:id/messages`;

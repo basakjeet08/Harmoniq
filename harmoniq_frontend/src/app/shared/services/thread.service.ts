@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiErrorHandlerService } from './api-error-handler.service';
-import { AuthService } from './auth.service';
 import { ThreadInterface } from '../interfaces/ThreadInterface';
 import { catchError, map, Observable } from 'rxjs';
 import { ThreadDetailResponse } from '../Models/thread/ThreadDetailResponse';

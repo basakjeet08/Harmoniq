@@ -1,7 +1,7 @@
 import { ApiErrorHandlerService } from './api-error-handler.service';
 import { Injectable } from '@angular/core';
 import { ProfileService } from './profile.service';
-import { BASE_URL } from '../constants/url-constants';
+import { SEND_MESSAGE } from '../constants/url-constants';
 import { ChatbotInterface } from '../interfaces/ChatbotInterface';
 import { catchError, Observable } from 'rxjs';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
@@ -28,7 +28,7 @@ export class ChatbotService implements ChatbotInterface {
   // This function calls the api to generate a chatbot response
   generateResponse(prompt: string): Observable<string> {
     return new Observable<string>((observer) => {
-      fetch(`${BASE_URL}/chatbot`, {
+      fetch(SEND_MESSAGE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
