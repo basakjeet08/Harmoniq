@@ -1,7 +1,9 @@
 package dev.anirban.harmoniq_backend.entity;
 
+import dev.anirban.harmoniq_backend.dto.chat.ConversationDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 public class Conversation {
 
     @Id
-//    @UuidGenerator
+    @UuidGenerator
     @Column(name = "id")
     private String id;
 
@@ -35,4 +37,12 @@ public class Conversation {
     )
     @OrderBy("createdAt ASC")
     private List<ChatMessage> chatMessageList;
+
+    public ConversationDto toConversationDto() {
+        return ConversationDto
+                .builder()
+                .id(id)
+                .createdBy(createdBy.toUserDto())
+                .build();
+    }
 }

@@ -48,4 +48,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(response);
     }
+
+    // Handle Conversation not found exception
+    @ExceptionHandler(ConversationNotFound.class)
+    public ResponseEntity<ResponseWrapper<Void>> handleConversationNotFoundException(ConversationNotFound exception) {
+        ResponseWrapper<Void> response = new ResponseWrapper<>(exception.getMessage(), null);
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
 }

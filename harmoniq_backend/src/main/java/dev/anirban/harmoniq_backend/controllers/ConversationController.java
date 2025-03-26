@@ -1,0 +1,48 @@
+package dev.anirban.harmoniq_backend.controllers;
+
+import dev.anirban.harmoniq_backend.constants.UrlConstants;
+import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
+import dev.anirban.harmoniq_backend.dto.chat.ConversationDto;
+import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
+import dev.anirban.harmoniq_backend.service.ChatbotService;
+import dev.anirban.harmoniq_backend.service.ConversationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+
+
+@RestController
+@RequiredArgsConstructor
+public class ConversationController {
+    // this class contains the business logic for the conversation
+    private final ConversationService conversationService;
+    private final ChatbotService chatbotService;
+
+    // This creates a conversation window in the database
+    @PostMapping(UrlConstants.CREATE_CONVERSATION_ENDPOINT)
+    public ResponseWrapper<ConversationDto> handleCreateConversationRequest(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        ConversationDto conversationDto = conversationService
+                .create(userDetails)
+                .toConversationDto();
+
+        return new ResponseWrapper<>("Conversation Window Created Successfully !!", conversationDto);
+    }
+
+
+    @PostMapping(value = UrlConstants.PROMPT_CHATBOT_ENDPOINT, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ResponseWrapper<String>> handleIncomingMessageRequest(
+            @RequestBody ChatbotRequest chatbotRequest,
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION) String authHeader,
+            @PathVariable(value = "id") String conversationId
+    ) {
+        return chatbotService
+                .generateResponse(chatbotRequest, authHeader, conversationId)
+                .map(words -> new ResponseWrapper<>("", words));
+    }
+}

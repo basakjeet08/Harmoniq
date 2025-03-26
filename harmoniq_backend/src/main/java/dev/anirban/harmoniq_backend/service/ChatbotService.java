@@ -12,6 +12,8 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
+
 
 @Service
 @RequiredArgsConstructor
@@ -51,12 +53,13 @@ public class ChatbotService {
     }
 
     // This function generate the Chatbot response
-    public Flux<String> generateResponse(ChatbotRequest chatbotRequest, String authHeader) {
+    public Flux<String> generateResponse(ChatbotRequest chatbotRequest, String authHeader, String conversationId) {
         // Getting the validated User (If he is a valid user)
         validateUser(authHeader);
 
         return chatClient
                 .prompt()
+                .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, conversationId))
                 .user(chatbotRequest.getPrompt())
                 .stream()
                 .content()
