@@ -55,12 +55,13 @@ public class ConversationController {
     }
 
     // This function returns the conversation history
-    @GetMapping(UrlConstants.FETCH_CONVERSATION_HISTORY)
+    @GetMapping(UrlConstants.FETCH_CONVERSATION_HISTORY_ENDPOINT)
     public ResponseWrapper<ConversationHistoryDto> handleConversationHistoryRequest(
-            @PathVariable(value = "id") String conversationId
+            @PathVariable(value = "id") String conversationId,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
         ConversationHistoryDto conversationHistoryDto = conversationService
-                .findById(conversationId)
+                .findById(conversationId, userDetails)
                 .toConversationHistoryDto();
 
         return new ResponseWrapper<>("Conversation History fetched Successfully !!", conversationHistoryDto);
@@ -75,5 +76,14 @@ public class ConversationController {
         return chatbotService
                 .generateResponse(chatbotRequest, authHeader, conversationId)
                 .map(words -> new ResponseWrapper<>("", words));
+    }
+
+    @DeleteMapping(UrlConstants.DELETE_CONVERSATION_ENDPOINT)
+    public ResponseWrapper<Void> handleDeleteConversationRequest(
+            @PathVariable(value = "id") String id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        conversationService.deleteById(id, userDetails);
+        return new ResponseWrapper<>("Deleted the conversation !!", null);
     }
 }
