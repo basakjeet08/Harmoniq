@@ -1,5 +1,6 @@
 package dev.anirban.harmoniq_backend.service;
 
+import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.entity.User;
@@ -25,7 +26,7 @@ public class ConversationService {
     private final UserService userService;
 
     // This function creates a conversation room with the given ID
-    public Conversation create(UserDetails userDetails) {
+    public Conversation create(ConversationRequest conversationRequest, UserDetails userDetails) {
         // Fetching the user account
         User user = userService
                 .findByEmail(userDetails.getUsername())
@@ -34,6 +35,8 @@ public class ConversationService {
         // creating a new Conversation Object
         Conversation conversation = Conversation
                 .builder()
+                .title(conversationRequest.getTitle())
+                .createdAt(LocalDateTime.now())
                 .createdBy(user)
                 .chatMessageList(new ArrayList<>())
                 .build();
@@ -46,6 +49,11 @@ public class ConversationService {
         return conversationRepo
                 .findById(id)
                 .orElseThrow(() -> new ConversationNotFound(id));
+    }
+
+    // This function fetches all the conversations for a particular user
+    public List<Conversation> findByCreatedBy_EmailOrderByCreatedAtDesc(UserDetails userDetails) {
+        return conversationRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
     }
 
     // This function adds the given Messages in the conversation

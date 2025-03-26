@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -21,6 +22,12 @@ public class Conversation {
     @UuidGenerator
     @Column(name = "id")
     private String id;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @ManyToOne(
             cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
@@ -42,6 +49,7 @@ public class Conversation {
         return ConversationDto
                 .builder()
                 .id(id)
+                .title(title)
                 .createdBy(createdBy.toUserDto())
                 .build();
     }

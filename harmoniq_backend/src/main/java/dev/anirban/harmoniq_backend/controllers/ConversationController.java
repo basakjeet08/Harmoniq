@@ -3,7 +3,9 @@ package dev.anirban.harmoniq_backend.controllers;
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationDto;
+import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
+import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.service.ChatbotService;
 import dev.anirban.harmoniq_backend.service.ConversationService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+
+import java.util.List;
 
 
 @RestController
@@ -25,15 +29,29 @@ public class ConversationController {
     // This creates a conversation window in the database
     @PostMapping(UrlConstants.CREATE_CONVERSATION_ENDPOINT)
     public ResponseWrapper<ConversationDto> handleCreateConversationRequest(
+            @RequestBody ConversationRequest conversationRequest,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         ConversationDto conversationDto = conversationService
-                .create(userDetails)
+                .create(conversationRequest, userDetails)
                 .toConversationDto();
 
         return new ResponseWrapper<>("Conversation Window Created Successfully !!", conversationDto);
     }
 
+    // This fetches all the conversations for a certain user
+    @GetMapping(UrlConstants.FETCH_CONVERSATION_BY_USER_ENDPOINTS)
+    public ResponseWrapper<List<ConversationDto>> handleConversationsForCertainUser(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        List<ConversationDto> conversationDto = conversationService
+                .findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails)
+                .stream()
+                .map(Conversation::toConversationDto)
+                .toList();
+
+        return new ResponseWrapper<>("Conversations for the user is fetched successfully!!", conversationDto);
+    }
 
     @PostMapping(value = UrlConstants.PROMPT_CHATBOT_ENDPOINT, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ResponseWrapper<String>> handleIncomingMessageRequest(

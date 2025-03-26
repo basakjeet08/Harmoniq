@@ -23,5 +23,6 @@ public class UrlConstants {
 
     // Conversation Endpoints
     public static final String CREATE_CONVERSATION_ENDPOINT = "/api/conversations";
+    public static final String FETCH_CONVERSATION_BY_USER_ENDPOINTS = "/api/conversations";
     public static final String PROMPT_CHATBOT_ENDPOINT = "/api/conversations/{id}/messages";
 }

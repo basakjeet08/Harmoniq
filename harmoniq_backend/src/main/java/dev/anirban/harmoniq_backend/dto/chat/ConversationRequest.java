@@ -1,6 +1,5 @@
 package dev.anirban.harmoniq_backend.dto.chat;
 
-import dev.anirban.harmoniq_backend.dto.user.UserDto;
 import lombok.*;
 
 @Getter
@@ -8,8 +7,6 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConversationDto {
-    private String id;
+public class ConversationRequest {
     private String title;
-    private UserDto createdBy;
 }
