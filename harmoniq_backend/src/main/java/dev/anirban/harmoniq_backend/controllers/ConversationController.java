@@ -3,6 +3,7 @@ package dev.anirban.harmoniq_backend.controllers;
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationDto;
+import dev.anirban.harmoniq_backend.dto.chat.ConversationHistoryDto;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.entity.Conversation;
@@ -51,6 +52,18 @@ public class ConversationController {
                 .toList();
 
         return new ResponseWrapper<>("Conversations for the user is fetched successfully!!", conversationDto);
+    }
+
+    // This function returns the conversation history
+    @GetMapping(UrlConstants.FETCH_CONVERSATION_HISTORY)
+    public ResponseWrapper<ConversationHistoryDto> handleConversationHistoryRequest(
+            @PathVariable(value = "id") String conversationId
+    ) {
+        ConversationHistoryDto conversationHistoryDto = conversationService
+                .findById(conversationId)
+                .toConversationHistoryDto();
+
+        return new ResponseWrapper<>("Conversation History fetched Successfully !!", conversationHistoryDto);
     }
 
     @PostMapping(value = UrlConstants.PROMPT_CHATBOT_ENDPOINT, produces = MediaType.TEXT_EVENT_STREAM_VALUE)

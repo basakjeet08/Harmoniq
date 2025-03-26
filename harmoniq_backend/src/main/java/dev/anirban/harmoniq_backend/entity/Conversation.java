@@ -1,6 +1,7 @@
 package dev.anirban.harmoniq_backend.entity;
 
 import dev.anirban.harmoniq_backend.dto.chat.ConversationDto;
+import dev.anirban.harmoniq_backend.dto.chat.ConversationHistoryDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -51,6 +52,19 @@ public class Conversation {
                 .id(id)
                 .title(title)
                 .createdBy(createdBy.toUserDto())
+                .build();
+    }
+
+    public ConversationHistoryDto toConversationHistoryDto() {
+        return ConversationHistoryDto
+                .builder()
+                .id(id)
+                .title(title)
+                .chatMessageList(chatMessageList
+                        .stream()
+                        .map(ChatMessage::toChatMessageDto)
+                        .toList()
+                )
                 .build();
     }
 }

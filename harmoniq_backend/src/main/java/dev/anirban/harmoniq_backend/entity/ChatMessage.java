@@ -1,5 +1,6 @@
 package dev.anirban.harmoniq_backend.entity;
 
+import dev.anirban.harmoniq_backend.dto.chat.ChatMessageDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -45,5 +46,15 @@ public class ChatMessage implements Message {
     @Override
     public Map<String, Object> getMetadata() {
         return Map.of();
+    }
+
+    public ChatMessageDto toChatMessageDto() {
+        return ChatMessageDto
+                .builder()
+                .id(id)
+                .text(text)
+                .messageType(messageType)
+                .createdAt(createdAt)
+                .build();
     }
 }
