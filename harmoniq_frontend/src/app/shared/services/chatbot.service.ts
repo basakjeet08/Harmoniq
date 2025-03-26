@@ -1,16 +1,17 @@
 import { ApiErrorHandlerService } from './api-error-handler.service';
 import { Injectable } from '@angular/core';
 import { ProfileService } from './profile.service';
-import { BASE_URL } from '../constants/url-constants';
+import { SEND_MESSAGE } from '../constants/url-constants';
 import { ChatbotInterface } from '../interfaces/ChatbotInterface';
 import { catchError, Observable } from 'rxjs';
+import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotService implements ChatbotInterface {
   // Storing the urls
   private token: string;
 
-  // Injectiong the necessary dependencies
+  // Injecting the necessary dependencies
   constructor(
     profileService: ProfileService,
     private apiErrorHandlerService: ApiErrorHandlerService
@@ -25,9 +26,9 @@ export class ChatbotService implements ChatbotInterface {
   }
 
   // This function calls the api to generate a chatbot response
-  generateResponse(prompt: string): Observable<string> {
+  generateResponse(prompt: string, conversationId: string): Observable<string> {
     return new Observable<string>((observer) => {
-      fetch(`${BASE_URL}/chatbot`, {
+      fetch(SEND_MESSAGE.replace(':id', conversationId), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,6 +46,45 @@ export class ChatbotService implements ChatbotInterface {
         .then((reader) => {
           // Getting the Stream Reader and text decoder
           const decoder = new TextDecoder();
+          let buffer = '';
+
+          // This function creates json objects from the buffer
+          const extractJsonObjects = () => {
+            // Json Object storage to store Objects from the buffer
+            let jsonObjects: ResponseWrapper<string>[] = [];
+            let startIndex = buffer.indexOf('{');
+            let endIndex = buffer.indexOf('}');
+
+            // Converting the objects from the string to objects until the buffer has no object left
+            while (
+              startIndex !== -1 &&
+              endIndex !== -1 &&
+              startIndex < endIndex
+            ) {
+              try {
+                // Getting the JSON String for the object
+                let jsonString = buffer.substring(startIndex, endIndex + 1);
+
+                // Converting the JSON String to object and pushing it to the array
+                let jsonData = JSON.parse(
+                  jsonString
+                ) as ResponseWrapper<string>;
+                jsonObjects.push(jsonData);
+
+                // Updating the buffer and removing the processed string
+                buffer = buffer.substring(endIndex + 1);
+
+                // Search for the next JSON object in the buffer
+                startIndex = buffer.indexOf('{');
+                endIndex = buffer.indexOf('}');
+              } catch (error) {
+                console.log(error);
+                break;
+              }
+            }
+
+            return jsonObjects;
+          };
 
           // Reading and processing the first received stream data
           reader?.read().then(function process({ done, value }) {
@@ -54,16 +94,10 @@ export class ChatbotService implements ChatbotInterface {
             }
 
             // Decoding the chunks and then removing the unnecessary prefixes them
-            const chunk = decoder.decode(value, { stream: true });
-            const eventData = chunk
-              .split('\n')
-              .find((line) => line.startsWith('data:'))
-              ?.replace('data:', '');
+            buffer += decoder.decode(value, { stream: true });
 
-            // Streaming the next data for the components
-            if (eventData) {
-              observer.next(eventData);
-            }
+            const jsonObjects = extractJsonObjects();
+            jsonObjects.forEach((jsonData) => observer.next(jsonData.data));
 
             // Reading the next chunk
             reader.read().then(process);

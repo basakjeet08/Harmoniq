@@ -1,0 +1,30 @@
+<div class="w-50 col-container g-24 space">
+  <div class="col-container g-24">
+    <!-- Title Container -->
+    <h2>Chatbot Conversation</h2>
+
+    <!-- Message Cards -->
+    <div
+      *ngFor="let message of messages; let i = index"
+      class="w-70 card-container p-24"
+      [ngClass]="{
+        'align-left': !isUserMessage(message),
+        'align-right': isUserMessage(message)
+      }"
+    >
+      <p class="muted-text body-text">{{ message.text }}</p>
+    </div>
+
+    <!-- Current Chat Response for showing streaming output -->
+    <div class="w-70 card-container p-24 align-left" *ngIf="currentResponse">
+      <p class="muted-text body-text">{{ currentResponse }}</p>
+    </div>
+  </div>
+
+  <!-- User Input -->
+  <app-input
+    placeholder="Enter your Query"
+    buttonText="Generate"
+    (onButtonClick)="onGenerateClick($event)"
+  />
+</div>
