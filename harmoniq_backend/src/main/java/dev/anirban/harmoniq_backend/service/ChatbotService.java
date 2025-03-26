@@ -10,6 +10,10 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
+
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
+
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +23,7 @@ public class ChatbotService {
     private final ChatClient chatClient;
 
     // This function validates the user -> authentication and authorization
-    public User validateUser(String authHeader) {
+    public void validateUser(String authHeader) {
 
         // If no token is passed then we invalidate
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -46,27 +50,20 @@ public class ChatbotService {
         // Checking if the user has the required roles or not
         if (user.getRole() == User.Type.GUEST)
             throw new UnAuthorized();
-
-        return user;
     }
 
     // This function generate the Chatbot response
-    public Flux<String> generateResponse(ChatbotRequest chatbotRequest, String authHeader) {
+    public Flux<String> generateResponse(ChatbotRequest chatbotRequest, String authHeader, String conversationId) {
         // Getting the validated User (If he is a valid user)
-        User user = validateUser(authHeader);
+        validateUser(authHeader);
 
         return chatClient
                 .prompt()
-                .system("You are a psychiatrist who's name is Mr. Cho and you listen to the coming users and " +
-                        "responds to their queries appropriately. Current you are talking to " + user.getName() +
-                        ". Please maintain a good heart and answer more human like showing empathy and feelings.")
+                .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, conversationId))
                 .user(chatbotRequest.getPrompt())
                 .stream()
                 .content()
-//                .bufferTimeout(5, Duration.ofSeconds(2))
-//                .map((word -> String.join("", word)))
-                .doOnComplete(() -> System.out.println("(/) - Streaming completed successfully !!"))
-                .doOnError((error) -> System.out.println("(/) - Error streaming: " + error.getMessage()))
-                .doFinally((signal) -> System.out.println("(/) - Stream ended with signal: " + signal));
+                .bufferTimeout(3, Duration.ofSeconds(1))
+                .map((word -> String.join("", word)));
     }
 }
