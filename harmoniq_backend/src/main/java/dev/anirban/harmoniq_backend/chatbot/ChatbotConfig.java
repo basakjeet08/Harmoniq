@@ -1,8 +1,8 @@
 package dev.anirban.harmoniq_backend.chatbot;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.ai.ollama.api.OllamaModel;
@@ -11,7 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class ChatbotConfig {
+
+    // Injecting the chat messaging service for the chatbot
+    private final CustomChatMemoryImpl customChatMemoryImpl;
 
     @Bean
     OllamaChatModel ollamaChatModel() {
@@ -41,7 +45,7 @@ public class ChatbotConfig {
                         " understood. Ensure responses are professional yet comforting, as if speaking to a real " +
                         "patient in a therapy session."
                 )
-                .defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()))
+                .defaultAdvisors(new MessageChatMemoryAdvisor(customChatMemoryImpl))
                 .build();
     }
 }
