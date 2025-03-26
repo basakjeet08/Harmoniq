@@ -51,10 +51,22 @@ export class ConversationDetailsComponent implements OnInit {
           this.loaderService.endLoading();
           this.messages = conversationHistory.chatMessageList;
 
-          this.toastService.showToast({
-            type: 'success',
-            message: 'Conversation History restored successfully !!',
-          });
+          // Checking if its the user's first time in the conversation window or not
+          if (conversationHistory.chatMessageList.length === 0) {
+            this.toastService.showToast({
+              type: 'info',
+              message:
+                'There was no previous conversation history to load data from',
+            });
+
+            // Generating the first prompt which will get a introduction of the bot and start the conversation
+            this.onGenerateClick('Hello !!');
+          } else {
+            this.toastService.showToast({
+              type: 'success',
+              message: 'Conversation History restored successfully !!',
+            });
+          }
         },
 
         // Error State
