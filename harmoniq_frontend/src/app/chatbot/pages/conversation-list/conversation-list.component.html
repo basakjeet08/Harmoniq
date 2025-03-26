@@ -1,4 +1,10 @@
-<!-- <app-input class="w-50" (onButtonClick)="onCreateConversationClick()" /> -->
+<!-- Input field for Generate New Conversation -->
+<app-input
+  class="w-50"
+  placeholder="Enter the title for a new Conversation"
+  buttonText="Create New"
+  (onButtonClick)="onCreateNewClick($event)"
+/>
 
 <!-- These are the conversation cards for each conversation -->
 <div

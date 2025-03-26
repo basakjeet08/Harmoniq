@@ -54,6 +54,27 @@ export class ConversationListComponent implements OnInit {
     });
   }
 
+  // This function is invoked when the user adds a new Conversation
+  onCreateNewClick(title: string) {
+    // Starting the loading state
+    this.loaderService.startLoading();
+
+    // Calling the API
+    this.conversationService.create({ title }).subscribe({
+      // Success State
+      next: (conversation: ConversationDto) => {
+        this.loaderService.endLoading();
+        this.onOpenClick(conversation.id);
+      },
+
+      // Error State
+      error: (error: Error) => {
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
+      },
+    });
+  }
+
   // This function is invoked when the Open button is clicked
   onOpenClick(conversationId: string) {
     this.router.navigate(['../', 'conversation-details', conversationId], {
