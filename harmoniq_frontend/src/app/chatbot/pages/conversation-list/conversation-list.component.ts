@@ -94,6 +94,30 @@ export class ConversationListComponent implements OnInit {
 
   // This function is invoked when the user clicks no the delete button
   onDeleteClick(conversationId: string) {
-    console.log(conversationId);
+    // Setting the loading state
+    this.loaderService.startLoading();
+
+    // Calling the API
+    this.conversationService.deleteById(conversationId).subscribe({
+      // Success State
+      next: () => {
+        this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Conversation Deleted Successfully !!',
+        });
+
+        this.conversationList = this.conversationList.filter(
+          (conversation) => conversation.id !== conversationId
+        );
+      },
+
+      // Error State
+      error: (error: Error) => {
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
+      },
+    });
   }
 }

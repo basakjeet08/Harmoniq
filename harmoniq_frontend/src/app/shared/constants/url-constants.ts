@@ -21,3 +21,4 @@ export const CREATE_CONVERSATION_ENDPOINT = `${BASE_URL}/conversations`;
 export const FETCH_USER_CONVERSATIONS = `${BASE_URL}/conversations`;
 export const SEND_MESSAGE = `${BASE_URL}/conversations/:id/messages`;
 export const FETCH_CONVERSATION_HISTORY = `${BASE_URL}/conversations/:id/messages`;
+export const DELETE_CONVERSATION_ENDPOINT = `${BASE_URL}/conversations/:id`;

@@ -1,5 +1,6 @@
 import {
   CREATE_CONVERSATION_ENDPOINT,
+  DELETE_CONVERSATION_ENDPOINT,
   FETCH_CONVERSATION_HISTORY,
   FETCH_USER_CONVERSATIONS,
 } from './../constants/url-constants';
@@ -72,6 +73,19 @@ export class ConversationService implements ConversationInterface {
     return this.http
       .get<ResponseWrapper<ConversationHistoryDto>>(
         FETCH_CONVERSATION_HISTORY.replace(':id', id),
+        this.getHeaders()
+      )
+      .pipe(
+        map((response) => response.data),
+        catchError(this.apiErrorHandler.handleApiError)
+      );
+  }
+
+  // This function deletes the given conversation from the database
+  deleteById(id: string): Observable<void> {
+    return this.http
+      .delete<ResponseWrapper<void>>(
+        DELETE_CONVERSATION_ENDPOINT.replace(':id', id),
         this.getHeaders()
       )
       .pipe(
