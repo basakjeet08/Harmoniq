@@ -1,5 +1,6 @@
 import {
   CREATE_CONVERSATION_ENDPOINT,
+  FETCH_CONVERSATION_HISTORY,
   FETCH_USER_CONVERSATIONS,
 } from './../constants/url-constants';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -10,6 +11,7 @@ import { ConversationInterface } from '../interfaces/ConversationInterface';
 import { catchError, map, Observable } from 'rxjs';
 import { ConversationDto } from '../Models/conversation/ConversationDto';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
+import { ConversationHistoryDto } from '../Models/conversation/ConversationHistoryDto';
 
 @Injectable({ providedIn: 'root' })
 export class ConversationService implements ConversationInterface {
@@ -57,6 +59,19 @@ export class ConversationService implements ConversationInterface {
     return this.http
       .get<ResponseWrapper<ConversationDto[]>>(
         FETCH_USER_CONVERSATIONS,
+        this.getHeaders()
+      )
+      .pipe(
+        map((response) => response.data),
+        catchError(this.apiErrorHandler.handleApiError)
+      );
+  }
+
+  // This function fetches the conversation history from the backend
+  findConversationHistory(id: string): Observable<ConversationHistoryDto> {
+    return this.http
+      .get<ResponseWrapper<ConversationHistoryDto>>(
+        FETCH_CONVERSATION_HISTORY.replace(':id', id),
         this.getHeaders()
       )
       .pipe(
