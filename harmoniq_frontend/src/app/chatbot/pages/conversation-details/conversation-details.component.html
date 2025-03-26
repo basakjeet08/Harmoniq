@@ -7,9 +7,12 @@
     <div
       *ngFor="let message of messages; let i = index"
       class="w-70 card-container p-24"
-      [ngClass]="{ 'align-right': i % 2 === 0, 'align-left': i % 2 === 1 }"
+      [ngClass]="{
+        'align-left': !isUserMessage(message),
+        'align-right': isUserMessage(message)
+      }"
     >
-      <p class="muted-text body-text">{{ message }}</p>
+      <p class="muted-text body-text">{{ message.text }}</p>
     </div>
 
     <!-- Current Chat Response for showing streaming output -->

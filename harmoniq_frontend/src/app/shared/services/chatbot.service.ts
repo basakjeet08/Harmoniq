@@ -26,9 +26,9 @@ export class ChatbotService implements ChatbotInterface {
   }
 
   // This function calls the api to generate a chatbot response
-  generateResponse(prompt: string): Observable<string> {
+  generateResponse(prompt: string, conversationId: string): Observable<string> {
     return new Observable<string>((observer) => {
-      fetch(SEND_MESSAGE, {
+      fetch(SEND_MESSAGE.replace(':id', conversationId), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
