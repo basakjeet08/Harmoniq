@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ConversationDto } from 'src/app/shared/Models/conversation/ConversationDto';
@@ -9,6 +10,7 @@ import { ConversationService } from 'src/app/shared/services/conversation.servic
   selector: 'app-conversation-list',
   templateUrl: './conversation-list.component.html',
   styleUrls: ['./conversation-list.component.css'],
+  animations: [staggerAnimation],
 })
 export class ConversationListComponent implements OnInit {
   // These are the data for this component
@@ -40,10 +42,18 @@ export class ConversationListComponent implements OnInit {
         this.loaderService.endLoading();
         this.conversationList = conversationList;
 
-        this.toastService.showToast({
-          type: 'success',
-          message: 'All the Conversations are fetched Successfully !!',
-        });
+        if (this.conversationList.length === 0) {
+          this.toastService.showToast({
+            type: 'info',
+            message: `Conversations fetched successfully but you don't have
+            any conversation. You can create new conversations !!`,
+          });
+        } else {
+          this.toastService.showToast({
+            type: 'success',
+            message: 'All the Conversations are fetched Successfully !!',
+          });
+        }
       },
 
       // Error State
@@ -80,5 +90,10 @@ export class ConversationListComponent implements OnInit {
     this.router.navigate(['../', 'conversation-details', conversationId], {
       relativeTo: this.route,
     });
+  }
+
+  // This function is invoked when the user clicks no the delete button
+  onDeleteClick(conversationId: string) {
+    console.log(conversationId);
   }
 }
