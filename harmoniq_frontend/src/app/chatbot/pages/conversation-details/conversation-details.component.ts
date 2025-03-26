@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
@@ -15,6 +16,7 @@ import { ConversationService } from 'src/app/shared/services/conversation.servic
   selector: 'app-conversation-details',
   templateUrl: './conversation-details.component.html',
   styleUrls: ['./conversation-details.component.css'],
+  animations: [staggerAnimation],
 })
 export class ConversationDetailsComponent implements OnInit {
   // This is the data for the components

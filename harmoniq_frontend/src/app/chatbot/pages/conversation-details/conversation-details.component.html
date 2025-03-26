@@ -1,20 +1,20 @@
 <div class="w-50 col-container g-24 space">
-  <div class="col-container g-24">
+  <div class="col-container g-24" [@staggerAnimation]="messages.length === 0">
     <!-- Message Cards -->
     <div
       *ngFor="let message of messages; let i = index"
       class="w-70 card-container p-24"
       [ngClass]="{
-        'align-left': !isUserMessage(message),
-        'align-right': isUserMessage(message)
+        'generated-text': !isUserMessage(message),
+        'user-text': isUserMessage(message)
       }"
     >
-      <p class="muted-text body-text">{{ message.text }}</p>
+      <p class="body-text">{{ message.text }}</p>
     </div>
 
     <!-- Current Chat Response for showing streaming output -->
     <div class="w-70 card-container p-24 align-left" *ngIf="currentResponse">
-      <p class="muted-text body-text">{{ currentResponse }}</p>
+      <p class="body-text">{{ currentResponse }}</p>
     </div>
   </div>
 

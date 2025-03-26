@@ -22,10 +22,11 @@
   max-width: 70%;
 }
 
-.align-right {
+.user-text {
   align-self: flex-end;
+  background-color: var(--secondary);
 }
 
-.align-left {
+.generated-text {
   align-self: flex-start;
 }
