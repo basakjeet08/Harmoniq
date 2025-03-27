@@ -117,10 +117,7 @@ export class ConversationDetailsComponent implements OnInit {
       .generateResponse(prompt, this.conversationId)
       .subscribe({
         // Success State
-        next: (chunk: string) => {
-          this.loaderService.endLoading();
-          this.currentResponse = this.currentResponse + chunk;
-        },
+        next: (chunk: string) => (this.currentResponse += chunk),
 
         // Error State
         error: (error: Error) => {

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { LoaderService } from '../loader/loader.service';
 
 @Component({
   selector: 'app-input',
@@ -17,6 +18,16 @@ export class InputComponent {
 
   // This is the user input variable
   userInput: string = '';
+
+  // Global Loading State to prevent multiple API Calls
+  loadingState: boolean = false;
+
+  // Injecting the necessary dependencies
+  constructor(private loaderService: LoaderService) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loadingState = state)
+    );
+  }
 
   // This function is invoked when the user clicks the input button
   onButtonClick() {
