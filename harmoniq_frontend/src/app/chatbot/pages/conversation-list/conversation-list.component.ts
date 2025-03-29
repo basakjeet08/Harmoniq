@@ -42,11 +42,10 @@ export class ConversationListComponent implements OnInit {
         this.loaderService.endLoading();
         this.conversationList = conversationList;
 
-        if (this.conversationList.length === 0) {
+        if (conversationList.length === 0) {
           this.toastService.showToast({
             type: 'info',
-            message: `Conversations fetched successfully but you don't have
-            any conversation. You can create new conversations !!`,
+            message: `You don't have any conversation. Create a new conversation and get started with the chatbot !!`,
           });
         } else {
           this.toastService.showToast({

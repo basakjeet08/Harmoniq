@@ -22,11 +22,22 @@
   max-width: 70%;
 }
 
-.user-text {
+.bot-message-container {
+  align-self: flex-start;
+  flex-direction: row-reverse;
+}
+
+.user-message-container {
   align-self: flex-end;
+}
+
+.user-message-card {
   background-color: var(--secondary);
 }
 
-.generated-text {
-  align-self: flex-start;
+.profile-image {
+  height: 40px;
+  width: 40px;
+
+  border-radius: 50%;
 }
