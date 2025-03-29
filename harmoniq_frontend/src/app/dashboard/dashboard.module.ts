@@ -25,6 +25,11 @@ const dashboardRoutes: Routes = [
         loadChildren: () =>
           import('./../threads/threads.module').then((m) => m.ThreadsModule),
       },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('../profile/profile.module').then((m) => m.ProfileModule),
+      },
     ],
   },
 ];

@@ -1,38 +1,40 @@
 <!-- This is the page header -->
-<header class="card-container row-container g-24 p-16 items-center space">
+<header
+  class="card-container row-container g-24 items-center space header-padding"
+>
   <!-- This is the title for the website -->
   <h1>Harmoniq</h1>
 
   <!-- This is the navigation which is passed by the parent component -->
-  <nav>
-    <ul class="row-container items-center g-16 no-list-style">
-      <!-- Link to the chatbot Page -->
-      <li *ngIf="!isGuest">
-        <button
-          routerLink="chatbot"
-          routerLinkActive="active"
-          class="btn navigation-btn"
-        >
-          Chat Bot
-        </button>
-      </li>
+  <nav class="nav-parent">
+    <!-- Profile Pic -->
+    <img
+      class="avatar"
+      [src]="userData.avatar"
+      alt="User Profile Avatar"
+      (click)="toggleProfileClick()"
+    />
 
-      <!-- Link to the threads page -->
-      <li>
-        <button
-          routerLink="threads"
-          routerLinkActive="active"
-          class="btn navigation-btn"
-        >
-          Threads
-        </button>
-      </li>
+    <!-- Inner Navigation Parent Container -->
+    <div
+      *ngIf="isExpanded"
+      class="dropdown-nav-parent card-container col-container p-16 g-16"
+    >
+      <!-- Navigation Options -->
+      <button
+        *ngFor="let option of ['chatbot', 'threads', 'profile']"
+        [routerLink]="option"
+        routerLinkActive="active"
+        class="btn navigation-btn"
+        (click)="toggleProfileClick()"
+      >
+        {{ option | titlecase }}
+      </button>
 
-      <!-- This is the log out button -->
       <button class="btn btn-destructive" (click)="onLogoutClick()">
         Logout
       </button>
-    </ul>
+    </div>
   </nav>
 </header>
 
