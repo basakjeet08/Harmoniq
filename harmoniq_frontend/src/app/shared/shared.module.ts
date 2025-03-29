@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './components/loader/loader.component';
-import { HeaderComponent } from './components/header/header.component';
 import { InputComponent } from './components/input/input.component';
 import { FormsModule } from '@angular/forms';
 import { ToastComponent } from './components/toast/toast.component';
@@ -10,7 +9,6 @@ import { AvatarSelectorComponent } from './components/avatar-selector/avatar-sel
 @NgModule({
   declarations: [
     LoaderComponent,
-    HeaderComponent,
     InputComponent,
     ToastComponent,
     AvatarSelectorComponent,
@@ -18,7 +16,6 @@ import { AvatarSelectorComponent } from './components/avatar-selector/avatar-sel
   imports: [CommonModule, FormsModule],
   exports: [
     LoaderComponent,
-    HeaderComponent,
     InputComponent,
     ToastComponent,
     AvatarSelectorComponent,

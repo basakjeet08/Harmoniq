@@ -1,27 +1,40 @@
 <!-- This is the page header -->
-<app-header>
-  <!-- Link to the chatbot Page -->
-  <li *ngIf="!isGuest">
-    <button
-      routerLink="chatbot"
-      routerLinkActive="active"
-      class="btn navigation-btn"
-    >
-      Chat Bot
-    </button>
-  </li>
+<header class="card-container row-container g-24 p-16 items-center space">
+  <!-- This is the title for the website -->
+  <h1>Harmoniq</h1>
 
-  <!-- Link to the threads page -->
-  <li>
-    <button
-      routerLink="threads"
-      routerLinkActive="active"
-      class="btn navigation-btn"
-    >
-      Threads
-    </button>
-  </li>
-</app-header>
+  <!-- This is the navigation which is passed by the parent component -->
+  <nav>
+    <ul class="row-container items-center g-16 no-list-style">
+      <!-- Link to the chatbot Page -->
+      <li *ngIf="!isGuest">
+        <button
+          routerLink="chatbot"
+          routerLinkActive="active"
+          class="btn navigation-btn"
+        >
+          Chat Bot
+        </button>
+      </li>
+
+      <!-- Link to the threads page -->
+      <li>
+        <button
+          routerLink="threads"
+          routerLinkActive="active"
+          class="btn navigation-btn"
+        >
+          Threads
+        </button>
+      </li>
+
+      <!-- This is the log out button -->
+      <button class="btn btn-destructive" (click)="onLogoutClick()">
+        Logout
+      </button>
+    </ul>
+  </nav>
+</header>
 
 <!-- Child Routes of this Module -->
 <main class="flex-1 row-container justify-center">

@@ -9,6 +9,14 @@
   flex-direction: column;
 }
 
+.space {
+  justify-content: space-between;
+}
+
+.no-list-style {
+  list-style: none;
+}
+
 .navigation-btn {
   background-color: transparent;
   color: var(--text);
