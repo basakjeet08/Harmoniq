@@ -32,11 +32,16 @@ public class UserService {
                 .email(authRequest.getEmail())
                 .password(encoder.encode(authRequest.getPassword()))
                 .role(User.Type.MEMBER)
-                .avatar(avatarService.generateAvatar())
+                .avatar(authRequest.getAvatar())
                 .createdAt(LocalDateTime.now())
                 .build();
 
         return userRepo.save(user);
+    }
+
+    // This function returns the list of avatars to the user
+    public List<String> getAllAvatars() {
+        return avatarService.getAllAvatars();
     }
 
     // This function creates a Guest Account

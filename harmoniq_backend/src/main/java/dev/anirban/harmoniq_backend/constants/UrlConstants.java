@@ -11,6 +11,9 @@ public class UrlConstants {
     public static final String LOGIN_ENDPOINT = "/api/auth/login";
     public static final String LOGIN_AS_GUEST_ENDPOINT = "/api/auth/login/guests";
 
+    // User Endpoints
+    public static final String USER_AVATAR_FETCH_ALL_ENDPOINT = "/api/users/avatars";
+
     // Thread Endpoints
     public static final String CREATE_THREAD_ENDPOINT = "/api/threads";
     public static final String FETCH_ALL_THREADS_ENDPOINT = "/api/threads";
