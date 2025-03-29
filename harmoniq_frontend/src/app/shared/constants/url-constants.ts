@@ -6,6 +6,9 @@ export const REGISTER_ENDPOINT = `${BASE_URL}/auth/register`;
 export const LOGIN_ENDPOINT = `${BASE_URL}/auth/login`;
 export const LOGIN_AS_GUEST = `${BASE_URL}/auth/login/guests`;
 
+// User Endpoints
+export const USER_AVATAR_FETCH_ALL_ENDPOINT = `${BASE_URL}/users/avatars`;
+
 // Threads Endpoints
 export const CREATE_THREAD_ENDPOINT = `${BASE_URL}/threads`;
 export const FETCH_ALL_THREADS_ENDPOINT = `${BASE_URL}/threads`;
