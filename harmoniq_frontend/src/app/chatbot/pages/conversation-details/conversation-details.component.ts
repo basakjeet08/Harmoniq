@@ -21,6 +21,8 @@ import { ConversationService } from 'src/app/shared/services/conversation.servic
 export class ConversationDetailsComponent implements OnInit {
   // This is the data for the components
   messages: ChatMessageDto[] = [];
+  userImage: string = '';
+  chatBotImage: string = '';
   currentResponse: string = '';
   conversationId = '';
 
@@ -52,6 +54,10 @@ export class ConversationDetailsComponent implements OnInit {
         next: (conversationHistory: ConversationHistoryDto) => {
           this.loaderService.endLoading();
           this.messages = conversationHistory.chatMessageList;
+
+          // Setting the user and chatbot images
+          this.userImage = conversationHistory.userDto.avatar;
+          this.chatBotImage = conversationHistory.chatBotImage;
 
           // Checking if its the user's first time in the conversation window or not
           if (conversationHistory.chatMessageList.length === 0) {
