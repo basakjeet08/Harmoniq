@@ -23,10 +23,16 @@ public class AvatarService {
             "/avatars/men/avatar9.avif"
     );
 
+    private static final String CHATBOT_IMAGE = "/avatars/chatbot/chatbot.jpg";
+
     private final Random random = new Random();
 
     public String generateAvatar() {
         String relativePath = AVATARS_MEN.get(random.nextInt(AVATARS_MEN.size()));
         return imageBaseUrl + relativePath;
+    }
+
+    public String getChatbotAvatar() {
+        return imageBaseUrl + CHATBOT_IMAGE;
     }
 }

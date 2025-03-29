@@ -25,6 +25,7 @@ public class ConversationService {
 
     private final ConversationRepository conversationRepo;
     private final UserService userService;
+    private final AvatarService avatarService;
 
     // This function creates a conversation room with the given ID
     public Conversation create(ConversationRequest conversationRequest, UserDetails userDetails) {
@@ -38,6 +39,7 @@ public class ConversationService {
                 .builder()
                 .title(conversationRequest.getTitle())
                 .createdAt(LocalDateTime.now())
+                .chatBotImage(avatarService.getChatbotAvatar())
                 .createdBy(user)
                 .chatMessageList(new ArrayList<>())
                 .build();
