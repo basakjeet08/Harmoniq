@@ -30,6 +30,9 @@ public class Conversation {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "chat_bot_image", nullable = false)
+    private String chatBotImage;
+
     @ManyToOne(
             cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.EAGER
@@ -65,6 +68,8 @@ public class Conversation {
                         .map(ChatMessage::toChatMessageDto)
                         .toList()
                 )
+                .userDto(createdBy.toUserDto())
+                .chatBotImage(chatBotImage)
                 .build();
     }
 }

@@ -67,8 +67,9 @@ public class SecurityConfig {
                                 // Conversation Endpoints
                                 .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_CONVERSATION_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
                                 .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CONVERSATION_BY_USER_ENDPOINTS).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CONVERSATION_HISTORY).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CONVERSATION_HISTORY_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
                                 .requestMatchers(HttpMethod.POST, UrlConstants.PROMPT_CHATBOT_ENDPOINT).permitAll()
+                                .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_CONVERSATION_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
                                 // For any other or all requests
                                 .anyRequest().authenticated()

@@ -8,4 +8,6 @@ export interface ConversationInterface {
   findAllUserConversation(): Observable<ConversationDto[]>;
 
   findConversationHistory(id: string): Observable<ConversationHistoryDto>;
+
+  deleteById(id: string): Observable<void>;
 }

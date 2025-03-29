@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
@@ -15,10 +16,13 @@ import { ConversationService } from 'src/app/shared/services/conversation.servic
   selector: 'app-conversation-details',
   templateUrl: './conversation-details.component.html',
   styleUrls: ['./conversation-details.component.css'],
+  animations: [staggerAnimation],
 })
 export class ConversationDetailsComponent implements OnInit {
   // This is the data for the components
   messages: ChatMessageDto[] = [];
+  userImage: string = '';
+  chatBotImage: string = '';
   currentResponse: string = '';
   conversationId = '';
 
@@ -51,10 +55,19 @@ export class ConversationDetailsComponent implements OnInit {
           this.loaderService.endLoading();
           this.messages = conversationHistory.chatMessageList;
 
-          this.toastService.showToast({
-            type: 'success',
-            message: 'Conversation History restored successfully !!',
-          });
+          // Setting the user and chatbot images
+          this.userImage = conversationHistory.userDto.avatar;
+          this.chatBotImage = conversationHistory.chatBotImage;
+
+          // Checking if its the user's first time in the conversation window or not
+          if (conversationHistory.chatMessageList.length === 0) {
+            this.onGenerateClick('Hello !!');
+          } else {
+            this.toastService.showToast({
+              type: 'success',
+              message: 'Conversation History restored successfully !!',
+            });
+          }
         },
 
         // Error State
@@ -103,10 +116,7 @@ export class ConversationDetailsComponent implements OnInit {
       .generateResponse(prompt, this.conversationId)
       .subscribe({
         // Success State
-        next: (chunk: string) => {
-          this.loaderService.endLoading();
-          this.currentResponse = this.currentResponse + chunk;
-        },
+        next: (chunk: string) => (this.currentResponse += chunk),
 
         // Error State
         error: (error: Error) => {

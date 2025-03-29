@@ -5,6 +5,7 @@ import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ConversationNotFound;
+import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ConversationRepository;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,7 @@ public class ConversationService {
 
     private final ConversationRepository conversationRepo;
     private final UserService userService;
+    private final AvatarService avatarService;
 
     // This function creates a conversation room with the given ID
     public Conversation create(ConversationRequest conversationRequest, UserDetails userDetails) {
@@ -37,6 +39,7 @@ public class ConversationService {
                 .builder()
                 .title(conversationRequest.getTitle())
                 .createdAt(LocalDateTime.now())
+                .chatBotImage(avatarService.getChatbotAvatar())
                 .createdBy(user)
                 .chatMessageList(new ArrayList<>())
                 .build();
@@ -49,6 +52,17 @@ public class ConversationService {
         return conversationRepo
                 .findById(id)
                 .orElseThrow(() -> new ConversationNotFound(id));
+    }
+
+    // This function checks if the user can view the conversation before returning the conversation
+    public Conversation findById(String id, UserDetails userDetails) {
+        Conversation conversation = findById(id);
+
+        // Checking if the user is valid or not
+        if (!conversation.getCreatedBy().getUsername().equals(userDetails.getUsername()))
+            throw new UnAuthorized();
+
+        return conversation;
     }
 
     // This function fetches all the conversations for a particular user
@@ -81,5 +95,16 @@ public class ConversationService {
     // This function clears the conversation with the given id
     public void deleteById(String id) {
         conversationRepo.deleteById(id);
+    }
+
+    // This function clears the conversation after checking if the user is allowed to delete
+    public void deleteById(String id, UserDetails userDetails) {
+        Conversation conversation = findById(id);
+
+        if (!conversation.getCreatedBy().getUsername().equals(userDetails.getUsername())) {
+            throw new UnAuthorized();
+        } else {
+            deleteById(id);
+        }
     }
 }

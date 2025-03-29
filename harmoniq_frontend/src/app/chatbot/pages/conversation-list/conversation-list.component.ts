@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ConversationDto } from 'src/app/shared/Models/conversation/ConversationDto';
@@ -9,6 +10,7 @@ import { ConversationService } from 'src/app/shared/services/conversation.servic
   selector: 'app-conversation-list',
   templateUrl: './conversation-list.component.html',
   styleUrls: ['./conversation-list.component.css'],
+  animations: [staggerAnimation],
 })
 export class ConversationListComponent implements OnInit {
   // These are the data for this component
@@ -40,10 +42,17 @@ export class ConversationListComponent implements OnInit {
         this.loaderService.endLoading();
         this.conversationList = conversationList;
 
-        this.toastService.showToast({
-          type: 'success',
-          message: 'All the Conversations are fetched Successfully !!',
-        });
+        if (conversationList.length === 0) {
+          this.toastService.showToast({
+            type: 'info',
+            message: `You don't have any conversation. Create a new conversation and get started with the chatbot !!`,
+          });
+        } else {
+          this.toastService.showToast({
+            type: 'success',
+            message: 'All the Conversations are fetched Successfully !!',
+          });
+        }
       },
 
       // Error State
@@ -79,6 +88,35 @@ export class ConversationListComponent implements OnInit {
   onOpenClick(conversationId: string) {
     this.router.navigate(['../', 'conversation-details', conversationId], {
       relativeTo: this.route,
+    });
+  }
+
+  // This function is invoked when the user clicks no the delete button
+  onDeleteClick(conversationId: string) {
+    // Setting the loading state
+    this.loaderService.startLoading();
+
+    // Calling the API
+    this.conversationService.deleteById(conversationId).subscribe({
+      // Success State
+      next: () => {
+        this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Conversation Deleted Successfully !!',
+        });
+
+        this.conversationList = this.conversationList.filter(
+          (conversation) => conversation.id !== conversationId
+        );
+      },
+
+      // Error State
+      error: (error: Error) => {
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
+      },
     });
   }
 }

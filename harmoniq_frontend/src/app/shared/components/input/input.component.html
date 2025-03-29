@@ -11,7 +11,7 @@
   <!-- This is the submit button -->
   <button
     class="btn btn-primary"
-    [disabled]="!userInput || disabled"
+    [disabled]="!userInput || disabled || loadingState"
     (click)="onButtonClick()"
   >
     {{ buttonText }}

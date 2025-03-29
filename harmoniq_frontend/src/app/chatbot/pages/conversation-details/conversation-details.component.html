@@ -1,23 +1,42 @@
 <div class="w-50 col-container g-24 space">
-  <div class="col-container g-24">
-    <!-- Title Container -->
-    <h2>Chatbot Conversation</h2>
-
-    <!-- Message Cards -->
+  <div class="col-container g-24" [@staggerAnimation]="messages.length === 0">
+    <!-- Message Card Container -->
     <div
-      *ngFor="let message of messages; let i = index"
-      class="w-70 card-container p-24"
+      *ngFor="let message of messages"
+      class="w-70 row-container g-24 items-center"
       [ngClass]="{
-        'align-left': !isUserMessage(message),
-        'align-right': isUserMessage(message)
+        'bot-message-container': !isUserMessage(message),
+        'user-message-container': isUserMessage(message)
       }"
     >
-      <p class="muted-text body-text">{{ message.text }}</p>
+      <!-- Message Card -->
+      <div
+        class="card-container p-24"
+        [ngClass]="{ 'user-message-card': isUserMessage(message) }"
+      >
+        <p class="body-text">{{ message.text }}</p>
+      </div>
+
+      <!-- Profile Pic -->
+      <img
+        class="profile-image"
+        [src]="isUserMessage(message) ? userImage : chatBotImage"
+        [alt]="isUserMessage(message) ? 'User Pic' : 'Chatbot Pic'"
+      />
     </div>
 
     <!-- Current Chat Response for showing streaming output -->
-    <div class="w-70 card-container p-24 align-left" *ngIf="currentResponse">
-      <p class="muted-text body-text">{{ currentResponse }}</p>
+    <div
+      class="w-70 row-container g-24 items-center bot-message-container"
+      *ngIf="currentResponse"
+    >
+      <!-- Message Card -->
+      <div class="card-container p-24">
+        <p class="body-text">{{ currentResponse }}</p>
+      </div>
+
+      <!-- Profile Pic -->
+      <img class="profile-image" [src]="chatBotImage" alt="Chatbot Pic" />
     </div>
   </div>
 
