@@ -59,8 +59,9 @@ public class User implements UserDetails {
                 .id(id)
                 .name(name)
                 .email(email)
-                .role(role.toString())
                 .avatar(avatar)
+                .role(role.toString())
+                .createdAt(createdAt)
                 .build();
     }
 
@@ -70,8 +71,9 @@ public class User implements UserDetails {
                 .id(id)
                 .name(name)
                 .email(email)
-                .role(role.toString())
                 .avatar(avatar)
+                .role(role.toString())
+                .createdAt(createdAt)
                 .build();
     }
 

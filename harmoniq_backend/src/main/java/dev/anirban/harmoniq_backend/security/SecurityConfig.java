@@ -53,6 +53,9 @@ public class SecurityConfig {
 
                                 // User Endpoints
                                 .requestMatchers(HttpMethod.GET, UrlConstants.USER_AVATAR_FETCH_ALL_ENDPOINT).permitAll()
+                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_USER_BY_ID_ENDPOINT).permitAll()
+                                .requestMatchers(HttpMethod.PATCH, UrlConstants.UPDATE_USER_ENDPOINT).authenticated()
+                                .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_USER_ENDPOINT).authenticated()
 
                                 // Thread Endpoints
                                 .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_THREAD_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())

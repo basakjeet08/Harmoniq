@@ -13,6 +13,9 @@ public class UrlConstants {
 
     // User Endpoints
     public static final String USER_AVATAR_FETCH_ALL_ENDPOINT = "/api/users/avatars";
+    public static final String FETCH_USER_BY_ID_ENDPOINT = "/api/users/{id}";
+    public static final String UPDATE_USER_ENDPOINT = "/api/users";
+    public static final String DELETE_USER_ENDPOINT = "/api/users/{id}";
 
     // Thread Endpoints
     public static final String CREATE_THREAD_ENDPOINT = "/api/threads";
