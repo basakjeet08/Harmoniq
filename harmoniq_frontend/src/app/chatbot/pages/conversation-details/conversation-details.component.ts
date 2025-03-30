@@ -56,7 +56,7 @@ export class ConversationDetailsComponent implements OnInit {
           this.messages = conversationHistory.chatMessageList;
 
           // Setting the user and chatbot images
-          this.userImage = conversationHistory.userDto.avatar;
+          this.userImage = conversationHistory.userDto.avatar || '';
           this.chatBotImage = conversationHistory.chatBotImage;
 
           // Checking if its the user's first time in the conversation window or not

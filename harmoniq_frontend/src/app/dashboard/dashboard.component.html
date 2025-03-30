@@ -1,27 +1,42 @@
 <!-- This is the page header -->
-<app-header>
-  <!-- Link to the chatbot Page -->
-  <li *ngIf="!isGuest">
-    <button
-      routerLink="chatbot"
-      routerLinkActive="active"
-      class="btn navigation-btn"
-    >
-      Chat Bot
-    </button>
-  </li>
+<header
+  class="card-container row-container g-24 items-center space header-padding"
+>
+  <!-- This is the title for the website -->
+  <h1>Harmoniq</h1>
 
-  <!-- Link to the threads page -->
-  <li>
-    <button
-      routerLink="threads"
-      routerLinkActive="active"
-      class="btn navigation-btn"
+  <!-- This is the navigation which is passed by the parent component -->
+  <nav class="nav-parent">
+    <!-- Profile Pic -->
+    <img
+      class="avatar"
+      [src]="userData.avatar"
+      alt="User Profile Avatar"
+      (click)="toggleProfileClick()"
+    />
+
+    <!-- Inner Navigation Parent Container -->
+    <div
+      *ngIf="isExpanded"
+      class="dropdown-nav-parent card-container col-container p-16 g-16"
     >
-      Threads
-    </button>
-  </li>
-</app-header>
+      <!-- Navigation Options -->
+      <button
+        *ngFor="let option of ['chatbot', 'threads', 'profile']"
+        [routerLink]="option === 'profile' ? 'profile/' + userData.id : option"
+        routerLinkActive="active"
+        class="btn navigation-btn"
+        (click)="toggleProfileClick()"
+      >
+        {{ option | titlecase }}
+      </button>
+
+      <button class="btn btn-destructive" (click)="onLogoutClick()">
+        Logout
+      </button>
+    </div>
+  </nav>
+</header>
 
 <!-- Child Routes of this Module -->
 <main class="flex-1 row-container justify-center">

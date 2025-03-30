@@ -1,10 +1,14 @@
 package dev.anirban.harmoniq_backend.service;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
+import dev.anirban.harmoniq_backend.dto.user.UserDto;
 import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.exception.UnAuthorized;
+import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +36,7 @@ public class UserService {
                 .email(authRequest.getEmail())
                 .password(encoder.encode(authRequest.getPassword()))
                 .role(User.Type.MEMBER)
-                .avatar(avatarService.generateAvatar())
+                .avatar(authRequest.getAvatar())
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -72,8 +76,50 @@ public class UserService {
         }
     }
 
+    // This function returns the list of avatars to the user
+    public List<String> getAllAvatars() {
+        return avatarService.getAllAvatars();
+    }
+
     // This function fetches the user object with the given email
     public Optional<User> findByEmail(String email) {
         return userRepo.findByEmail(email);
+    }
+
+    // This function fetches the user details by ID
+    public User findById(String id) {
+        return userRepo
+                .findById(id)
+                .orElseThrow(() -> new UserNotFound(id));
+    }
+
+    // This function updates the user data
+    public User update(UserDto userDto, UserDetails userDetails) {
+        User savedUser = findById(userDto.getId());
+
+        if (!userDetails.getUsername().equals(savedUser.getUsername()))
+            throw new UnAuthorized();
+
+        if (userDto.getName() != null)
+            savedUser.setName(userDto.getName());
+
+        if (userDto.getEmail() != null)
+            savedUser.setEmail(userDto.getEmail());
+
+        if (userDto.getPassword() != null)
+            savedUser.setPassword(encoder.encode(userDto.getPassword()));
+
+        if (userDto.getAvatar() != null)
+            savedUser.setAvatar(userDto.getAvatar());
+
+        return userRepo.save(savedUser);
+    }
+
+    // This function deletes the user
+    public void delete(UserDetails userDetails) {
+        User savedUser = findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+
+        userRepo.delete(savedUser);
     }
 }

@@ -1,11 +1,10 @@
 import { Roles } from './Roles';
 
-export class UserDto {
-  constructor(
-    readonly id: string,
-    readonly name: string,
-    readonly email: string,
-    readonly role: Roles,
-    readonly avatar: string
-  ) {}
+export interface UserDto {
+  id?: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  role?: Roles;
+  avatar?: string;
 }

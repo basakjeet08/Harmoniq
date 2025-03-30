@@ -13,7 +13,12 @@ const dashboardRoutes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
     children: [
-      { path: '', redirectTo: 'chatbot', pathMatch: 'full' },
+      { path: '', redirectTo: 'threads', pathMatch: 'full' },
+      {
+        path: 'threads',
+        loadChildren: () =>
+          import('./../threads/threads.module').then((m) => m.ThreadsModule),
+      },
       {
         path: 'chatbot',
         loadChildren: () =>
@@ -21,9 +26,9 @@ const dashboardRoutes: Routes = [
         canActivate: [guestGuard],
       },
       {
-        path: 'threads',
+        path: 'profile/:id',
         loadChildren: () =>
-          import('./../threads/threads.module').then((m) => m.ThreadsModule),
+          import('../profile/profile.module').then((m) => m.ProfileModule),
       },
     ],
   },

@@ -6,6 +6,15 @@
 >
   <h3>Register as Member</h3>
 
+  <!-- Avatar Component -->
+  <div class="w-full row-container justify-center">
+    <app-avatar-selector
+      class="avatar"
+      [buttonDisabled]="false"
+      (onAvatarChosen)="onAvatarChosen($event)"
+    />
+  </div>
+
   <!-- Email input container with SVG -->
   <div class="col-container g-8">
     <div class="row-container input-group-container g-8 items-center">
@@ -109,7 +118,7 @@
 
     <!-- Caption Text-->
     <p class="caption-text">
-      Names, Avatars and profile pics will all be
+      Names for the profiles will be
       <span class="primary-text">Anonymous.</span>
     </p>
   </div>

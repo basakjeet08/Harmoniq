@@ -1,0 +1,118 @@
+<!-- Edit Mode Component -->
+<form
+  class="col-container g-16 w-full items-center"
+  (ngSubmit)="onSubmitClick()"
+  #formContainer="ngForm"
+>
+  <!-- Avatar Component -->
+  <app-avatar-selector
+    class="profile-image-container"
+    [currentAvatar]="userData.avatar || ''"
+    (onAvatarChosen)="onAvatarChanged($event)"
+  />
+
+  <!-- Name input container with SVG -->
+  <div class="w-full col-container g-8">
+    <div class="row-container input-group-container g-8 items-center">
+      <!-- Name Svg -->
+      <svg viewBox="0 0 448 512">
+        <path
+          d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"
+        />
+      </svg>
+
+      <!-- Name Input -->
+      <input
+        type="text"
+        name="name"
+        placeholder="Enter your Name"
+        required
+        [(ngModel)]="userData.name"
+        #name="ngModel"
+      />
+    </div>
+
+    <!-- Error text for Email input -->
+    <p class="error-text caption-text" *ngIf="!name.valid && name.touched">
+      Please enter the Name
+    </p>
+  </div>
+
+  <!-- Email input container with SVG -->
+  <div class="w-full col-container g-8">
+    <div class="row-container input-group-container g-8 items-center">
+      <!-- Email Svg -->
+      <svg viewBox="0 0 512 512">
+        <path
+          d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"
+        />
+      </svg>
+
+      <!-- Email Input -->
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your Email"
+        required
+        email
+        [(ngModel)]="userData.email"
+        #email="ngModel"
+      />
+    </div>
+
+    <!-- Error text for Email input -->
+    <p class="error-text caption-text" *ngIf="!email.valid && email.touched">
+      Please enter the Email
+    </p>
+  </div>
+
+  <!-- Password Container with SVG-->
+  <div class="w-full col-container g-8">
+    <div class="row-container input-group-container g-8 items-center">
+      <!-- Svg Component -->
+      <svg viewBox="0 0 448 512">
+        <path
+          d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"
+        />
+      </svg>
+
+      <!-- Password Input -->
+      <input
+        type="password"
+        name="password"
+        placeholder="Enter new Password or keep the same"
+        required
+        minlength="5"
+        [(ngModel)]="userData.password"
+        #password="ngModel"
+      />
+    </div>
+
+    <!-- Error text for password input -->
+    <p
+      class="error-text caption-text"
+      *ngIf="password.touched && password.invalid"
+    >
+      Please enter the Password of length < 5
+    </p>
+  </div>
+
+  <!-- Button Container -->
+  <div class="row-container g-16 w-full">
+    <button
+      class="btn btn-secondary flex-1"
+      type="submit"
+      [disabled]="formContainer.invalid"
+    >
+      Confirm
+    </button>
+
+    <button
+      class="btn btn-destructive flex-1"
+      type="button"
+      (click)="onEditClose()"
+    >
+      Cancel
+    </button>
+  </div>
+</form>

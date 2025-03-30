@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 })
 export class RegisterComponent {
   // These are the details inputted by the user
-  userInput = { email: '', password: '', confirmPassword: '' };
+  userInput = { avatar: '', email: '', password: '', confirmPassword: '' };
 
   // These are the event emitters which will notify the parent about the api state
   @Output('onSuccess') successEmitter = new EventEmitter<void>();
@@ -21,6 +21,11 @@ export class RegisterComponent {
     private loaderService: LoaderService,
     private toastService: ToastService
   ) {}
+
+  // This function is invoked when the avatar is chosen by the user
+  onAvatarChosen(avatarLink: string) {
+    this.userInput.avatar = avatarLink;
+  }
 
   // This function is invoked when the user clicks the register button
   onRegisterClick() {

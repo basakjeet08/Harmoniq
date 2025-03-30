@@ -3,9 +3,10 @@
   <!-- Thread Card Component-->
   <app-thread-card
     *ngIf="threadDetail"
-    [creatorName]="threadDetail.createdBy.name"
-    [creatorRole]="threadDetail.createdBy.role"
-    [creatorAvatar]="threadDetail.createdBy.avatar"
+    [creatorId]="threadDetail.createdBy.id || 'Invalid Id'"
+    [creatorName]="threadDetail.createdBy.name || 'Invalid Creator'"
+    [creatorRole]="threadDetail.createdBy.role || 'Invalid Role'"
+    [creatorAvatar]="threadDetail.createdBy.avatar || ''"
     [description]="threadDetail.description"
     [tagList]="['Depression', 'Mental Trauma', 'Stress']"
     [isHoverEffect]="false"
@@ -25,9 +26,10 @@
     <div class="w-full" *ngFor="let comment of threadDetail?.comments">
       <!-- Each Comment Card Component -->
       <app-comment-card
-        [creatorName]="comment.createdBy.name"
-        [creatorRole]="comment.createdBy.role"
-        [creatorAvatar]="comment.createdBy.avatar"
+        [creatorId]="comment.createdBy.id || 'Invalid Id'"
+        [creatorName]="comment.createdBy.name || 'Invalid Name'"
+        [creatorRole]="comment.createdBy.role || 'Invalid Role'"
+        [creatorAvatar]="comment.createdBy.avatar || ''"
         [comment]="comment.content"
       />
     </div>

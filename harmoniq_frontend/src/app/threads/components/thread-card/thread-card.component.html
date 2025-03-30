@@ -7,7 +7,12 @@
   <div class="row-container g-16 items-center space">
     <div class="row-container g-8 items-center">
       <!-- Profile Pic -->
-      <img class="profile-image" [src]="creatorAvatar" alt="Profile Image" />
+      <img
+        class="profile-image"
+        [src]="creatorAvatar"
+        alt="Profile Image"
+        (click)="onAvatarClick()"
+      />
 
       <!-- Name and Account Type -->
       <div>

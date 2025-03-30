@@ -1,0 +1,51 @@
+<!-- Avatar Component -->
+<app-avatar-selector
+  class="profile-image-container"
+  [currentAvatar]="userData?.avatar || ''"
+  [buttonDisabled]="true"
+/>
+
+<!-- Name Component -->
+<h2 class="secondary-text">{{ userData?.name }}</h2>
+
+<!-- Role Component -->
+<p class="w-full variant-card-container p-8 body-text muted-text">
+  Role :
+  <span class="error-text"> {{ userData?.role | titlecase }}</span>
+</p>
+
+<!-- Email Component -->
+<p
+  *ngIf="isOwner"
+  class="w-full variant-card-container p-8 body-text muted-text"
+>
+  Email : <span class="accent-text">{{ userData?.email }}</span>
+</p>
+
+<!-- Warning for Guest Account -->
+<div
+  class="w-full card-container warning-card col-container p-8 g-8"
+  *ngIf="isOwner && isGuestMode"
+>
+  <h4 class="warning-text body-text">Warning</h4>
+
+  <p class="body-text muted-text">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas
+    distinctio, molestiae recusandae nam et perferendis. Aliq
+  </p>
+</div>
+
+<!-- Button Container -->
+<div class="w-full row-container g-24" *ngIf="isOwner">
+  <button
+    class="btn btn-accent flex-1"
+    (click)="onEditToggle()"
+    [disabled]="isGuestMode"
+  >
+    Edit Account
+  </button>
+
+  <button class="btn btn-destructive flex-1" (click)="onDeleteClick()">
+    Delete Account
+  </button>
+</div>

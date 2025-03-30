@@ -9,6 +9,14 @@
   flex-direction: column;
 }
 
+.space {
+  justify-content: space-between;
+}
+
+.header-padding {
+  padding: 16px 24px;
+}
+
 .navigation-btn {
   background-color: transparent;
   color: var(--text);
@@ -18,6 +26,29 @@
 .navigation-btn:hover,
 .active {
   background-color: var(--surface-variant);
+}
+
+.nav-parent {
+  position: relative;
+}
+
+.dropdown-nav-parent {
+  position: absolute;
+  top: 100%;
+  right: 0%;
+
+  width: 200px;
+  z-index: 10;
+}
+
+.avatar {
+  height: 48px;
+  width: 48px;
+
+  display: flex;
+
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .outer-container {
