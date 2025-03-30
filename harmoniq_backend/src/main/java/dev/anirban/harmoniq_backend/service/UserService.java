@@ -106,6 +106,9 @@ public class UserService {
         if (userDto.getEmail() != null)
             savedUser.setEmail(userDto.getEmail());
 
+        if (userDto.getPassword() != null)
+            savedUser.setPassword(encoder.encode(userDto.getPassword()));
+
         if (userDto.getAvatar() != null)
             savedUser.setAvatar(userDto.getAvatar());
 
