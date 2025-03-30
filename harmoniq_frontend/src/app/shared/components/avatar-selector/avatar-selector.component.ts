@@ -10,6 +10,7 @@ import { ToastService } from '../toast/toast.service';
 })
 export class AvatarSelectorComponent implements OnInit {
   // Parent passed values
+  @Input('buttonDisabled') isButtonDisabled: boolean = false;
   @Input('currentAvatar') currentChosenAvatar: string = '';
   @Output('onAvatarChosen') avatarEmitter = new EventEmitter<string>();
 
@@ -26,7 +27,9 @@ export class AvatarSelectorComponent implements OnInit {
 
   // This function fetches all the avatars
   ngOnInit(): void {
-    this.fetchAvatars();
+    if (this.currentChosenAvatar === '') {
+      this.fetchAvatars();
+    }
   }
 
   // This function is invoked when the user clicks the register button
@@ -56,7 +59,13 @@ export class AvatarSelectorComponent implements OnInit {
 
   // This function is invoked when the user clicks to choose the avatar
   onEnableChooseMode() {
-    this.chooseMode = true;
+    if (!this.isButtonDisabled) {
+      if (this.avatarList.length === 0) {
+        this.fetchAvatars();
+      }
+
+      this.chooseMode = true;
+    }
   }
 
   // This function is invoked when the user clicks on the cancel button

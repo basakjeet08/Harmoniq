@@ -7,7 +7,13 @@
   <h3>Register as Member</h3>
 
   <!-- Avatar Component -->
-  <app-avatar-selector (onAvatarChosen)="onAvatarChosen($event)" />
+  <div class="w-full row-container justify-center">
+    <app-avatar-selector
+      class="avatar"
+      [buttonDisabled]="false"
+      (onAvatarChosen)="onAvatarChosen($event)"
+    />
+  </div>
 
   <!-- Email input container with SVG -->
   <div class="col-container g-8">

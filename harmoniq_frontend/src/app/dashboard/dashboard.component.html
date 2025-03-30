@@ -23,7 +23,7 @@
       <!-- Navigation Options -->
       <button
         *ngFor="let option of ['chatbot', 'threads', 'profile']"
-        [routerLink]="option"
+        [routerLink]="option === 'profile' ? 'profile/' + userData.id : option"
         routerLinkActive="active"
         class="btn navigation-btn"
         (click)="toggleProfileClick()"

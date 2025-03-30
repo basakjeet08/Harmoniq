@@ -2,6 +2,11 @@
   height: 100%;
 }
 
+.avatar {
+  height: 100px;
+  width: 100px;
+}
+
 .input-group-container {
   border: 2px solid var(--surface-variant);
   border-radius: var(--border-radius);

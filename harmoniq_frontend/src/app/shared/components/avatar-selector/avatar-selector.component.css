@@ -3,6 +3,15 @@
   width: 100%;
 }
 
+.chosen-avatar {
+  height: 100%;
+  width: 100%;
+
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
 .choose-component {
   position: fixed;
   top: 50%;
@@ -36,17 +45,13 @@
   gap: 32px;
 }
 
-.chosen-avatar {
-  height: 72px;
-  width: 72px;
-
-  border-radius: 50%;
-  cursor: pointer;
-}
-
 .avatar-options {
   height: 54px;
   width: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   border-radius: 50%;
   cursor: pointer;
