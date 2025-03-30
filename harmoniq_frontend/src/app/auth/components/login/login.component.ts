@@ -32,10 +32,6 @@ export class LoginComponent {
       // Success State
       next: () => {
         this.loaderService.endLoading();
-        this.toastService.showToast({
-          type: 'success',
-          message: 'User logged in successfully !!',
-        });
         this.successEmitter.emit();
       },
 
@@ -57,10 +53,6 @@ export class LoginComponent {
       // Success State
       next: () => {
         this.loaderService.endLoading();
-        this.toastService.showToast({
-          type: 'success',
-          message: 'Guest user created successfully !!',
-        });
         this.successEmitter.emit();
       },
 
