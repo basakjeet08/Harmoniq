@@ -15,7 +15,7 @@ export class EditComponent {
   @Output('onEditClose') editCloseEmitter = new EventEmitter<void>();
 
   // These are the data for the component
-  userData!: UserDto;
+  userData: UserDto = { id: '', name: '', email: '', password: '', avatar: '' };
 
   // Injecting the necessary dependencies
   constructor(

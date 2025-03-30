@@ -10,10 +10,10 @@
     <!-- Thread Card Content -->
     <app-thread-card
       *ngIf="createdByUser"
-      [creatorId]="createdByUser.id"
-      [creatorName]="createdByUser.name"
-      [creatorRole]="createdByUser.role"
-      [creatorAvatar]="createdByUser.avatar"
+      [creatorId]="createdByUser.id || 'Invalid Id'"
+      [creatorName]="createdByUser.name || 'Invalid Name'"
+      [creatorRole]="createdByUser.role || 'Invalid Role'"
+      [creatorAvatar]="createdByUser.avatar || ''"
       [description]="thread.description"
       [tagList]="['Depression', 'Mental Trauma', 'Stress']"
       [showDelete]="true"

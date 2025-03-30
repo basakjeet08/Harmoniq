@@ -1,17 +1,17 @@
 <!-- Avatar Component -->
 <app-avatar-selector
   class="profile-image-container"
-  [currentAvatar]="userData.avatar"
+  [currentAvatar]="userData?.avatar || ''"
   [buttonDisabled]="true"
 />
 
 <!-- Name Component -->
-<h2 class="secondary-text">{{ userData.name }}</h2>
+<h2 class="secondary-text">{{ userData?.name }}</h2>
 
 <!-- Role Component -->
 <p class="w-full variant-card-container p-8 body-text muted-text">
   Role :
-  <span class="error-text"> {{ userData.role | titlecase }}</span>
+  <span class="error-text"> {{ userData?.role | titlecase }}</span>
 </p>
 
 <!-- Email Component -->
@@ -19,7 +19,7 @@
   *ngIf="isOwner"
   class="w-full variant-card-container p-8 body-text muted-text"
 >
-  Email : <span class="accent-text">{{ userData.email }}</span>
+  Email : <span class="accent-text">{{ userData?.email }}</span>
 </p>
 
 <!-- Warning for Guest Account -->

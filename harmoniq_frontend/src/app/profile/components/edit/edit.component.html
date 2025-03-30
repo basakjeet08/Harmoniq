@@ -7,7 +7,7 @@
   <!-- Avatar Component -->
   <app-avatar-selector
     class="profile-image-container"
-    [currentAvatar]="userData.avatar"
+    [currentAvatar]="userData.avatar || ''"
     (onAvatarChosen)="onAvatarChanged($event)"
   />
 

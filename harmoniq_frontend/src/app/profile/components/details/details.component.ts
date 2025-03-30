@@ -17,7 +17,7 @@ export class DetailsComponent {
   @Output('onEditClick') editEmitter = new EventEmitter<void>();
 
   // This is the data for the component
-  userData!: UserDto;
+  userData: UserDto | null = null;
   isOwner: boolean = false;
   isGuestMode: boolean = false;
 
