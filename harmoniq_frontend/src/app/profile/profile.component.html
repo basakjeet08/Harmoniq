@@ -1,5 +1,5 @@
 <!-- Profile Container Component -->
-<div class="card-container card-essentials p-40">
+<div class="card-container card-essentials p-40" @scaleUpAnimation>
   <!-- Read only Profile Pic -->
   <app-details *ngIf="!isEditMode" (onEditClick)="onEditToggle()" />
 

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { scaleUpAnimation } from '../shared/animations/scale-up-animation';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
+  animations: [scaleUpAnimation],
 })
 export class ProfileComponent {
   // This is the data for the component

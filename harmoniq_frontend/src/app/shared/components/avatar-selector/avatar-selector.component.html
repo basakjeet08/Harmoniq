@@ -16,7 +16,11 @@
 </div>
 
 <!-- This is the Component Container which shows all the avatars to choose from -->
-<div *ngIf="chooseMode" class="choose-component variant-card-container">
+<div
+  *ngIf="chooseMode"
+  class="choose-component variant-card-container"
+  @staggerPopAnimation
+>
   <!-- Title Container -->
   <div class="row-container g-32 space items-center">
     <h3>Choose your avatar !!</h3>

@@ -2,11 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { LoaderService } from '../loader/loader.service';
 import { ToastService } from '../toast/toast.service';
+import { staggerPopAnimation } from './stagger-pop-animation';
 
 @Component({
   selector: 'app-avatar-selector',
   templateUrl: './avatar-selector.component.html',
   styleUrls: ['./avatar-selector.component.css'],
+  animations: [staggerPopAnimation],
 })
 export class AvatarSelectorComponent implements OnInit {
   // Parent passed values
@@ -27,9 +29,7 @@ export class AvatarSelectorComponent implements OnInit {
 
   // This function fetches all the avatars
   ngOnInit(): void {
-    if (this.currentChosenAvatar === '') {
-      this.fetchAvatars();
-    }
+    this.fetchAvatars();
   }
 
   // This function is invoked when the user clicks the register button
@@ -60,10 +60,6 @@ export class AvatarSelectorComponent implements OnInit {
   // This function is invoked when the user clicks to choose the avatar
   onEnableChooseMode() {
     if (!this.isButtonDisabled) {
-      if (this.avatarList.length === 0) {
-        this.fetchAvatars();
-      }
-
       this.chooseMode = true;
     }
   }
