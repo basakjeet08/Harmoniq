@@ -41,16 +41,6 @@ export class DashboardComponent implements OnInit {
       this.userData = storedAuthRes;
       this.isGuest = storedAuthRes.role === Roles.GUEST;
     }
-
-    // Showing the guest some curated content about account deletion
-    if (this.isGuest) {
-      this.toastService.showToast({
-        type: 'warning',
-        message:
-          "You are logged into the guest mode which lasts for only an hour. You won't be able to post any thread or chat with the chatbot. Please create a account and log in to access those features !!",
-        duration: 4500,
-      });
-    }
   }
 
   // This function is invoked when the user clicks on the profile pic
