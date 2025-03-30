@@ -6,7 +6,12 @@
 <div class="w-full comment-card card-container col-container p-16 g-16">
   <div class="row-container items-center g-8">
     <!-- Profile Pic -->
-    <img class="profile-image" [src]="creatorAvatar" alt="Profile Image" />
+    <img
+      class="profile-image"
+      [src]="creatorAvatar"
+      alt="Profile Image"
+      (click)="onAvatarClick()"
+    />
 
     <!-- Name and Account Type -->
     <div>

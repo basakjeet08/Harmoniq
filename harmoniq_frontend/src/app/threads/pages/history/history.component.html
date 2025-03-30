@@ -10,6 +10,7 @@
     <!-- Thread Card Content -->
     <app-thread-card
       *ngIf="createdByUser"
+      [creatorId]="createdByUser.id"
       [creatorName]="createdByUser.name"
       [creatorRole]="createdByUser.role"
       [creatorAvatar]="createdByUser.avatar"

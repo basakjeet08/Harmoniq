@@ -3,6 +3,7 @@
   <!-- Thread Card Component-->
   <app-thread-card
     *ngIf="threadDetail"
+    [creatorId]="threadDetail.createdBy.id"
     [creatorName]="threadDetail.createdBy.name"
     [creatorRole]="threadDetail.createdBy.role"
     [creatorAvatar]="threadDetail.createdBy.avatar"
@@ -25,6 +26,7 @@
     <div class="w-full" *ngFor="let comment of threadDetail?.comments">
       <!-- Each Comment Card Component -->
       <app-comment-card
+        [creatorId]="comment.createdBy.id"
         [creatorName]="comment.createdBy.name"
         [creatorRole]="comment.createdBy.role"
         [creatorAvatar]="comment.createdBy.avatar"

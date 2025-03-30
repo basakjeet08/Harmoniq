@@ -17,6 +17,7 @@
   >
     <!-- Thread Card Component-->
     <app-thread-card
+      [creatorId]="thread.createdBy.id"
       [creatorName]="thread.createdBy.name"
       [creatorRole]="thread.createdBy.role"
       [creatorAvatar]="thread.createdBy.avatar"
