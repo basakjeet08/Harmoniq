@@ -5,12 +5,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { DetailsComponent } from './components/details/details.component';
+import { EditComponent } from './components/edit/edit.component';
 
 // These are the routes for the profile screen
 const routes: Routes = [{ path: '', component: ProfileComponent }];
 
 @NgModule({
-  declarations: [ProfileComponent, DetailsComponent],
+  declarations: [ProfileComponent, DetailsComponent, EditComponent],
   imports: [
     CommonModule,
     SharedModule,
