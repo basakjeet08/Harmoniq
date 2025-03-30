@@ -24,7 +24,7 @@
 
 <!-- Warning for Guest Account -->
 <div
-  class="w-full card-container warning-card col-container p-8"
+  class="w-full card-container warning-card col-container p-8 g-8"
   *ngIf="isOwner && isGuestMode"
 >
   <h4 class="warning-text body-text">Warning</h4>
@@ -37,7 +37,11 @@
 
 <!-- Button Container -->
 <div class="w-full row-container g-24" *ngIf="isOwner">
-  <button class="btn btn-accent flex-1" (click)="onEditToggle()">
+  <button
+    class="btn btn-accent flex-1"
+    (click)="onEditToggle()"
+    [disabled]="isGuestMode"
+  >
     Edit Account
   </button>
 
