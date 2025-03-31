@@ -16,3 +16,15 @@
 
   gap: 24px;
 }
+
+.warning {
+  background-color: rgba(var(--warning-rgb), 0.1);
+  border: 1px dashed rgba(var(--warning-rgb), 0.5);
+}
+
+.warning-svg {
+  width: 20px;
+  height: 20px;
+
+  fill: var(--warning);
+}
