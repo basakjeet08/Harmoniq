@@ -27,3 +27,10 @@ svg {
   flex: 1;
   border: none;
 }
+
+.info-svg {
+  width: 20px;
+  height: 20px;
+
+  fill: var(--info);
+}

@@ -16,7 +16,7 @@
 
 .auth-container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -38,5 +38,5 @@
 }
 
 .w-70 {
-  width: 60%;
+  width: 70%;
 }

@@ -1,23 +1,49 @@
 <!-- Grid Container for the whole Layout -->
 <div class="grid-container">
-  <!-- Profile Section for the Threads Feature -->
-  <div class="col-container card-container p-24 g-16">
+  <!-- Threads Feature Intro Container -->
+  <div class="col-container p-32 g-32">
     <!-- Title -->
-    <h2>Profile Section</h2>
+    <h1>Weaving Conversations, One Thread at a Time!</h1>
 
-    <!-- This is the profile container Success State -->
-    <div>
-      <p>Success State : Not Yet Implemented</p>
+    <!-- Introduction to Threads -->
+    <p class="body-text">
+      Welcome to <span class="secondary-text">Threads</span>, the heart of our
+      community. Here, you can explore conversations on mental health, share
+      experiences, and connect with others who truly understand. Whether you're
+      looking for advice, support, or just a space to express yourself, you'll
+      find it here.
+    </p>
+
+    <!-- Notes for Guest Account -->
+    <div class="card-container warning col-container p-16 g-16">
+      <!-- Warning Title Container -->
+      <div class="row-container g-16 items-center">
+        <svg viewBox="0 0 512 512" class="warning-svg">
+          <path
+            d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+          />
+        </svg>
+
+        <p class="body-text warning-text">Note for Guest Profiles</p>
+      </div>
+
+      <p class="body-text">
+        Guest Profiles can browse through discussions, but to create or comment
+        on <span class="warning-text">threads</span>, you'll need to create an
+        account. <span class="warning-text">Join in</span>, start a
+        conversation, and be part of something meaningful. ✨
+      </p>
     </div>
   </div>
 
+  <!-- Navigation Buttons Container -->
   <div class="col-container g-16">
     <!-- Card container to view Feed Page -->
     <div
       class="card-container col-container p-16 g-8 hover-variant"
       (click)="onNavigateToFeedClick()"
     >
-      <h3>Navigate to Feed . . .</h3>
+      <h3 class="secondary-text">Navigate to Feed . . .</h3>
 
       <p class="muted-text body-text">
         Click me to head to the <span class="secondary-text">feed page</span>,
@@ -31,7 +57,7 @@
       class="card-container col-container p-16 g-8 hover-variant"
       (click)="onPostThreadClick()"
     >
-      <h3>Post a new Thread . . .</h3>
+      <h3 class="accent-text">Post a new Thread . . .</h3>
 
       <p class="muted-text body-text">
         Click me to head to the
@@ -46,7 +72,7 @@
       class="card-container col-container p-16 g-8 hover-variant"
       (click)="onViewHistoryClick()"
     >
-      <h3>View my Threads . . .</h3>
+      <h3 class="warning-text">View my Threads . . .</h3>
 
       <p class="muted-text body-text">
         Click here to head to the

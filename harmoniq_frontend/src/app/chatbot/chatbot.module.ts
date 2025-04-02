@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { ConversationListComponent } from './pages/conversation-list/conversation-list.component';
 import { ConversationDetailsComponent } from './pages/conversation-details/conversation-details.component';
+import { HomeComponent } from './pages/home/home.component';
 
 // These are the routes for the chatbot module
 const chatbotRoutes: Routes = [
@@ -12,7 +13,8 @@ const chatbotRoutes: Routes = [
     path: '',
     component: ChatbotComponent,
     children: [
-      { path: '', redirectTo: 'conversation-list', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'conversation-list', component: ConversationListComponent },
       {
         path: 'conversation-details/:id',
@@ -27,6 +29,7 @@ const chatbotRoutes: Routes = [
     ChatbotComponent,
     ConversationListComponent,
     ConversationDetailsComponent,
+    HomeComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(chatbotRoutes), SharedModule],
 })

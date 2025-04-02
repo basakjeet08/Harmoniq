@@ -5,16 +5,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  padding: 32px;
 }
 
-.grid-container {
-  height: 80%;
-  width: 80%;
+.intro-component {
+  width: 100%;
+  max-width: 750px;
+}
 
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-
-  gap: 24px;
+.w-40 {
+  width: 40%;
 }
 
 .warning {
