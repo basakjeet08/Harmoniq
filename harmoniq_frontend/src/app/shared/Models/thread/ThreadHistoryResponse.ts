@@ -1,7 +1,11 @@
 import { UserDto } from '../user/UserDto';
 
 export class ThreadHistoryItem {
-  constructor(readonly id: string, readonly description: string) {}
+  constructor(
+    readonly id: string,
+    readonly description: string,
+    readonly tags: string[]
+  ) {}
 }
 
 export class ThreadHistoryResponse {

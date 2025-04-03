@@ -22,7 +22,7 @@
       [creatorRole]="thread.createdBy.role || 'Invalid role'"
       [creatorAvatar]="thread.createdBy.avatar || ''"
       [description]="thread.description"
-      [tagList]="['Depression', 'Mental Trauma', 'Stress']"
+      [tagList]="thread.tags"
       (onThreadClick)="onThreadCardClick(thread.id)"
     />
 

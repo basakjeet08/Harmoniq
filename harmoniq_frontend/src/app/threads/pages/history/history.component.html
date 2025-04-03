@@ -15,7 +15,7 @@
       [creatorRole]="createdByUser.role || 'Invalid Role'"
       [creatorAvatar]="createdByUser.avatar || ''"
       [description]="thread.description"
-      [tagList]="['Depression', 'Mental Trauma', 'Stress']"
+      [tagList]="thread.tags"
       [showDelete]="true"
       (onDeleteClick)="onDeleteThreadClick(thread.id)"
       [isHoverEffect]="false"
