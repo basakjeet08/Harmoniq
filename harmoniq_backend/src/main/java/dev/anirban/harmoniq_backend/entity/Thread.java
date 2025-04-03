@@ -4,6 +4,8 @@ package dev.anirban.harmoniq_backend.entity;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
@@ -30,9 +32,6 @@ public class Thread {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "tags", nullable = false)
-    private List<String> tags;
-
     @ManyToOne(
             cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.EAGER
@@ -44,12 +43,32 @@ public class Thread {
     @OrderBy("createdAt DESC")
     private List<Comment> comments;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "thread_tags",
+            joinColumns = @JoinColumn(name = "thread_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Tag> tags;
+
+    public void addTags(Tag tag) {
+        if (!tags.contains(tag)) {
+            tags.add(tag);
+            tag.getThreads().add(this);
+        }
+    }
+
     public ThreadDto toThreadDto() {
         return ThreadDto
                 .builder()
                 .id(id)
                 .description(description)
-                .tags(tags)
+                .tags(tags
+                        .stream()
+                        .map(Tag::getName)
+                        .toList()
+                )
                 .createdBy(createdBy.toUserDto())
                 .build();
     }
