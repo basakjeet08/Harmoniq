@@ -7,6 +7,7 @@ import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     // Injecting the necessary service dependencies
@@ -25,6 +27,8 @@ public class AuthService {
 
     // This function registers a Member
     public User register(AuthRequest authRequest) {
+        log.info("(|) - Received new register request for email : {}", authRequest.getEmail());
+
         if (userService.findByEmail(authRequest.getEmail()).isPresent())
             throw new EmailAlreadyExists(authRequest.getEmail());
 
@@ -41,6 +45,8 @@ public class AuthService {
 
     // This function logs in the user and returns the tokens for his subsequent requests
     public AuthResponse loginUser(AuthRequest authRequest) {
+        log.info("(|) - Received new login request for email : {}", authRequest.getEmail());
+
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authRequest.getEmail(),
@@ -65,6 +71,8 @@ public class AuthService {
 
     // This function registers a Guest Account
     public AuthResponse loginAsGuest() {
+        log.info("(|) - Received new guest login request !");
+
         // Creating a Guest User
         User user = userService.createGuest();
 

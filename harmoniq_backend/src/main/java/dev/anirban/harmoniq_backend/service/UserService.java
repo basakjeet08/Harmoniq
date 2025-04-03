@@ -7,6 +7,7 @@ import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepo;
@@ -71,7 +73,7 @@ public class UserService {
 
         // When there are guest account which are expired
         if (!expiredGuests.isEmpty()) {
-            System.out.println("(/) - Checking for expired Guests and deleted " + expiredGuests.size() + " guest accounts");
+            log.info("(|) - Checking for expired guests accounts and deleted {} guest accounts", expiredGuests.size());
             userRepo.deleteAll(expiredGuests);
         }
     }
