@@ -1,0 +1,78 @@
+services:
+
+  # Database Service (Postgres Container)
+  db:
+    image: postgres:17-alpine
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: harmoniq
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      retries: 5
+
+  # AI Model Service (Ollama Container)
+  ollama:
+    container_name: ollama
+    build:
+      context: ./ollama
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    tty: true
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:11434/api/tags" ] # Installed Curl to run this test (at docker file)
+      interval: 10s
+      retries: 10
+      timeout: 10s
+      start_period: 20s
+
+  # Backend Service (Spring Boot Container)
+  backend:
+    container_name: backend
+    build:
+      context: ./harmoniq_backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      SPRING_PROFILE: docker
+      DATABASE_URL: jdbc:postgresql://db:5432/harmoniq
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: root
+      SPRING_IMAGE_BASE_URL: http://localhost:8080
+      SPRING_OLLAMA_BASE_URL: http://ollama:11434 # Use 'http://localhost:11434' when testing outside Docker
+      SPRING_OLLAMA_MODEL: mistral
+      SPRING_OLLAMA_TEMPERATURE: 0.5
+    depends_on:
+      db:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  # Frontend (Angular Container)
+  frontend:
+    container_name: frontend
+    build:
+      context: ./harmoniq_frontend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - '127.0.0.1:5000:80'
+
+volumes:
+  pgdata:
+  ollama_data:
