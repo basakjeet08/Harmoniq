@@ -64,7 +64,36 @@ export class FeedComponent implements OnInit {
 
   // This function is invoked when the user clicks on the search button
   onSearchClick(searchInput: string) {
-    console.log(searchInput);
+    // Setting the loading state
+    this.loaderService.startLoading();
+
+    // Calling the fetching API
+    this.threadService.findByTags(searchInput).subscribe({
+      // Success State
+      next: (threadList: ThreadDto[]) => {
+        this.loaderService.endLoading();
+
+        this.toastService.showToast({
+          type: 'success',
+          message: 'Threads fetched Successfully !!',
+        });
+
+        this.threadList = threadList;
+
+        if (this.threadList.length === 0) {
+          this.toastService.showToast({
+            type: 'info',
+            message: `There are no Threads Posted by this tag yet. Head over to the post a thread section to post your first Thread !!`,
+          });
+        }
+      },
+
+      // Error State
+      error: (error: Error) => {
+        this.loaderService.endLoading();
+        this.toastService.showToast({ type: 'error', message: error.message });
+      },
+    });
   }
 
   // This function is executed when the user clicks on any of the card for Thread

@@ -10,6 +10,8 @@ export interface ThreadInterface {
 
   findAll(): Observable<ThreadDto[]>;
 
+  findByTags(tag: string): Observable<ThreadDto[]>;
+
   fetchThreadHistory(): Observable<ThreadHistoryResponse>;
 
   deleteById(id: string): Observable<void>;

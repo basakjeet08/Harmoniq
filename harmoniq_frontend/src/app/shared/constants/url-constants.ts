@@ -17,6 +17,7 @@ export const DELETE_USER_ENDPOINT = `${BASE_URL}/users`;
 // Threads Endpoints
 export const CREATE_THREAD_ENDPOINT = `${BASE_URL}/threads`;
 export const FETCH_ALL_THREADS_ENDPOINT = `${BASE_URL}/threads`;
+export const FETCH_ALL_THREADS_BY_TAG = `${BASE_URL}/threads?tag=:tag`;
 export const FETCH_THREAD_BY_ID_ENDPOINT = `${BASE_URL}/threads/:id`;
 export const FETCH_CURRENT_USER_THREADS_ENDPOINT = `${BASE_URL}/users/me/threads`;
 export const DELETE_THREAD_BY_ID_ENDPOINT = `${BASE_URL}/threads/:id`;

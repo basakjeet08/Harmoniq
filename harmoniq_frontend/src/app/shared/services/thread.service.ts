@@ -10,6 +10,7 @@ import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 import {
   CREATE_THREAD_ENDPOINT,
   DELETE_THREAD_BY_ID_ENDPOINT,
+  FETCH_ALL_THREADS_BY_TAG,
   FETCH_ALL_THREADS_ENDPOINT,
   FETCH_CURRENT_USER_THREADS_ENDPOINT,
   FETCH_THREAD_BY_ID_ENDPOINT,
@@ -75,6 +76,19 @@ export class ThreadService implements ThreadInterface {
     return this.http
       .get<ResponseWrapper<ThreadDto[]>>(
         FETCH_ALL_THREADS_ENDPOINT,
+        this.getHeaders()
+      )
+      .pipe(
+        map((response) => response.data),
+        catchError(this.apiErrorHandler.handleApiError)
+      );
+  }
+
+  // This function fetches all the threads with the given tag from the backend
+  findByTags(tag: string): Observable<ThreadDto[]> {
+    return this.http
+      .get<ResponseWrapper<ThreadDto[]>>(
+        FETCH_ALL_THREADS_BY_TAG.replace(':tag', tag),
         this.getHeaders()
       )
       .pipe(
