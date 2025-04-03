@@ -4,8 +4,6 @@ package dev.anirban.harmoniq_backend.entity;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
@@ -49,7 +47,6 @@ public class Thread {
             joinColumns = @JoinColumn(name = "thread_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Tag> tags;
 
     public void addTags(Tag tag) {

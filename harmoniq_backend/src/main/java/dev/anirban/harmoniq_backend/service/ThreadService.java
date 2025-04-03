@@ -71,6 +71,7 @@ public class ThreadService {
     }
 
     // This function deletes all the threads from the database
+    @Transactional
     public void deleteById(String id, UserDetails userDetails) {
         // Checking if the thread is present
         Thread savedThread = findById(id);
@@ -79,6 +80,9 @@ public class ThreadService {
         if (!savedThread.getCreatedBy().getUsername().equals(userDetails.getUsername()))
             throw new UnAuthorized();
 
-        threadRepo.deleteById(id);
+        savedThread.getTags().clear();
+        Thread updatedThread = threadRepo.save(savedThread);
+
+        threadRepo.delete(updatedThread);
     }
 }
