@@ -22,7 +22,7 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 public class ChatbotService {
     private final JwtService jwtService;
     private final UserService userService;
-    private final ChatClient chatClient;
+    private final ChatClient chatbotChatClient;
 
     // This function validates the user -> authentication and authorization
     public void validateUser(String authHeader) {
@@ -61,7 +61,7 @@ public class ChatbotService {
         // Getting the validated User (If he is a valid user)
         validateUser(authHeader);
 
-        return chatClient
+        return chatbotChatClient
                 .prompt()
                 .advisors(advisorSpec -> advisorSpec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, conversationId))
                 .user(chatbotRequest.getPrompt())

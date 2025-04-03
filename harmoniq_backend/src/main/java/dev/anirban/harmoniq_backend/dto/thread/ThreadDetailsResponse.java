@@ -17,6 +17,7 @@ import java.util.List;
 public class ThreadDetailsResponse {
     private String id;
     private String description;
+    private List<String> tags;
     private UserDto createdBy;
     private List<CommentDto> comments;
 
@@ -25,6 +26,7 @@ public class ThreadDetailsResponse {
                 .builder()
                 .id(thread.getId())
                 .description(thread.getDescription())
+                .tags(thread.getTags())
                 .createdBy(thread.getCreatedBy().toUserDto())
                 .comments(
                         thread

@@ -30,6 +30,9 @@ public class Thread {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "tags", nullable = false)
+    private List<String> tags;
+
     @ManyToOne(
             cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.EAGER
@@ -46,6 +49,7 @@ public class Thread {
                 .builder()
                 .id(id)
                 .description(description)
+                .tags(tags)
                 .createdBy(createdBy.toUserDto())
                 .build();
     }

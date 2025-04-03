@@ -26,6 +26,7 @@ public class ThreadHistoryResponse {
                                         .builder()
                                         .id(thread.getId())
                                         .description(thread.getDescription())
+                                        .tags(thread.getTags())
                                         .build()
                                 )
                                 .toList() : null
@@ -42,4 +43,5 @@ public class ThreadHistoryResponse {
 class ThreadHistoryItem {
     private String id;
     private String description;
+    private List<String> tags;
 }

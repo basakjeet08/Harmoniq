@@ -21,6 +21,7 @@ public class ThreadService {
 
     private final ThreadRepository threadRepo;
     private final UserService userService;
+    private final TagGenerationService tagGenerationService;
 
     // This function creates a new Thread and returns the created Thread
     public Thread create(ThreadRequest threadRequest, UserDetails userDetails) {
@@ -29,11 +30,14 @@ public class ThreadService {
                 .findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
 
+        List<String> tagList = tagGenerationService.generateTags(threadRequest.getDescription());
+
         // Creating a new Thread
         Thread thread = Thread
                 .builder()
                 .description(threadRequest.getDescription())
                 .createdAt(LocalDateTime.now())
+                .tags(tagList)
                 .createdBy(user)
                 .comments(new ArrayList<>())
                 .build();
