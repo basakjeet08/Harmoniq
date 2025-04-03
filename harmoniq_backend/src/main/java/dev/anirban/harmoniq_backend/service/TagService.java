@@ -26,8 +26,8 @@ public class TagService {
     }
 
     // This function fetches tags by their Name
-    public Optional<Tag> fetchByName(String name) {
-        return tagRepo.findByName(name);
+    public List<Tag> findByNameContainingIgnoreCase(String name) {
+        return tagRepo.findByNameContainingIgnoreCase(name);
     }
 
     // This function gets the chat model response for the thread prompt

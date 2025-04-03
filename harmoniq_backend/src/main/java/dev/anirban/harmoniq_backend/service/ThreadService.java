@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -68,6 +69,17 @@ public class ThreadService {
     // This function fetches the threads which are created by the specified user
     public List<Thread> findByCreatedBy_Email(UserDetails userDetails) {
         return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
+    }
+
+    // This function fetches the threads by the tag name in descending order of created At
+    public List<Thread> findByNameContainingIgnoreCase(String tag) {
+        return tagService
+                .findByNameContainingIgnoreCase(tag)
+                .stream()
+                .flatMap(t -> t.getThreads().stream())
+                .distinct()
+                .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
+                .toList();
     }
 
     // This function deletes all the threads from the database
