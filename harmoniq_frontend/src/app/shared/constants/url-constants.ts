@@ -1,5 +1,7 @@
+import { environment } from 'src/environments/environment';
+
 // Base Url
-export const BASE_URL = 'http://localhost:8080/api';
+export const BASE_URL = `${environment.apiBaseUrl}/api`;
 
 // Authentication Endpoints
 export const REGISTER_ENDPOINT = `${BASE_URL}/auth/register`;

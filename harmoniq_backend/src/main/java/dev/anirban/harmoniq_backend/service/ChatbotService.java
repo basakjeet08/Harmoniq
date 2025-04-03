@@ -6,6 +6,7 @@ import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -17,6 +18,7 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatbotService {
     private final JwtService jwtService;
     private final UserService userService;
@@ -54,6 +56,8 @@ public class ChatbotService {
 
     // This function generate the Chatbot response
     public Flux<String> generateResponse(ChatbotRequest chatbotRequest, String authHeader, String conversationId) {
+        log.info("(|) - Generating prompt response for conversation Id - {}", conversationId);
+
         // Getting the validated User (If he is a valid user)
         validateUser(authHeader);
 
