@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { Roles } from 'src/app/shared/Models/user/Roles';
+import { UserDto } from 'src/app/shared/Models/user/UserDto';
 
 @Component({
   selector: 'app-thread-card',
@@ -8,24 +10,28 @@ import { Router } from '@angular/router';
 })
 export class ThreadCardComponent {
   // These are the various inputs and outputs to the component
-  @Input('creatorId') creatorId: string = '';
-  @Input('creatorName') creatorName: string = '';
-  @Input('creatorRole') creatorRole: string = '';
-  @Input('creatorAvatar') creatorAvatar: string = '';
+  @Input('createdBy') createdBy!: UserDto;
+
   @Input('description') description: string = '';
   @Input('tagList') tagList: string[] = [];
-  @Input('isHoverEffect') isHoverEffect: boolean = true;
-  @Input('showDelete') showDelete: boolean = false;
 
-  @Output('onThreadClick') threadEmitter = new EventEmitter<void>();
+  @Input('showDelete') showDelete: boolean = false;
+  @Input('showMore') showMore: boolean = true;
+
+  @Output('onShowMoreClick') showMoreEmitter = new EventEmitter<void>();
   @Output('onDeleteClick') deleteEmitter = new EventEmitter<void>();
 
   // Injecting the necessary dependencies
   constructor(private router: Router) {}
 
+  // This function gives if the user is a moderator or not
+  get isModerator() {
+    return this.createdBy.role === Roles.MODERATOR;
+  }
+
   // This function is invoked when the thread card is clicked
-  onThreadClick() {
-    this.threadEmitter.emit();
+  onShowMoreClick() {
+    this.showMoreEmitter.emit();
   }
 
   // This function is invoked when the delete button is clicked
@@ -35,6 +41,6 @@ export class ThreadCardComponent {
 
   // This function is invoked when the user clicks on the user avatar
   onAvatarClick() {
-    this.router.navigate(['/dashboard/profile', this.creatorId]);
+    this.router.navigate(['/dashboard/profile', this.createdBy.id]);
   }
 }

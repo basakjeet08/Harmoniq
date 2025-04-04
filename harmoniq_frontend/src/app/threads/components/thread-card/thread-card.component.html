@@ -5,19 +5,19 @@
       <!-- Profile Pic -->
       <img
         class="profile-image"
-        [src]="creatorAvatar"
+        [src]="createdBy.avatar"
         alt="Profile Image"
         (click)="onAvatarClick()"
       />
 
       <!-- Name and Account Type -->
       <div class="col-container g-4">
-        <p class="body-text primary-text">{{ creatorName }}</p>
+        <p class="body-text primary-text">{{ createdBy.name | titlecase }}</p>
         <small
           class="caption-text secondary-text"
-          [ngClass]="{ 'error-text': creatorRole === 'MODERATOR' }"
+          [ngClass]="{ 'error-text': isModerator }"
         >
-          {{ creatorRole | titlecase }}
+          {{ createdBy.role | titlecase }}
         </small>
       </div>
     </div>
@@ -91,9 +91,9 @@
 
     <!-- Show More Button -->
     <button
-      *ngIf="isHoverEffect"
+      *ngIf="showMore"
       class="btn card-btn caption-text primary-text"
-      (click)="onThreadClick()"
+      (click)="onShowMoreClick()"
     >
       Show More >>>
     </button>

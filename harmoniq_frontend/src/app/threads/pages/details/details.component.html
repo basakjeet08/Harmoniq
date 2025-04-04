@@ -3,13 +3,10 @@
   <!-- Thread Card Component-->
   <app-thread-card
     *ngIf="threadDetail"
-    [creatorId]="threadDetail.createdBy.id || 'Invalid Id'"
-    [creatorName]="threadDetail.createdBy.name || 'Invalid Creator'"
-    [creatorRole]="threadDetail.createdBy.role || 'Invalid Role'"
-    [creatorAvatar]="threadDetail.createdBy.avatar || ''"
+    [createdBy]="threadDetail.createdBy"
     [description]="threadDetail.description"
     [tagList]="threadDetail.tags"
-    [isHoverEffect]="false"
+    [showMore]="false"
   />
 
   <!-- Comment Input Component -->

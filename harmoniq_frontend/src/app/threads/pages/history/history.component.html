@@ -10,15 +10,12 @@
     <!-- Thread Card Content -->
     <app-thread-card
       *ngIf="createdByUser"
-      [creatorId]="createdByUser.id || 'Invalid Id'"
-      [creatorName]="createdByUser.name || 'Invalid Name'"
-      [creatorRole]="createdByUser.role || 'Invalid Role'"
-      [creatorAvatar]="createdByUser.avatar || ''"
+      [createdBy]="createdByUser"
       [description]="thread.description"
       [tagList]="thread.tags"
       [showDelete]="true"
       (onDeleteClick)="onDeleteThreadClick(thread.id)"
-      [isHoverEffect]="false"
+      [showMore]="false"
     />
 
     <!-- Horizontal Divider -->
