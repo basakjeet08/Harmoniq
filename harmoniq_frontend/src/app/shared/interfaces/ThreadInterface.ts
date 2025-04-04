@@ -14,5 +14,7 @@ export interface ThreadInterface {
 
   fetchThreadHistory(): Observable<ThreadHistoryResponse>;
 
+  toggleThreadLike(threadId: string): Observable<void>;
+
   deleteById(id: string): Observable<void>;
 }

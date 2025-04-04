@@ -4,7 +4,8 @@ export class ThreadHistoryItem {
   constructor(
     readonly id: string,
     readonly description: string,
-    readonly tags: string[]
+    readonly tags: string[],
+    readonly totalLikes: number
   ) {}
 }
 

@@ -14,6 +14,7 @@ import {
   FETCH_ALL_THREADS_ENDPOINT,
   FETCH_CURRENT_USER_THREADS_ENDPOINT,
   FETCH_THREAD_BY_ID_ENDPOINT,
+  TOGGLE_LIKE_ENDPOINTS,
 } from '../constants/url-constants';
 import { ProfileService } from './profile.service';
 
@@ -102,6 +103,20 @@ export class ThreadService implements ThreadInterface {
     return this.http
       .get<ResponseWrapper<ThreadHistoryResponse>>(
         FETCH_CURRENT_USER_THREADS_ENDPOINT,
+        this.getHeaders()
+      )
+      .pipe(
+        map((response) => response.data),
+        catchError(this.apiErrorHandler.handleApiError)
+      );
+  }
+
+  // This function toggles the like status for the given thread
+  toggleThreadLike(threadId: string): Observable<void> {
+    return this.http
+      .post<ResponseWrapper<void>>(
+        TOGGLE_LIKE_ENDPOINTS.replace(':id', threadId),
+        null,
         this.getHeaders()
       )
       .pipe(

@@ -22,6 +22,9 @@ export const FETCH_THREAD_BY_ID_ENDPOINT = `${BASE_URL}/threads/:id`;
 export const FETCH_CURRENT_USER_THREADS_ENDPOINT = `${BASE_URL}/users/me/threads`;
 export const DELETE_THREAD_BY_ID_ENDPOINT = `${BASE_URL}/threads/:id`;
 
+// Like Endpoints
+export const TOGGLE_LIKE_ENDPOINTS = `${BASE_URL}/threads/:id/likes`;
+
 // Comment Endpoints
 export const CREATE_COMMENT_ENDPOINT = `${BASE_URL}/threads/:threadId/comments`;
 
