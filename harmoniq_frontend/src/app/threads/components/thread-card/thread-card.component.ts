@@ -12,8 +12,10 @@ export class ThreadCardComponent {
   // These are the various inputs and outputs to the component
   @Input('createdBy') createdBy!: UserDto;
 
+  @Input('threadId') threadId: string = '';
   @Input('description') description: string = '';
   @Input('tagList') tagList: string[] = [];
+  @Input('isLiked') isLiked: boolean = false;
 
   @Input('showDelete') showDelete: boolean = false;
   @Input('showMore') showMore: boolean = true;
@@ -37,6 +39,11 @@ export class ThreadCardComponent {
   // This function is invoked when the delete button is clicked
   onDeleteClick() {
     this.deleteEmitter.emit();
+  }
+
+  // This function is invoked when the like button is clicked
+  onLikeButtonClick() {
+    console.log(this.threadId + 'Liked !!');
   }
 
   // This function is invoked when the user clicks on the user avatar

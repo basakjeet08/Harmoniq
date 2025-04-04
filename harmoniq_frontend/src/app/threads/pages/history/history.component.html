@@ -11,8 +11,10 @@
     <app-thread-card
       *ngIf="createdByUser"
       [createdBy]="createdByUser"
+      [threadId]="thread.id"
       [description]="thread.description"
       [tagList]="thread.tags"
+      [isLiked]="true"
       [showDelete]="true"
       (onDeleteClick)="onDeleteThreadClick(thread.id)"
       [showMore]="false"

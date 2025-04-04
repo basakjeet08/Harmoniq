@@ -18,8 +18,10 @@
     <!-- Thread Card Component-->
     <app-thread-card
       [createdBy]="thread.createdBy"
+      [threadId]="thread.id"
       [description]="thread.description"
       [tagList]="thread.tags"
+      [isLiked]="false"
       (onShowMoreClick)="onThreadCardClick(thread.id)"
     />
 

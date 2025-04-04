@@ -4,8 +4,10 @@
   <app-thread-card
     *ngIf="threadDetail"
     [createdBy]="threadDetail.createdBy"
+    [threadId]="threadDetail.id"
     [description]="threadDetail.description"
     [tagList]="threadDetail.tags"
+    [isLiked]="false"
     [showMore]="false"
   />
 
