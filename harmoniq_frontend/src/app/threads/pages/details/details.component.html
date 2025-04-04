@@ -26,10 +26,7 @@
     <div class="w-full" *ngFor="let comment of threadDetail?.comments">
       <!-- Each Comment Card Component -->
       <app-comment-card
-        [creatorId]="comment.createdBy.id || 'Invalid Id'"
-        [creatorName]="comment.createdBy.name || 'Invalid Name'"
-        [creatorRole]="comment.createdBy.role || 'Invalid Role'"
-        [creatorAvatar]="comment.createdBy.avatar || ''"
+        [createdBy]="comment.createdBy"
         [comment]="comment.content"
       />
     </div>
