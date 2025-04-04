@@ -14,9 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +37,7 @@ public class UserService {
                 .password(encoder.encode(authRequest.getPassword()))
                 .role(User.Type.MEMBER)
                 .avatar(authRequest.getAvatar())
+                .likes(new HashSet<>())
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -58,6 +57,7 @@ public class UserService {
                 .password(encoder.encode("Guest Password"))
                 .role(User.Type.GUEST)
                 .avatar(avatarService.generateAvatar())
+                .likes(new HashSet<>())
                 .createdAt(LocalDateTime.now())
                 .build();
 

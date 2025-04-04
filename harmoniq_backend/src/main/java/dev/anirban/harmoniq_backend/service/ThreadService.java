@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -45,6 +46,7 @@ public class ThreadService {
                 .tags(new ArrayList<>())
                 .createdBy(user)
                 .comments(new ArrayList<>())
+                .likes(new HashSet<>())
                 .build();
 
         // Saving the tags and threads for Bi - Directional relationship
