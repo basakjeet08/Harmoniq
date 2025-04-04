@@ -45,6 +45,9 @@ public class Thread {
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Like> likes;
 
+    @Column(name = "total_likes", nullable = false)
+    private Integer totalLikes;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "thread_tags",
@@ -60,6 +63,22 @@ public class Thread {
         }
     }
 
+    public void addLikes(Like like) {
+        if (!likes.contains(like)) {
+            likes.add(like);
+            like.setThread(this);
+            totalLikes++;
+        }
+    }
+
+    public void removeLike(Like like) {
+        if (likes.contains(like)) {
+            likes.remove(like);
+            like.setThread(null);
+            totalLikes--;
+        }
+    }
+
     public ThreadDto toThreadDto() {
         return ThreadDto
                 .builder()
@@ -71,6 +90,7 @@ public class Thread {
                         .toList()
                 )
                 .createdBy(createdBy.toUserDto())
+                .totalLikes(totalLikes)
                 .build();
     }
 }

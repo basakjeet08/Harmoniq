@@ -26,12 +26,14 @@ public class LikeService {
     private final LikeRepository likeRepo;
 
     // This function creates a new like
+    @Transactional
     public Like create(User user, Thread thread) {
         Like newLike = Like
                 .builder()
-                .user(user)
-                .thread(thread)
                 .build();
+
+        thread.addLikes(newLike);
+        user.addLikes(newLike);
 
         return likeRepo.save(newLike);
     }
@@ -65,7 +67,11 @@ public class LikeService {
     }
 
     // This function deletes the specific like
+    @Transactional
     public void deleteLike(Like like) {
+        like.getThread().removeLike(like);
+        like.getUser().removeLike(like);
+
         likeRepo.delete(like);
     }
 }

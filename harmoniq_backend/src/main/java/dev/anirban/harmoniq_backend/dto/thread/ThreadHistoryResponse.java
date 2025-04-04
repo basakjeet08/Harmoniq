@@ -33,6 +33,7 @@ public class ThreadHistoryResponse {
                                                 .map(Tag::getName)
                                                 .toList()
                                         )
+                                        .totalLikes(thread.getTotalLikes())
                                         .build()
                                 )
                                 .toList() : null
@@ -50,4 +51,5 @@ class ThreadHistoryItem {
     private String id;
     private String description;
     private List<String> tags;
+    private Integer totalLikes;
 }

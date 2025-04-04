@@ -21,6 +21,7 @@ public class ThreadDetailsResponse {
     private List<String> tags;
     private UserDto createdBy;
     private List<CommentDto> comments;
+    private Integer totalLikes;
 
     public static ThreadDetailsResponse generateThreadDetailsResponse(Thread thread) {
         return ThreadDetailsResponse
@@ -41,6 +42,7 @@ public class ThreadDetailsResponse {
                                 .map(Comment::toCommentDto)
                                 .toList()
                 )
+                .totalLikes(thread.getTotalLikes())
                 .build();
     }
 }

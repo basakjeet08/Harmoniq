@@ -57,6 +57,20 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Like> likes;
 
+    public void addLikes(Like like) {
+        if (!likes.contains(like)) {
+            likes.add(like);
+            like.setUser(this);
+        }
+    }
+
+    public void removeLike(Like like) {
+        if (likes.contains(like)) {
+            likes.remove(like);
+            like.setUser(null);
+        }
+    }
+
     public AuthResponse toAuthResponse() {
         return AuthResponse
                 .builder()

@@ -47,6 +47,7 @@ public class ThreadService {
                 .createdBy(user)
                 .comments(new ArrayList<>())
                 .likes(new HashSet<>())
+                .totalLikes(0)
                 .build();
 
         // Saving the tags and threads for Bi - Directional relationship
