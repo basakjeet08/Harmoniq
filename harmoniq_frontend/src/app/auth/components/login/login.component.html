@@ -24,6 +24,7 @@
         required
         email
         [(ngModel)]="userInput.email"
+        autocomplete="username"
         #email="ngModel"
       />
     </div>
@@ -51,6 +52,7 @@
         placeholder="Enter your Password"
         required
         [(ngModel)]="userInput.password"
+        autocomplete="current-password"
         #password="ngModel"
       />
     </div>
@@ -85,7 +87,7 @@
     <button
       class="flex-1 btn btn-primary"
       type="submit"
-      [disabled]="!formContainer.valid"
+      [disabled]="!formContainer.valid || loaderState"
     >
       Login
     </button>
@@ -94,6 +96,7 @@
       class="flex-1 btn btn-accent"
       type="button"
       (click)="onLoginAsGuestClick()"
+      [disabled]="loaderState"
     >
       Login as Guest
     </button>

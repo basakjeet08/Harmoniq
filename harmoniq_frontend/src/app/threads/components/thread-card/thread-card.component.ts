@@ -28,13 +28,19 @@ export class ThreadCardComponent {
   @Output('onShowMoreClick') showMoreEmitter = new EventEmitter<void>();
   @Output('onDeleteClick') deleteEmitter = new EventEmitter<void>();
 
+  loaderState!: boolean;
+
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
     private loaderService: LoaderService,
     private toastService: ToastService,
     private router: Router
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // This function gives if the user is a moderator or not
   get isModerator() {

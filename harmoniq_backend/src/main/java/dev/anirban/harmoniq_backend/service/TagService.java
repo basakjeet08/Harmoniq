@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -79,5 +80,21 @@ public class TagService {
                         new Tag(null, tagName, new HashSet<>())
                 ))
                 .toList();
+    }
+
+    // This function deletes the unused tags automatically
+    @Scheduled(fixedRate = 86400000)
+    @Transactional
+    public void deleteUnusedTags() {
+        List<Tag> unusedTags = fetchAllTags()
+                .stream()
+                .filter(tag -> tag.getThreads() == null || tag.getThreads().isEmpty())
+                .toList();
+
+        // When there are unused tags we delete it
+        log.info("(|) - Checking for unused tags and found {} unused tags to delete !!", unusedTags.size());
+        if (!unusedTags.isEmpty()) {
+            tagRepo.deleteAll(unusedTags);
+        }
     }
 }

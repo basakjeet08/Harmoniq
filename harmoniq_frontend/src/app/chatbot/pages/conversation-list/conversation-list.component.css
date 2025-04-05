@@ -15,3 +15,25 @@
 .w-50 {
   width: 50%;
 }
+
+.card-btn {
+  padding: 8px;
+  background-color: var(--surface-variant);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg {
+  height: 16px;
+  width: 16px;
+}
+
+.fill-secondary {
+  fill: var(--secondary);
+}
+
+.fill-error {
+  fill: var(--error);
+}

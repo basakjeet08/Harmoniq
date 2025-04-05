@@ -1,3 +1,4 @@
-export class ResponseWrapper<T> {
-  constructor(readonly message: string, readonly data: T) {}
+export interface ResponseWrapper<T> {
+  message: string;
+  data: T;
 }

@@ -15,6 +15,7 @@ import { ConversationService } from 'src/app/shared/services/conversation.servic
 export class ConversationListComponent implements OnInit {
   // These are the data for this component
   conversationList: ConversationDto[] = [];
+  loaderState!: boolean;
 
   // Injecting the necessary dependencies
   constructor(
@@ -23,7 +24,11 @@ export class ConversationListComponent implements OnInit {
     private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // Fetching the necessary conversation list data from the Backend
   ngOnInit(): void {

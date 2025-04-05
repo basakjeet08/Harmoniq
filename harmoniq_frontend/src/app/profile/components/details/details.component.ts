@@ -20,6 +20,7 @@ export class DetailsComponent {
   userData: UserDto | null = null;
   isOwner: boolean = false;
   isGuestMode: boolean = false;
+  loaderState!: boolean;
 
   // Injecting the necessary dependencies
   constructor(
@@ -29,7 +30,11 @@ export class DetailsComponent {
     private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // Fetching the User Details on comonent init
   ngOnInit(): void {

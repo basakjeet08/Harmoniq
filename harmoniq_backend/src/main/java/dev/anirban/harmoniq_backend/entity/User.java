@@ -54,9 +54,35 @@ public class User implements UserDetails {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Thread> threads;
+
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Like> likes;
 
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Conversation> conversations;
+
+    // Helper function to add threads
+    public void addThread(Thread thread) {
+        if (!threads.contains(thread)) {
+            threads.add(thread);
+            thread.setCreatedBy(this);
+        }
+    }
+
+    // Helper function to add comments
+    public void addComment(Comment comment) {
+        if (!comments.contains(comment)) {
+            comments.add(comment);
+            comment.setCreatedBy(this);
+        }
+    }
+
+    // Helper function to add likes
     public void addLikes(Like like) {
         if (!likes.contains(like)) {
             likes.add(like);
@@ -64,10 +90,11 @@ public class User implements UserDetails {
         }
     }
 
-    public void removeLike(Like like) {
-        if (likes.contains(like)) {
-            likes.remove(like);
-            like.setUser(null);
+    // This function helps to add conversation
+    public void addConversation(Conversation conversation) {
+        if (!conversations.contains(conversation)) {
+            conversations.add(conversation);
+            conversation.setCreatedBy(this);
         }
     }
 

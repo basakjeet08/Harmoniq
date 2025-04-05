@@ -33,6 +33,7 @@
         required
         email
         [(ngModel)]="userInput.email"
+        autocomplete="username"
         #email="ngModel"
       />
     </div>
@@ -61,6 +62,7 @@
         required
         minlength="5"
         [(ngModel)]="userInput.password"
+        autocomplete="new-password"
         #password="ngModel"
       />
     </div>
@@ -91,6 +93,7 @@
         placeholder="Re - enter the Password"
         required
         [(ngModel)]="userInput.confirmPassword"
+        autocomplete="new-password"
         #confirmPassword="ngModel"
       />
     </div>
@@ -128,7 +131,9 @@
     class="flex-1 btn btn-primary"
     type="submit"
     [disabled]="
-      formContainer.invalid || password.value !== confirmPassword.value
+      formContainer.invalid ||
+      password.value !== confirmPassword.value ||
+      loaderState
     "
   >
     Register User

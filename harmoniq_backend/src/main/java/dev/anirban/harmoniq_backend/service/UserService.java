@@ -35,10 +35,12 @@ public class UserService {
                 .name(randomNameService.generateRandomName())
                 .email(authRequest.getEmail())
                 .password(encoder.encode(authRequest.getPassword()))
-                .role(User.Type.MEMBER)
                 .avatar(authRequest.getAvatar())
-                .likes(new HashSet<>())
+                .role(User.Type.MEMBER)
                 .createdAt(LocalDateTime.now())
+                .threads(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .likes(new HashSet<>())
                 .build();
 
         return userRepo.save(user);
@@ -55,10 +57,12 @@ public class UserService {
                 .name(randomNameService.generateRandomName())
                 .email(guestId)
                 .password(encoder.encode("Guest Password"))
-                .role(User.Type.GUEST)
                 .avatar(avatarService.generateAvatar())
-                .likes(new HashSet<>())
+                .role(User.Type.GUEST)
                 .createdAt(LocalDateTime.now())
+                .threads(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .likes(new HashSet<>())
                 .build();
 
         return userRepo.save(user);
@@ -72,8 +76,8 @@ public class UserService {
         List<User> expiredGuests = userRepo.findByRoleAndCreatedAtBefore(User.Type.GUEST, expiredTime);
 
         // When there are guest account which are expired
+        log.info("(|) - Checking for expired guests accounts and deleted {} guest accounts", expiredGuests.size());
         if (!expiredGuests.isEmpty()) {
-            log.info("(|) - Checking for expired guests accounts and deleted {} guest accounts", expiredGuests.size());
             userRepo.deleteAll(expiredGuests);
         }
     }
@@ -121,6 +125,16 @@ public class UserService {
     public void delete(UserDetails userDetails) {
         User savedUser = findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+
+        // Removing the likes from the threads. This way I don't have to manually manage the totalLikes fields
+        savedUser
+                .getLikes()
+                .forEach(like -> like.getThread().removeLike(like));
+
+        // Removing the comments from the threads
+        savedUser
+                .getComments()
+                .forEach(comment -> comment.getThread().removeComment(comment));
 
         userRepo.delete(savedUser);
     }

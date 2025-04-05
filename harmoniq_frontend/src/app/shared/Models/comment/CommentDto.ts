@@ -1,9 +1,7 @@
 import { UserDto } from '../user/UserDto';
 
-export class CommentDto {
-  constructor(
-    readonly id: string,
-    readonly content: string,
-    readonly createdBy: UserDto
-  ) {}
+export interface CommentDto {
+  id: string;
+  content: string;
+  createdBy: UserDto;
 }

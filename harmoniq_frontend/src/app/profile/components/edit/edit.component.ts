@@ -16,6 +16,7 @@ export class EditComponent {
 
   // These are the data for the component
   userData: UserDto = { id: '', name: '', email: '', password: '', avatar: '' };
+  loaderState!: boolean;
 
   // Injecting the necessary dependencies
   constructor(
@@ -24,7 +25,11 @@ export class EditComponent {
     private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // Fetching the User Details on comonent init
   ngOnInit(): void {

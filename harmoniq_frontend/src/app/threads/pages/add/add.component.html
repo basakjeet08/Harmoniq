@@ -32,7 +32,7 @@
     <button
       class="flex-1 btn btn-primary"
       type="submit"
-      [disabled]="formContainer.invalid"
+      [disabled]="formContainer.invalid || loaderState"
     >
       Post Thread
     </button>
@@ -41,6 +41,7 @@
       class="flex-1 btn btn-destructive"
       type="button"
       (click)="onCancelClick()"
+      [disabled]="loaderState"
     >
       Cancel & Go Back
     </button>
