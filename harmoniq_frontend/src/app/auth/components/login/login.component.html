@@ -24,6 +24,7 @@
         required
         email
         [(ngModel)]="userInput.email"
+        autocomplete="username"
         #email="ngModel"
       />
     </div>
@@ -51,6 +52,7 @@
         placeholder="Enter your Password"
         required
         [(ngModel)]="userInput.password"
+        autocomplete="current-password"
         #password="ngModel"
       />
     </div>
