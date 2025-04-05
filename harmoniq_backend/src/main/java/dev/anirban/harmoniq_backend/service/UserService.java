@@ -76,8 +76,8 @@ public class UserService {
         List<User> expiredGuests = userRepo.findByRoleAndCreatedAtBefore(User.Type.GUEST, expiredTime);
 
         // When there are guest account which are expired
+        log.info("(|) - Checking for expired guests accounts and deleted {} guest accounts", expiredGuests.size());
         if (!expiredGuests.isEmpty()) {
-            log.info("(|) - Checking for expired guests accounts and deleted {} guest accounts", expiredGuests.size());
             userRepo.deleteAll(expiredGuests);
         }
     }
