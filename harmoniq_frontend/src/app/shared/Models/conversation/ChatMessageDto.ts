@@ -4,11 +4,9 @@ export enum MessageType {
   SYSTEM = 'SYSTEM',
 }
 
-export class ChatMessageDto {
-  constructor(
-    readonly id: string,
-    readonly text: string,
-    readonly messageType: MessageType,
-    readonly createdAt: Date
-  ) {}
+export interface ChatMessageDto {
+  id: string;
+  text: string;
+  messageType: MessageType;
+  createdAt: Date;
 }

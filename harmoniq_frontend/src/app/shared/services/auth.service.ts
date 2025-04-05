@@ -11,6 +11,7 @@ import {
   REGISTER_ENDPOINT,
 } from '../constants/url-constants';
 import { ProfileService } from './profile.service';
+import { UserDto } from '../Models/user/UserDto';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService implements AuthInterface {
@@ -22,10 +23,7 @@ export class AuthService implements AuthInterface {
   ) {}
 
   // This function registers the user as a member
-  registerMember(user: {
-    email: string;
-    password: string;
-  }): Observable<AuthResponse> {
+  registerMember(user: UserDto): Observable<AuthResponse> {
     return this.http
       .post<ResponseWrapper<AuthResponse>>(REGISTER_ENDPOINT, user)
       .pipe(
@@ -35,7 +33,7 @@ export class AuthService implements AuthInterface {
   }
 
   // This function sends a login request for the user
-  login(user: { email: string; password: string }): Observable<AuthResponse> {
+  login(user: UserDto): Observable<AuthResponse> {
     return this.http
       .post<ResponseWrapper<AuthResponse>>(LOGIN_ENDPOINT, user)
       .pipe(

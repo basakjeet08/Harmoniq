@@ -89,13 +89,12 @@ export class ConversationDetailsComponent implements OnInit {
   // This function updates the message array with chat bot responses
   updateMessage() {
     if (this.currentResponse) {
-      const newChat = new ChatMessageDto(
-        '',
-        this.currentResponse,
-        MessageType.ASSISTANT,
-        new Date()
-      );
-      this.messages.push(newChat);
+      this.messages.push({
+        id: '',
+        text: this.currentResponse,
+        messageType: MessageType.ASSISTANT,
+        createdAt: new Date(),
+      });
       this.currentResponse = '';
     }
   }
@@ -106,9 +105,13 @@ export class ConversationDetailsComponent implements OnInit {
     this.loaderService.startLoading();
 
     // pushing the user message in the list
-    this.messages.push(
-      new ChatMessageDto('', prompt, MessageType.USER, new Date())
-    );
+    this.messages.push({
+      id: '',
+      text: prompt,
+      messageType: MessageType.USER,
+      createdAt: new Date(),
+    });
+
     this.input.resetComponent();
 
     // Calling the API
