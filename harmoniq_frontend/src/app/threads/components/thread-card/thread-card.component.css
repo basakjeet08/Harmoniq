@@ -22,6 +22,10 @@
 .card-btn {
   padding: 8px;
   background-color: var(--surface-variant);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .svg {

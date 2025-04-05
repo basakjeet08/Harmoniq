@@ -15,6 +15,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
 export class FeedComponent implements OnInit {
   // This is the thread list for the component
   threadList: ThreadDto[] = [];
+  loaderState!: boolean;
 
   // Injecting the necessary dependencies
   constructor(
@@ -23,7 +24,11 @@ export class FeedComponent implements OnInit {
     private loaderService: LoaderService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // Fetching the thread list when the component is loaded
   ngOnInit(): void {
@@ -40,18 +45,17 @@ export class FeedComponent implements OnInit {
       // Success State
       next: (threadList: ThreadDto[]) => {
         this.loaderService.endLoading();
-
-        this.toastService.showToast({
-          type: 'success',
-          message: 'Threads fetched Successfully !!',
-        });
-
         this.threadList = threadList;
 
         if (this.threadList.length === 0) {
           this.toastService.showToast({
             type: 'info',
             message: `There are no Threads Posted yet. Head over to the post a thread section to post your first Thread !!`,
+          });
+        } else {
+          this.toastService.showToast({
+            type: 'success',
+            message: 'Threads fetched Successfully !!',
           });
         }
       },
@@ -74,18 +78,17 @@ export class FeedComponent implements OnInit {
       // Success State
       next: (threadList: ThreadDto[]) => {
         this.loaderService.endLoading();
-
-        this.toastService.showToast({
-          type: 'success',
-          message: 'Threads fetched Successfully !!',
-        });
-
         this.threadList = threadList;
 
         if (this.threadList.length === 0) {
           this.toastService.showToast({
             type: 'info',
             message: `There are no Threads Posted by this tag yet. Head over to the post a thread section to post your first Thread !!`,
+          });
+        } else {
+          this.toastService.showToast({
+            type: 'success',
+            message: 'Threads fetched Successfully !!',
           });
         }
       },

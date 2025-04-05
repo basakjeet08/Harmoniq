@@ -20,6 +20,7 @@ export class DetailsComponent implements OnInit {
   // This is the data for the component
   isGuest: boolean = false;
   threadDetail: ThreadDetailResponse | null = null;
+  loaderState!: boolean;
 
   // Child Input Component
   @ViewChild(InputComponent) input!: InputComponent;
@@ -32,7 +33,11 @@ export class DetailsComponent implements OnInit {
     private toastService: ToastService,
     private loaderService: LoaderService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // Fetching the thread id and then fetching its details
   ngOnInit(): void {
@@ -56,12 +61,6 @@ export class DetailsComponent implements OnInit {
       // Success State
       next: (threadDetail: ThreadDetailResponse) => {
         this.loaderService.endLoading();
-
-        this.toastService.showToast({
-          type: 'success',
-          message: 'Thread data fetched successfully !!',
-        });
-
         this.threadDetail = threadDetail;
       },
 

@@ -20,6 +20,7 @@
     [buttonText]="'Add a Comment'"
     [type]="'text'"
     (onButtonClick)="onCommentClick($event)"
+    [disabled]="loaderState"
   />
 
   <!-- Comment Container -->
