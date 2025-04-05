@@ -14,6 +14,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
 export class AddComponent {
   // These are the details inputted by the user
   userInput = { description: '' };
+  loaderState!: boolean;
 
   // Injecting the necessary dependencies
   constructor(
@@ -21,7 +22,11 @@ export class AddComponent {
     private toastService: ToastService,
     private loaderService: LoaderService,
     private location: Location
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // This function is invoked when the user clicks on the post thread button
   onPostClick() {
