@@ -40,9 +40,11 @@ public class ConversationService {
                 .title(conversationRequest.getTitle())
                 .createdAt(LocalDateTime.now())
                 .chatBotImage(avatarService.getChatbotAvatar())
-                .createdBy(user)
                 .chatMessageList(new ArrayList<>())
                 .build();
+
+        // Adding the conversation for relationship
+        user.addConversation(conversation);
 
         return conversationRepo.save(conversation);
     }
@@ -83,10 +85,9 @@ public class ConversationService {
                     .text(message.getText())
                     .messageType(message.getMessageType())
                     .createdAt(LocalDateTime.now())
-                    .conversation(savedConversation)
                     .build();
 
-            savedConversation.getChatMessageList().add(chatMessage);
+            savedConversation.addChatMessage(chatMessage);
         });
 
         conversationRepo.save(savedConversation);
@@ -101,10 +102,9 @@ public class ConversationService {
     public void deleteById(String id, UserDetails userDetails) {
         Conversation conversation = findById(id);
 
-        if (!conversation.getCreatedBy().getUsername().equals(userDetails.getUsername())) {
+        if (!conversation.getCreatedBy().getUsername().equals(userDetails.getUsername()))
             throw new UnAuthorized();
-        } else {
+        else
             deleteById(id);
-        }
     }
 }

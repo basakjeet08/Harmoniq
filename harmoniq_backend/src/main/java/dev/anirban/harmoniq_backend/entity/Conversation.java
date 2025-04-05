@@ -49,6 +49,14 @@ public class Conversation {
     @OrderBy("createdAt ASC")
     private List<ChatMessage> chatMessageList;
 
+    // This function adds a chat message to the Conversation
+    public void addChatMessage(ChatMessage chatMessage) {
+        if (!chatMessageList.contains(chatMessage)) {
+            chatMessageList.add(chatMessage);
+            chatMessage.setConversation(this);
+        }
+    }
+
     public ConversationDto toConversationDto() {
         return ConversationDto
                 .builder()

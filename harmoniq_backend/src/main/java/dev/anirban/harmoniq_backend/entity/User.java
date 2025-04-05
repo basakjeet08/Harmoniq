@@ -63,6 +63,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Like> likes;
 
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Conversation> conversations;
+
     // Helper function to add threads
     public void addThread(Thread thread) {
         if (!threads.contains(thread)) {
@@ -84,6 +87,14 @@ public class User implements UserDetails {
         if (!likes.contains(like)) {
             likes.add(like);
             like.setUser(this);
+        }
+    }
+
+    // This function helps to add conversation
+    public void addConversation(Conversation conversation) {
+        if (!conversations.contains(conversation)) {
+            conversations.add(conversation);
+            conversation.setCreatedBy(this);
         }
     }
 
