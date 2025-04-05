@@ -77,7 +77,7 @@ public class TagService {
                 .stream()
                 .map(tagName -> tagLookupTable.getOrDefault(
                         tagName,
-                        new Tag(null, tagName, new HashSet<>())
+                        new Tag(null, tagName, new HashSet<>(), new HashSet<>())
                 ))
                 .toList();
     }

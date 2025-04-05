@@ -66,6 +66,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Conversation> conversations;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Interest> interests;
+
     // Helper function to add threads
     public void addThread(Thread thread) {
         if (!threads.contains(thread)) {
@@ -95,6 +98,14 @@ public class User implements UserDetails {
         if (!conversations.contains(conversation)) {
             conversations.add(conversation);
             conversation.setCreatedBy(this);
+        }
+    }
+
+    // Helper function to add interest
+    public void addInterest(Interest interest) {
+        if (!interests.contains(interest)) {
+            interests.add(interest);
+            interest.setUser(this);
         }
     }
 

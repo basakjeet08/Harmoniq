@@ -26,6 +26,7 @@ public class ThreadService {
     private final ThreadRepository threadRepo;
     private final UserService userService;
     private final TagService tagService;
+    private final InterestService interestService;
 
     // This function creates a new Thread and returns the created Thread
     @Transactional
@@ -56,6 +57,9 @@ public class ThreadService {
 
         // Managing the parent dependencies
         user.addThread(thread);
+
+        // Updating the user interests
+        interestService.updateUserInterestsFromPostTags(thread.getTags(), user);
 
         return threadRepo.save(thread);
     }

@@ -41,6 +41,7 @@ public class UserService {
                 .threads(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .likes(new HashSet<>())
+                .interests(new HashSet<>())
                 .build();
 
         return userRepo.save(user);
