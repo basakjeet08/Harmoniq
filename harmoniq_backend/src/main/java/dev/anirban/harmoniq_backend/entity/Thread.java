@@ -8,6 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,16 +38,76 @@ public class Thread {
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
+    @Column(name = "total_comments", nullable = false)
+    private Integer totalComments;
+
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("createdAt DESC")
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Like> likes;
+
+    @Column(name = "total_likes", nullable = false)
+    private Integer totalLikes;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "thread_tags",
+            joinColumns = @JoinColumn(name = "thread_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
+
+    public void addTags(Tag tag) {
+        if (!tags.contains(tag)) {
+            tags.add(tag);
+            tag.getThreads().add(this);
+        }
+    }
+
+    public void addComment(Comment comment) {
+        if (!comments.contains(comment)) {
+            comments.add(comment);
+            comment.setThread(this);
+            totalComments++;
+        }
+    }
+
+    public void addLikes(Like like) {
+        if (!likes.contains(like)) {
+            likes.add(like);
+            like.setThread(this);
+            totalLikes++;
+        }
+    }
+
+    public void removeLike(Like like) {
+        if (likes.contains(like)) {
+            likes.remove(like);
+            like.setThread(null);
+            totalLikes--;
+        }
+    }
 
     public ThreadDto toThreadDto() {
         return ThreadDto
                 .builder()
                 .id(id)
                 .description(description)
+                .tags(tags
+                        .stream()
+                        .map(Tag::getName)
+                        .toList()
+                )
                 .createdBy(createdBy.toUserDto())
+                .totalLikes(totalLikes)
+                .likedByUserIds(likes
+                        .stream()
+                        .map(like -> like.getUser().getId())
+                        .toList()
+                )
+                .totalComments(totalComments)
                 .build();
     }
 }

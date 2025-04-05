@@ -7,10 +7,6 @@
   cursor: pointer;
 }
 
-.card-hover:hover {
-  background-color: var(--surface-variant);
-}
-
 .space {
   justify-content: space-between;
 }
@@ -21,4 +17,22 @@
 
   border-radius: 50%;
   cursor: pointer;
+}
+
+.card-btn {
+  padding: 8px;
+  background-color: var(--surface-variant);
+}
+
+.svg {
+  height: 16px;
+  width: 16px;
+}
+
+.fill-error {
+  fill: var(--error);
+}
+
+.fill-secondary {
+  fill: var(--secondary);
 }

@@ -1,9 +1,12 @@
 import { UserDto } from '../user/UserDto';
 
-export class ThreadDto {
-  constructor(
-    readonly id: string,
-    readonly description: string,
-    readonly createdBy: UserDto
-  ) {}
+export interface ThreadDto {
+  id: string;
+  description: string;
+  tags: string[];
+  createdBy: UserDto;
+  totalLikes: number;
+  likedByUserIds: string[];
+  isLikedByCurrentUser: boolean;
+  totalComments: number;
 }

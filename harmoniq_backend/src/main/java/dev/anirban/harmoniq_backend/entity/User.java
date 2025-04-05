@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -52,6 +53,23 @@ public class User implements UserDetails {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Like> likes;
+
+    public void addLikes(Like like) {
+        if (!likes.contains(like)) {
+            likes.add(like);
+            like.setUser(this);
+        }
+    }
+
+    public void removeLike(Like like) {
+        if (likes.contains(like)) {
+            likes.remove(like);
+            like.setUser(null);
+        }
+    }
 
     public AuthResponse toAuthResponse() {
         return AuthResponse

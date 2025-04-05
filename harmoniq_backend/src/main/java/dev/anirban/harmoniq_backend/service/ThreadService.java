@@ -1,18 +1,22 @@
 package dev.anirban.harmoniq_backend.service;
 
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
+import dev.anirban.harmoniq_backend.entity.Tag;
 import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ThreadRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -21,22 +25,35 @@ public class ThreadService {
 
     private final ThreadRepository threadRepo;
     private final UserService userService;
+    private final TagService tagService;
 
     // This function creates a new Thread and returns the created Thread
+    @Transactional
     public Thread create(ThreadRequest threadRequest, UserDetails userDetails) {
         // Fetching the user object from the database
         User user = userService
                 .findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
 
+        // Fetching the generated final tag List from the tag service
+        List<Tag> tagList = tagService.generateTags(threadRequest.getDescription());
+
         // Creating a new Thread
         Thread thread = Thread
                 .builder()
                 .description(threadRequest.getDescription())
                 .createdAt(LocalDateTime.now())
+                .tags(new ArrayList<>())
                 .createdBy(user)
                 .comments(new ArrayList<>())
+                .likes(new HashSet<>())
+                .totalLikes(0)
+                .totalComments(0)
                 .build();
+
+        // Saving the tags and threads for Bi - Directional relationship
+        for (Tag tag : tagList)
+            thread.addTags(tag);
 
         return threadRepo.save(thread);
     }
@@ -58,7 +75,19 @@ public class ThreadService {
         return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
     }
 
+    // This function fetches the threads by the tag name in descending order of created At
+    public List<Thread> findByNameContainingIgnoreCase(String tag) {
+        return tagService
+                .findByNameContainingIgnoreCase(tag)
+                .stream()
+                .flatMap(t -> t.getThreads().stream())
+                .distinct()
+                .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
+                .toList();
+    }
+
     // This function deletes all the threads from the database
+    @Transactional
     public void deleteById(String id, UserDetails userDetails) {
         // Checking if the thread is present
         Thread savedThread = findById(id);
@@ -67,6 +96,9 @@ public class ThreadService {
         if (!savedThread.getCreatedBy().getUsername().equals(userDetails.getUsername()))
             throw new UnAuthorized();
 
-        threadRepo.deleteById(id);
+        savedThread.getTags().clear();
+        Thread updatedThread = threadRepo.save(savedThread);
+
+        threadRepo.delete(updatedThread);
     }
 }

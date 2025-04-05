@@ -33,9 +33,17 @@ public class ThreadController {
 
     // This function handles requests to fetch all threads
     @GetMapping(UrlConstants.FETCH_ALL_THREADS_ENDPOINT)
-    public ResponseWrapper<List<ThreadDto>> handleFetchAllThreadsRequest() {
-        List<ThreadDto> threadDtoList = service
-                .findAllByOrderByCreatedAtDesc()
+    public ResponseWrapper<List<ThreadDto>> handleFetchAllThreadsRequest(
+            @RequestParam(name = "tag", required = false) String tag
+    ) {
+
+        // fetching the thread list
+        List<Thread> threadList = tag != null && !tag.isEmpty()
+                ? service.findByNameContainingIgnoreCase(tag)
+                : service.findAllByOrderByCreatedAtDesc();
+
+        // mapping the thread list to the response DTO
+        List<ThreadDto> threadDtoList = threadList
                 .stream()
                 .map(Thread::toThreadDto)
                 .toList();

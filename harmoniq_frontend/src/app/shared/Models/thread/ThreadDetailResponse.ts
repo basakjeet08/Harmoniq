@@ -1,11 +1,14 @@
 import { CommentDto } from '../comment/CommentDto';
 import { UserDto } from '../user/UserDto';
 
-export class ThreadDetailResponse {
-  constructor(
-    readonly id: string,
-    readonly description: string,
-    readonly createdBy: UserDto,
-    readonly comments: CommentDto[]
-  ) {}
+export interface ThreadDetailResponse {
+  id: string;
+  description: string;
+  tags: string[];
+  createdBy: UserDto;
+  comments: CommentDto[];
+  totalLikes: number;
+  likedByUserIds: string[];
+  isLikedByCurrentUser: boolean;
+  totalComments: number;
 }

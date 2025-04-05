@@ -3,13 +3,14 @@
   <!-- Thread Card Component-->
   <app-thread-card
     *ngIf="threadDetail"
-    [creatorId]="threadDetail.createdBy.id || 'Invalid Id'"
-    [creatorName]="threadDetail.createdBy.name || 'Invalid Creator'"
-    [creatorRole]="threadDetail.createdBy.role || 'Invalid Role'"
-    [creatorAvatar]="threadDetail.createdBy.avatar || ''"
+    [createdBy]="threadDetail.createdBy"
+    [threadId]="threadDetail.id"
     [description]="threadDetail.description"
-    [tagList]="['Depression', 'Mental Trauma', 'Stress']"
-    [isHoverEffect]="false"
+    [tagList]="threadDetail.tags"
+    [totalLikes]="threadDetail.totalLikes"
+    [totalComments]="threadDetail.totalComments"
+    [isLiked]="threadDetail.isLikedByCurrentUser"
+    [showMore]="false"
   />
 
   <!-- Comment Input Component -->
@@ -22,14 +23,11 @@
   />
 
   <!-- Comment Container -->
-  <div class="w-full">
+  <div class="w-full" [@staggerAnimation]="threadDetail?.comments?.length">
     <div class="w-full" *ngFor="let comment of threadDetail?.comments">
       <!-- Each Comment Card Component -->
       <app-comment-card
-        [creatorId]="comment.createdBy.id || 'Invalid Id'"
-        [creatorName]="comment.createdBy.name || 'Invalid Name'"
-        [creatorRole]="comment.createdBy.role || 'Invalid Role'"
-        [creatorAvatar]="comment.createdBy.avatar || ''"
+        [createdBy]="comment.createdBy"
         [comment]="comment.content"
       />
     </div>

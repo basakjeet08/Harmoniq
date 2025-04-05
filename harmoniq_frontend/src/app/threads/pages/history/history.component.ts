@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import {
@@ -12,6 +13,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.css'],
+  animations: [staggerAnimation],
 })
 export class HistoryComponent {
   // This is the thread list and user data for the component
@@ -44,7 +46,7 @@ export class HistoryComponent {
         this.createdByUser = threadHistory.createdBy;
 
         // Checking if the database is empty
-        if (!this.threadList) {
+        if (!this.threadList || this.threadList.length === 0) {
           this.toastService.showToast({
             type: 'info',
             message: `There are no Threads Posted yet. Head over to the Post a Thread section to post the first Thread !!`,

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Roles } from 'src/app/shared/Models/user/Roles';
+import { UserDto } from 'src/app/shared/Models/user/UserDto';
 
 @Component({
   selector: 'app-comment-card',
@@ -8,17 +10,19 @@ import { Router } from '@angular/router';
 })
 export class CommentCardComponent {
   // Input Fields which will be passed by the parent component
-  @Input('creatorId') creatorId: string = '';
-  @Input('creatorName') creatorName: string = '';
-  @Input('creatorRole') creatorRole: string = '';
-  @Input('creatorAvatar') creatorAvatar: string = '';
+  @Input('createdBy') createdBy!: UserDto;
   @Input('comment') comment: string = '';
 
   // Injecting the necessary dependencies
   constructor(private router: Router) {}
 
+  // This function returns if the user is a moderator or not
+  get isModerator() {
+    return this.createdBy.role === Roles.MODERATOR;
+  }
+
   // This function is invoked when the user clicks on the user avatar
   onAvatarClick() {
-    this.router.navigate(['/dashboard/profile', this.creatorId]);
+    this.router.navigate(['/dashboard/profile', this.createdBy.id]);
   }
 }

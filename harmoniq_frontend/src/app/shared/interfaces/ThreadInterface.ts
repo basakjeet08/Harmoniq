@@ -10,7 +10,11 @@ export interface ThreadInterface {
 
   findAll(): Observable<ThreadDto[]>;
 
+  findByTags(tag: string): Observable<ThreadDto[]>;
+
   fetchThreadHistory(): Observable<ThreadHistoryResponse>;
+
+  toggleThreadLike(threadId: string): Observable<void>;
 
   deleteById(id: string): Observable<void>;
 }

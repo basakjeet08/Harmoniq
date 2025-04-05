@@ -1,6 +1,7 @@
 import { InputComponent } from './../../../shared/components/input/input.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadDetailResponse } from 'src/app/shared/Models/thread/ThreadDetailResponse';
@@ -13,6 +14,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
+  animations: [staggerAnimation],
 })
 export class DetailsComponent implements OnInit {
   // This is the data for the component

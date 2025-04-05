@@ -8,19 +8,20 @@
     <!-- Profile Pic -->
     <img
       class="profile-image"
-      [src]="creatorAvatar"
+      [src]="createdBy.avatar"
       alt="Profile Image"
       (click)="onAvatarClick()"
     />
 
     <!-- Name and Account Type -->
     <div>
-      <p class="primary-text body-text">{{ creatorName }}</p>
+      <p class="primary-text body-text">{{ createdBy.name | titlecase }}</p>
+
       <small
         class="secondary-text caption-text"
-        [ngClass]="{ 'error-text': creatorRole === 'MODERATOR' }"
+        [ngClass]="{ 'error-text': isModerator }"
       >
-        {{ creatorRole | titlecase }}
+        {{ createdBy.role | titlecase }}
       </small>
     </div>
   </div>

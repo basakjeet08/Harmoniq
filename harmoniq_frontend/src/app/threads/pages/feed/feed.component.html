@@ -9,7 +9,7 @@
 </div>
 
 <!-- This is the Thread list container -->
-<div class="w-full col-container g-16">
+<div class="w-full col-container g-16" [@staggerAnimation]="threadList.length">
   <!-- Each Thread Component -->
   <div
     class="w-full col-container items-center g-16"
@@ -17,13 +17,14 @@
   >
     <!-- Thread Card Component-->
     <app-thread-card
-      [creatorId]="thread.createdBy.id || 'Invalid Id'"
-      [creatorName]="thread.createdBy.name || 'Invalid Name'"
-      [creatorRole]="thread.createdBy.role || 'Invalid role'"
-      [creatorAvatar]="thread.createdBy.avatar || ''"
+      [createdBy]="thread.createdBy"
+      [threadId]="thread.id"
       [description]="thread.description"
-      [tagList]="['Depression', 'Mental Trauma', 'Stress']"
-      (onThreadClick)="onThreadCardClick(thread.id)"
+      [tagList]="thread.tags"
+      [totalLikes]="thread.totalLikes"
+      [totalComments]="thread.totalComments"
+      [isLiked]="thread.isLikedByCurrentUser"
+      (onShowMoreClick)="onThreadCardClick(thread.id)"
     />
 
     <!-- Horizontal Divider -->

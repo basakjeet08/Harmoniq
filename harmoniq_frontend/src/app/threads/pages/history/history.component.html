@@ -1,7 +1,7 @@
 <h2 class="align-start">Your Thread History Page . . .</h2>
 
 <!-- This is the History Thread list container -->
-<div class="w-full col-container g-16">
+<div class="w-full col-container g-16" [@staggerAnimation]="threadList.length">
   <!-- Each Thread Component -->
   <div
     class="w-full col-container items-center g-16"
@@ -10,15 +10,16 @@
     <!-- Thread Card Content -->
     <app-thread-card
       *ngIf="createdByUser"
-      [creatorId]="createdByUser.id || 'Invalid Id'"
-      [creatorName]="createdByUser.name || 'Invalid Name'"
-      [creatorRole]="createdByUser.role || 'Invalid Role'"
-      [creatorAvatar]="createdByUser.avatar || ''"
+      [createdBy]="createdByUser"
+      [threadId]="thread.id"
       [description]="thread.description"
-      [tagList]="['Depression', 'Mental Trauma', 'Stress']"
+      [tagList]="thread.tags"
+      [totalLikes]="thread.totalLikes"
+      [totalComments]="thread.totalComments"
+      [isLiked]="thread.isLikedByCurrentUser"
+      [showMore]="false"
       [showDelete]="true"
       (onDeleteClick)="onDeleteThreadClick(thread.id)"
-      [isHoverEffect]="false"
     />
 
     <!-- Horizontal Divider -->
