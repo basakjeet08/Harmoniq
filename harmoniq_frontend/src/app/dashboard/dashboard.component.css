@@ -51,6 +51,17 @@
   cursor: pointer;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.svg {
+  height: 24px;
+  width: 24px;
+
+  fill: var(--accent);
+}
+
 .outer-container {
   width: 100%;
 }
