@@ -8,6 +8,7 @@
     placeholder="Enter the title for a new Conversation"
     buttonText="Create New"
     (onButtonClick)="onCreateNewClick($event)"
+    [disabled]="loaderState"
   />
 
   <!-- Title for the Page -->

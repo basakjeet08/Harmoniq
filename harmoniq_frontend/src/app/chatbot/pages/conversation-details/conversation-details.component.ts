@@ -21,6 +21,7 @@ import { ConversationService } from 'src/app/shared/services/conversation.servic
 export class ConversationDetailsComponent implements OnInit {
   // This is the data for the components
   messages: ChatMessageDto[] = [];
+  loaderState!: boolean;
   userImage: string = '';
   chatBotImage: string = '';
   currentResponse: string = '';
@@ -36,7 +37,11 @@ export class ConversationDetailsComponent implements OnInit {
     private toastService: ToastService,
     private loaderService: LoaderService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe(
+      (state) => (this.loaderState = state)
+    );
+  }
 
   // Fetching the old history messages
   ngOnInit(): void {
@@ -62,6 +67,11 @@ export class ConversationDetailsComponent implements OnInit {
           // Checking if its the user's first time in the conversation window or not
           if (conversationHistory.chatMessageList.length === 0) {
             this.onGenerateClick('Hello !!');
+            this.toastService.showToast({
+              type: 'success',
+              message:
+                'Created a new Conversation Window and sent a default prompt to start the chatbot',
+            });
           } else {
             this.toastService.showToast({
               type: 'success',

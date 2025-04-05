@@ -45,5 +45,6 @@
     placeholder="Enter your Query"
     buttonText="Generate"
     (onButtonClick)="onGenerateClick($event)"
+    [disabled]="loaderState"
   />
 </div>
