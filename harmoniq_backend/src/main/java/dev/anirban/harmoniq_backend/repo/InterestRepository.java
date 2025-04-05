@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface InterestRepository extends JpaRepository<Interest, String> {
     List<Interest> findByUser(User user);
+
+    List<Interest> findByScore(Integer score);
 }

@@ -7,6 +7,7 @@ import dev.anirban.harmoniq_backend.repo.InterestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -69,4 +70,32 @@ public class InterestService {
     public List<Interest> findAllUserInterest(User user) {
         return interestRepo.findByUser(user);
     }
+
+    // This function is a cron job that clears all the un - wanted interests
+    @Scheduled(cron = "0 0 0 * * *")
+    public void clearUnwantedInterest() {
+        List<Interest> interestList = interestRepo.findByScore(0);
+
+        // When there are unused tags we delete it
+        log.info("(|) - Checking for unused interests and found {} unused tags to delete !!", interestList.size());
+
+        if (!interestList.isEmpty())
+            interestRepo.deleteAll(interestList);
+    }
+
+    // This function is the decay function which reduces the score of all the interests
+    @Scheduled(cron = "0 0 0 * * MON")
+    @Transactional
+    public void decayInterest() {
+        // fetching all the interests
+        List<Interest> allSavedInterest = interestRepo.findAll();
+        log.info("(|) - Decaying Interest started for {} Interests", allSavedInterest.size());
+
+        // Decreasing the scores of each interest
+        allSavedInterest.forEach(Interest::decreaseScore);
+
+        // Saving all the interests
+        interestRepo.saveAll(allSavedInterest);
+    }
+
 }
