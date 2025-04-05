@@ -45,7 +45,11 @@
     Edit Account
   </button>
 
-  <button class="btn btn-destructive flex-1" (click)="onDeleteClick()">
+  <button
+    class="btn btn-destructive flex-1"
+    (click)="onDeleteClick()"
+    [disabled]="loaderState"
+  >
     Delete Account
   </button>
 </div>
