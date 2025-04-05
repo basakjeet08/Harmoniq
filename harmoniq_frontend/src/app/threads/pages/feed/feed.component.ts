@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadDto } from 'src/app/shared/Models/thread/ThreadDto';
@@ -9,6 +10,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.css'],
+  animations: [staggerAnimation],
 })
 export class FeedComponent implements OnInit {
   // This is the thread list for the component

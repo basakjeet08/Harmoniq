@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { slideLeftSubtleAnimation } from 'src/app/shared/animations/slide-left-subtle-animation';
+import { slideRightSubtleAnimation } from 'src/app/shared/animations/slide-right-subtle-animation';
 import { Roles } from 'src/app/shared/Models/user/Roles';
 import { ProfileService } from 'src/app/shared/services/profile.service';
 
@@ -7,6 +9,7 @@ import { ProfileService } from 'src/app/shared/services/profile.service';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
+  animations: [slideLeftSubtleAnimation, slideRightSubtleAnimation],
 })
 export class HomeComponent implements OnInit {
   // This is the user details variable

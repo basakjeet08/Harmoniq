@@ -23,7 +23,7 @@
   />
 
   <!-- Comment Container -->
-  <div class="w-full">
+  <div class="w-full" [@staggerAnimation]="threadDetail?.comments?.length">
     <div class="w-full" *ngFor="let comment of threadDetail?.comments">
       <!-- Each Comment Card Component -->
       <app-comment-card

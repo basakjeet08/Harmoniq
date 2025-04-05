@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { scaleUpAnimation } from 'src/app/shared/animations/scale-up-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadService } from 'src/app/shared/services/thread.service';
@@ -8,6 +9,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
   selector: 'app-add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css'],
+  animations: [scaleUpAnimation],
 })
 export class AddComponent {
   // These are the details inputted by the user

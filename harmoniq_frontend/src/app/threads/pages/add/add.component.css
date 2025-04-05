@@ -6,3 +6,10 @@
   align-items: center;
   justify-content: center;
 }
+
+.text-area-size {
+  height: 300px;
+  width: 600px;
+
+  resize: none;
+}
