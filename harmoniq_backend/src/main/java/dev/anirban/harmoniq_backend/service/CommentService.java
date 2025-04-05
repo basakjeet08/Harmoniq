@@ -36,8 +36,9 @@ public class CommentService {
                 .content(commentRequest.getComment())
                 .createdAt(LocalDateTime.now())
                 .createdBy(user)
-                .thread(commentedThread)
                 .build();
+
+        commentedThread.addComment(comment);
 
         return commentRepo.save(comment);
     }

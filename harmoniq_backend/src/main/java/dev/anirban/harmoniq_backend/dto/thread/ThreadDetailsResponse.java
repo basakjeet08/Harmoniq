@@ -22,6 +22,7 @@ public class ThreadDetailsResponse {
     private UserDto createdBy;
     private List<CommentDto> comments;
     private Integer totalLikes;
+    private Integer totalComments;
 
     public static ThreadDetailsResponse generateThreadDetailsResponse(Thread thread) {
         return ThreadDetailsResponse
@@ -43,6 +44,7 @@ public class ThreadDetailsResponse {
                                 .toList()
                 )
                 .totalLikes(thread.getTotalLikes())
+                .totalComments(thread.getTotalComments())
                 .build();
     }
 }

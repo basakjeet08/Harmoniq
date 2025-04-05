@@ -16,4 +16,5 @@ public class ThreadDto {
     private UserDto createdBy;
     private List<String> tags;
     private Integer totalLikes;
+    private Integer totalComments;
 }

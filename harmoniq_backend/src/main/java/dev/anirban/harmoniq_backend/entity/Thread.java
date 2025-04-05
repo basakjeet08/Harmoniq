@@ -38,6 +38,9 @@ public class Thread {
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
+    @Column(name = "total_comments", nullable = false)
+    private Integer totalComments;
+
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("createdAt DESC")
     private List<Comment> comments;
@@ -60,6 +63,14 @@ public class Thread {
         if (!tags.contains(tag)) {
             tags.add(tag);
             tag.getThreads().add(this);
+        }
+    }
+
+    public void addComment(Comment comment) {
+        if (!comments.contains(comment)) {
+            comments.add(comment);
+            comment.setThread(this);
+            totalComments++;
         }
     }
 
@@ -91,6 +102,7 @@ public class Thread {
                 )
                 .createdBy(createdBy.toUserDto())
                 .totalLikes(totalLikes)
+                .totalComments(totalComments)
                 .build();
     }
 }
