@@ -44,16 +44,18 @@ public class ThreadService {
                 .description(threadRequest.getDescription())
                 .createdAt(LocalDateTime.now())
                 .tags(new ArrayList<>())
-                .createdBy(user)
                 .comments(new ArrayList<>())
+                .totalComments(0)
                 .likes(new HashSet<>())
                 .totalLikes(0)
-                .totalComments(0)
                 .build();
 
         // Saving the tags and threads for Bi - Directional relationship
         for (Tag tag : tagList)
             thread.addTags(tag);
+
+        // Managing the parent dependencies
+        user.addThread(thread);
 
         return threadRepo.save(thread);
     }
@@ -96,9 +98,6 @@ public class ThreadService {
         if (!savedThread.getCreatedBy().getUsername().equals(userDetails.getUsername()))
             throw new UnAuthorized();
 
-        savedThread.getTags().clear();
-        Thread updatedThread = threadRepo.save(savedThread);
-
-        threadRepo.delete(updatedThread);
+        threadRepo.delete(savedThread);
     }
 }

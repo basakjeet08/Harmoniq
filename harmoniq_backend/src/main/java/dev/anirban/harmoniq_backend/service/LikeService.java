@@ -32,8 +32,9 @@ public class LikeService {
                 .builder()
                 .build();
 
-        thread.addLikes(newLike);
+        // Managing the relationships
         user.addLikes(newLike);
+        thread.addLikes(newLike);
 
         return likeRepo.save(newLike);
     }
@@ -61,17 +62,9 @@ public class LikeService {
             create(user, thread);
     }
 
-    // This function tells if the user has liked the thread or not
-    public boolean isLikedByUser(Thread thread, User user) {
-        return likeRepo.existsByUserAndThread(user, thread);
-    }
-
     // This function deletes the specific like
     @Transactional
     public void deleteLike(Like like) {
-        like.getThread().removeLike(like);
-        like.getUser().removeLike(like);
-
         likeRepo.delete(like);
     }
 }

@@ -38,20 +38,7 @@ public class Thread {
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
-    @Column(name = "total_comments", nullable = false)
-    private Integer totalComments;
-
-    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @OrderBy("createdAt DESC")
-    private List<Comment> comments;
-
-    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Like> likes;
-
-    @Column(name = "total_likes", nullable = false)
-    private Integer totalLikes;
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "thread_tags",
             joinColumns = @JoinColumn(name = "thread_id"),
@@ -59,6 +46,20 @@ public class Thread {
     )
     private List<Tag> tags;
 
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy("createdAt DESC")
+    private List<Comment> comments;
+
+    @Column(name = "total_comments", nullable = false)
+    private Integer totalComments;
+
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Like> likes;
+
+    @Column(name = "total_likes", nullable = false)
+    private Integer totalLikes;
+
+    // This function add the tags to the thread
     public void addTags(Tag tag) {
         if (!tags.contains(tag)) {
             tags.add(tag);
@@ -66,6 +67,7 @@ public class Thread {
         }
     }
 
+    // This function adds the comments to the thread
     public void addComment(Comment comment) {
         if (!comments.contains(comment)) {
             comments.add(comment);
@@ -74,6 +76,16 @@ public class Thread {
         }
     }
 
+    // This function deletes the comment from the thread
+    public void removeComment(Comment comment) {
+        if (comments.contains(comment)) {
+            comments.remove(comment);
+            comment.setThread(null);
+            totalComments--;
+        }
+    }
+
+    // This function adds the likes to the thread
     public void addLikes(Like like) {
         if (!likes.contains(like)) {
             likes.add(like);
@@ -82,6 +94,7 @@ public class Thread {
         }
     }
 
+    // This function removes likes from the thread
     public void removeLike(Like like) {
         if (likes.contains(like)) {
             likes.remove(like);
@@ -95,18 +108,10 @@ public class Thread {
                 .builder()
                 .id(id)
                 .description(description)
-                .tags(tags
-                        .stream()
-                        .map(Tag::getName)
-                        .toList()
-                )
+                .tags(tags.stream().map(Tag::getName).toList())
                 .createdBy(createdBy.toUserDto())
                 .totalLikes(totalLikes)
-                .likedByUserIds(likes
-                        .stream()
-                        .map(like -> like.getUser().getId())
-                        .toList()
-                )
+                .likedByUserIds(likes.stream().map(like -> like.getUser().getId()).toList())
                 .totalComments(totalComments)
                 .build();
     }

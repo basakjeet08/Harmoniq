@@ -28,17 +28,18 @@ public class CommentService {
                 .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
 
         // Fetching the thread by its id
-        Thread commentedThread = threadService.findById(threadId);
+        Thread thread = threadService.findById(threadId);
 
         // Creating the comment object
         Comment comment = Comment
                 .builder()
                 .content(commentRequest.getComment())
                 .createdAt(LocalDateTime.now())
-                .createdBy(user)
                 .build();
 
-        commentedThread.addComment(comment);
+        // Managing the relationships
+        user.addComment(comment);
+        thread.addComment(comment);
 
         return commentRepo.save(comment);
     }
