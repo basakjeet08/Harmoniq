@@ -5,7 +5,10 @@ import { ThreadInterface } from '../interfaces/ThreadInterface';
 import { catchError, map, Observable } from 'rxjs';
 import { ThreadDetailResponse } from '../Models/thread/ThreadDetailResponse';
 import { ThreadDto } from '../Models/thread/ThreadDto';
-import { ThreadHistoryResponse } from '../Models/thread/ThreadHistoryResponse';
+import {
+  ThreadHistoryItem,
+  ThreadHistoryResponse,
+} from '../Models/thread/ThreadHistoryResponse';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 import {
   CREATE_THREAD_ENDPOINT,
@@ -17,11 +20,13 @@ import {
   TOGGLE_LIKE_ENDPOINTS,
 } from '../constants/url-constants';
 import { ProfileService } from './profile.service';
+import { AuthResponse } from '../Models/auth/AuthResponse';
 
 @Injectable({ providedIn: 'root' })
 export class ThreadService implements ThreadInterface {
   // Storing the urls
   private token: string;
+  private user!: AuthResponse;
 
   // Injecting the necessary dependencies
   constructor(
@@ -31,10 +36,14 @@ export class ThreadService implements ThreadInterface {
   ) {
     // Storing the token in the variable
     this.token = profileService.getUser()?.token || 'Invalid Token';
+    this.user = profileService.getUser()!;
 
     // Subscribing to the user changes
     profileService.getUserSubject().subscribe({
-      next: (user) => (this.token = user?.token || 'Invalid Token'),
+      next: (user) => {
+        this.user = user!;
+        this.token = user?.token || 'Invalid Token';
+      },
     });
   }
 
@@ -42,6 +51,16 @@ export class ThreadService implements ThreadInterface {
   private getHeaders() {
     return {
       headers: new HttpHeaders({ Authorization: `Bearer ${this.token}` }),
+    };
+  }
+
+  // This function updates the thread if its liked by current user
+  private updateLikedByCurrentUser<
+    T extends ThreadDto | ThreadDetailResponse | ThreadHistoryItem
+  >(threadDto: T): T {
+    return {
+      ...threadDto,
+      isLikedByCurrentUser: threadDto.likedByUserIds.includes(this.user.id!),
     };
   }
 
@@ -67,7 +86,7 @@ export class ThreadService implements ThreadInterface {
         this.getHeaders()
       )
       .pipe(
-        map((response) => response.data),
+        map((response) => this.updateLikedByCurrentUser(response.data)),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }
@@ -80,7 +99,9 @@ export class ThreadService implements ThreadInterface {
         this.getHeaders()
       )
       .pipe(
-        map((response) => response.data),
+        map((response) =>
+          response.data.map((thread) => this.updateLikedByCurrentUser(thread))
+        ),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }
@@ -93,7 +114,9 @@ export class ThreadService implements ThreadInterface {
         this.getHeaders()
       )
       .pipe(
-        map((response) => response.data),
+        map((response) =>
+          response.data.map((thread) => this.updateLikedByCurrentUser(thread))
+        ),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }
@@ -106,7 +129,13 @@ export class ThreadService implements ThreadInterface {
         this.getHeaders()
       )
       .pipe(
-        map((response) => response.data),
+        map((response) => {
+          response.data.threadList = response.data.threadList.map((thread) =>
+            this.updateLikedByCurrentUser(thread)
+          );
+
+          return response.data;
+        }),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }

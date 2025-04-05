@@ -16,10 +16,10 @@
       [tagList]="thread.tags"
       [totalLikes]="thread.totalLikes"
       [totalComments]="thread.totalComments"
-      [isLiked]="true"
+      [isLiked]="thread.isLikedByCurrentUser"
+      [showMore]="false"
       [showDelete]="true"
       (onDeleteClick)="onDeleteThreadClick(thread.id)"
-      [showMore]="false"
     />
 
     <!-- Horizontal Divider -->

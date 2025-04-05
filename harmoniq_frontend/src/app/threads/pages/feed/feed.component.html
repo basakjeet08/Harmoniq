@@ -23,7 +23,7 @@
       [tagList]="thread.tags"
       [totalLikes]="thread.totalLikes"
       [totalComments]="thread.totalComments"
-      [isLiked]="false"
+      [isLiked]="thread.isLikedByCurrentUser"
       (onShowMoreClick)="onThreadCardClick(thread.id)"
     />
 

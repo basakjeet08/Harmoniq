@@ -61,10 +61,8 @@ export class ThreadCardComponent {
       // Success State
       next: () => {
         this.loaderService.endLoading();
-        this.toastService.showToast({
-          type: 'success',
-          message: 'Liked Successfully !!',
-        });
+        this.totalLikes = this.totalLikes + (this.isLiked ? -1 : 1);
+        this.isLiked = !this.isLiked;
       },
 
       // Error State
