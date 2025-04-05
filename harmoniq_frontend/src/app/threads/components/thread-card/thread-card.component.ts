@@ -19,6 +19,7 @@ export class ThreadCardComponent {
   @Input('description') description: string = '';
   @Input('tagList') tagList: string[] = [];
   @Input('totalLikes') totalLikes: number = 0;
+  @Input('totalComments') totalComments: number = 0;
   @Input('isLiked') isLiked: boolean = false;
 
   @Input('showDelete') showDelete: boolean = false;

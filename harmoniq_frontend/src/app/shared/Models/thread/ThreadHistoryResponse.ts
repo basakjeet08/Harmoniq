@@ -5,7 +5,8 @@ export class ThreadHistoryItem {
     readonly id: string,
     readonly description: string,
     readonly tags: string[],
-    readonly totalLikes: number
+    readonly totalLikes: number,
+    readonly totalComments: number
   ) {}
 }
 

@@ -8,6 +8,7 @@ export class ThreadDetailResponse {
     readonly tags: string[],
     readonly createdBy: UserDto,
     readonly comments: CommentDto[],
-    readonly totalLikes: number
+    readonly totalLikes: number,
+    readonly totalComments: number
   ) {}
 }

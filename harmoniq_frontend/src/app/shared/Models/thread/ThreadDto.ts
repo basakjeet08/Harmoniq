@@ -6,6 +6,7 @@ export class ThreadDto {
     readonly description: string,
     readonly tags: string[],
     readonly createdBy: UserDto,
-    readonly totalLikes: number
+    readonly totalLikes: number,
+    readonly totalComments: number
   ) {}
 }
