@@ -67,6 +67,7 @@ public class User implements UserDetails {
     private List<Conversation> conversations;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy("score DESC")
     private Set<Interest> interests;
 
     // Helper function to add threads

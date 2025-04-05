@@ -81,6 +81,28 @@ public class ThreadService {
         return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
     }
 
+    // This function fetches the threads which are created by the specified user
+    public List<Thread> findThreadsAccordingToInterests(UserDetails userDetails) {
+        // Fetching the user from the database
+        User user = userService
+                .findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+
+        // If the user doesn't have enough interests
+        if (user.getInterests().size() < 3)
+            return findAllByOrderByCreatedAtDesc();
+
+        // Returning the user thread list which matches the user interests
+        return user
+                .getInterests()
+                .stream()
+                .limit(3)
+                .flatMap(interest -> interest.getTag().getThreads().stream())
+                .distinct()
+                .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
+                .toList();
+    }
+
     // This function fetches the threads by the tag name in descending order of created At
     public List<Thread> findByNameContainingIgnoreCase(String tag) {
         return tagService
