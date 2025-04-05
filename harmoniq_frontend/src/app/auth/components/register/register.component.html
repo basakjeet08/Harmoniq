@@ -131,7 +131,9 @@
     class="flex-1 btn btn-primary"
     type="submit"
     [disabled]="
-      formContainer.invalid || password.value !== confirmPassword.value
+      formContainer.invalid ||
+      password.value !== confirmPassword.value ||
+      loaderState
     "
   >
     Register User

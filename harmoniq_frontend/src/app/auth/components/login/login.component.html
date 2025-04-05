@@ -87,7 +87,7 @@
     <button
       class="flex-1 btn btn-primary"
       type="submit"
-      [disabled]="!formContainer.valid"
+      [disabled]="!formContainer.valid || loaderState"
     >
       Login
     </button>
@@ -96,6 +96,7 @@
       class="flex-1 btn btn-accent"
       type="button"
       (click)="onLoginAsGuestClick()"
+      [disabled]="loaderState"
     >
       Login as Guest
     </button>
