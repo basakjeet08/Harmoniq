@@ -65,6 +65,7 @@ public class LikeService {
     // This function deletes the specific like
     @Transactional
     public void deleteLike(Like like) {
+        like.getThread().removeLike(like);
         likeRepo.delete(like);
     }
 }
