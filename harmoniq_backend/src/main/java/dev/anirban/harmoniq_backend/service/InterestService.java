@@ -40,7 +40,7 @@ public class InterestService {
 
     // This function updates the interest based on the list of tags and the user
     @Transactional
-    public void updateUserInterestsFromPostTags(List<Tag> tagList, User user) {
+    public void addInterestsFromPostTags(List<Tag> tagList, User user) {
         // Fetching all the current user interest
         List<Interest> userInterests = findAllUserInterest(user);
 
@@ -63,6 +63,31 @@ public class InterestService {
         });
 
         // Updating the new interest list after updating it
+        interestRepo.saveAll(userInterests);
+    }
+
+    // This function decreases interests based on tags and user
+    @Transactional
+    public void removeInterestFromPostTags(List<Tag> tagList, User user) {
+        // Fetching all the current user interest
+        List<Interest> userInterests = findAllUserInterest(user);
+
+        // Storing all the user interests on the map for a quick look up
+        Map<String, Interest> interestMap = userInterests
+                .stream()
+                .collect(Collectors.toMap(i -> i.getTag().getId(), i -> i));
+
+        // Looping through all the tags and updating the score for each tag
+        tagList.forEach(tag -> {
+            // Checking if the interest exists
+            Interest existing = interestMap.get(tag.getId());
+
+            // Checking if the interest already exists otherwise we create a new Interest
+            if (existing != null)
+                existing.decreaseScore();
+        });
+
+        // Updating the interests list after updating
         interestRepo.saveAll(userInterests);
     }
 

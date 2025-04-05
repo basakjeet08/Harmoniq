@@ -59,7 +59,7 @@ public class ThreadService {
         user.addThread(thread);
 
         // Updating the user interests
-        interestService.updateUserInterestsFromPostTags(thread.getTags(), user);
+        interestService.addInterestsFromPostTags(thread.getTags(), user);
 
         return threadRepo.save(thread);
     }
