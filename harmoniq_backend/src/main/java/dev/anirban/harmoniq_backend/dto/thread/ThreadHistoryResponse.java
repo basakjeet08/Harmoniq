@@ -34,6 +34,12 @@ public class ThreadHistoryResponse {
                                                 .toList()
                                         )
                                         .totalLikes(thread.getTotalLikes())
+                                        .likedByUserIds(thread
+                                                .getLikes()
+                                                .stream()
+                                                .map(like -> like.getUser().getId())
+                                                .toList()
+                                        )
                                         .totalComments(thread.getTotalComments())
                                         .build()
                                 )
@@ -53,5 +59,6 @@ class ThreadHistoryItem {
     private String description;
     private List<String> tags;
     private Integer totalLikes;
+    private List<String> likedByUserIds;
     private Integer totalComments;
 }

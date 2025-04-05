@@ -102,6 +102,11 @@ public class Thread {
                 )
                 .createdBy(createdBy.toUserDto())
                 .totalLikes(totalLikes)
+                .likedByUserIds(likes
+                        .stream()
+                        .map(like -> like.getUser().getId())
+                        .toList()
+                )
                 .totalComments(totalComments)
                 .build();
     }

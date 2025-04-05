@@ -21,6 +21,7 @@ public class ThreadDetailsResponse {
     private List<String> tags;
     private UserDto createdBy;
     private List<CommentDto> comments;
+    private List<String> likedByUserIds;
     private Integer totalLikes;
     private Integer totalComments;
 
@@ -36,12 +37,17 @@ public class ThreadDetailsResponse {
                         .toList()
                 )
                 .createdBy(thread.getCreatedBy().toUserDto())
-                .comments(
-                        thread
-                                .getComments()
-                                .stream()
-                                .map(Comment::toCommentDto)
-                                .toList()
+                .comments(thread
+                        .getComments()
+                        .stream()
+                        .map(Comment::toCommentDto)
+                        .toList()
+                )
+                .likedByUserIds(thread
+                        .getLikes()
+                        .stream()
+                        .map(like -> like.getUser().getId())
+                        .toList()
                 )
                 .totalLikes(thread.getTotalLikes())
                 .totalComments(thread.getTotalComments())
