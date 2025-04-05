@@ -43,7 +43,7 @@ public class ThreadHistoryResponse {
                                         .totalComments(thread.getTotalComments())
                                         .build()
                                 )
-                                .toList() : null
+                                .toList() : List.of()
                 )
                 .build();
     }

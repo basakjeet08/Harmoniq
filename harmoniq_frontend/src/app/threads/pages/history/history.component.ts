@@ -44,7 +44,7 @@ export class HistoryComponent {
         this.createdByUser = threadHistory.createdBy;
 
         // Checking if the database is empty
-        if (!this.threadList) {
+        if (!this.threadList || this.threadList.length === 0) {
           this.toastService.showToast({
             type: 'info',
             message: `There are no Threads Posted yet. Head over to the Post a Thread section to post the first Thread !!`,
