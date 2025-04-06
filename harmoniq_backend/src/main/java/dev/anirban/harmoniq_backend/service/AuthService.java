@@ -3,7 +3,6 @@ package dev.anirban.harmoniq_backend.service;
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
 import dev.anirban.harmoniq_backend.entity.User;
-import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +27,6 @@ public class AuthService {
     // This function registers a Member
     public User register(AuthRequest authRequest) {
         log.info("(|) - Received new register request for email : {}", authRequest.getEmail());
-
-        if (userService.findByEmail(authRequest.getEmail()).isPresent())
-            throw new EmailAlreadyExists(authRequest.getEmail());
-
         return userService.create(authRequest);
     }
 

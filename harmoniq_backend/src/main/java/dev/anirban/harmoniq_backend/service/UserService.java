@@ -3,16 +3,19 @@ package dev.anirban.harmoniq_backend.service;
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
 import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,6 +34,14 @@ public class UserService {
 
     // This function creates a Member account
     public User create(AuthRequest authRequest) {
+        if (authRequest.getEmail() == null || authRequest.getEmail().isBlank())
+            throw new IllegalArgumentException("Email cannot be null or blank !!");
+
+        if (authRequest.getPassword() == null || authRequest.getPassword().isBlank())
+            throw new IllegalArgumentException("Password cannot be null or blank !!");
+
+        if (authRequest.getAvatar() == null || authRequest.getAvatar().isBlank())
+            throw new IllegalArgumentException("Avatar cannot be null or blank !!");
 
         // Creating a user object
         User user = User
@@ -47,7 +58,12 @@ public class UserService {
                 .interests(new HashSet<>())
                 .build();
 
-        return userRepo.save(user);
+        // Checking if the email already exists
+        try {
+            return userRepo.save(user);
+        } catch (DataIntegrityViolationException | ConstraintViolationException ex) {
+            throw new EmailAlreadyExists(authRequest.getEmail());
+        }
     }
 
     // This function creates a Guest Account
