@@ -1,5 +1,7 @@
 package dev.anirban.harmoniq_backend.service;
 
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 
+@Slf4j
 @Service
 public class AvatarService {
     @Value("${app.image.base-url}")
@@ -54,27 +57,33 @@ public class AvatarService {
             "/avatars/others/avatar13.jpg"
     );
 
+    private List<String> cachedAvatars;
+
+    @PostConstruct
+    public void initializeAvatarList() {
+        log.info("(/) - Caching the avatars and storing them for faster retrieval !!");
+
+        List<String> avatarList = new ArrayList<>();
+        avatarList.addAll(AVATARS_MEN);
+        avatarList.addAll(AVATARS_WOMEN);
+        avatarList.addAll(AVATARS_OTHERS);
+
+        cachedAvatars = avatarList
+                .stream()
+                .map(avatar -> imageBaseUrl + avatar)
+                .toList();
+    }
+
     private final Random random = new Random();
 
     // This function returns all the avatars
     public List<String> getAllAvatars() {
-        List<String> allAvatars = new ArrayList<>();
-        allAvatars.addAll(AVATARS_MEN);
-        allAvatars.addAll(AVATARS_WOMEN);
-        allAvatars.addAll(AVATARS_OTHERS);
-
-        allAvatars = allAvatars
-                .stream()
-                .map(avatar -> imageBaseUrl + avatar)
-                .toList();
-
-        return allAvatars;
+        return cachedAvatars;
     }
 
     // This function returns a random avatar
     public String generateAvatar() {
-        List<String> allAvatars = getAllAvatars();
-        return allAvatars.get(random.nextInt(allAvatars.size()));
+        return cachedAvatars.get(random.nextInt(cachedAvatars.size()));
     }
 
     // This function returns the chatbot avatar
