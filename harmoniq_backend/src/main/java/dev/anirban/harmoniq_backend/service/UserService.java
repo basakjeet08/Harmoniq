@@ -21,6 +21,9 @@ import java.util.*;
 @Slf4j
 public class UserService {
 
+    // Pre encoded hashed password for BCRYPT
+    private static final String GUEST_PASSWORD = "$2a$10$5z70HHc6G8OBE0VpXjz4jeDURcHlTznR/h/FZWw9RCcgcN8nlKXma";
+
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
     private final RandomNameService randomNameService;
@@ -57,7 +60,7 @@ public class UserService {
                 .builder()
                 .name(randomNameService.generateRandomName())
                 .email(guestId)
-                .password(encoder.encode("Guest Password"))
+                .password(GUEST_PASSWORD)
                 .avatar(avatarService.generateAvatar())
                 .role(User.Type.GUEST)
                 .createdAt(LocalDateTime.now())

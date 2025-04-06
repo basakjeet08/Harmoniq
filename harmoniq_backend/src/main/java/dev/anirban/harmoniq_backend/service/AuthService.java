@@ -76,13 +76,6 @@ public class AuthService {
         // Creating a Guest User
         User user = userService.createGuest();
 
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getEmail(),
-                        "Guest Password"
-                )
-        );
-
         // Generating the tokens
         String[] tokens = generateTokenWrapper(user);
         AuthResponse userDto = user.toAuthResponse();
