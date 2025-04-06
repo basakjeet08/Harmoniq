@@ -24,6 +24,7 @@ public class LikeService {
     private final UserRepository userRepo;
     private final ThreadRepository threadRepo;
     private final LikeRepository likeRepo;
+    private final InterestService interestService;
 
     // This function creates a new like
     @Transactional
@@ -36,6 +37,8 @@ public class LikeService {
         user.addLikes(newLike);
         thread.addLikes(newLike);
 
+        // Generating interests based on likes
+        interestService.addInterestsFromPostTags(thread.getTags(), user);
         return likeRepo.save(newLike);
     }
 
@@ -65,6 +68,10 @@ public class LikeService {
     // This function deletes the specific like
     @Transactional
     public void deleteLike(Like like) {
+        // Reducing the interests
+        interestService.removeInterestFromPostTags(like.getThread().getTags(), like.getUser());
+
+        // Removing the likes from the thread
         like.getThread().removeLike(like);
         likeRepo.delete(like);
     }

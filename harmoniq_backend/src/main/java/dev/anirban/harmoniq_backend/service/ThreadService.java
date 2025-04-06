@@ -14,10 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +23,7 @@ public class ThreadService {
     private final ThreadRepository threadRepo;
     private final UserService userService;
     private final TagService tagService;
+    private final InterestService interestService;
 
     // This function creates a new Thread and returns the created Thread
     @Transactional
@@ -57,6 +55,9 @@ public class ThreadService {
         // Managing the parent dependencies
         user.addThread(thread);
 
+        // Updating the user interests
+        interestService.addInterestsFromPostTags(thread.getTags(), user);
+
         return threadRepo.save(thread);
     }
 
@@ -77,6 +78,40 @@ public class ThreadService {
         return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
     }
 
+    // This function fetches the threads which are created by the specified user
+    @Transactional
+    public List<Thread> findThreadsAccordingToInterests(UserDetails userDetails) {
+        // Fetching the user from the database
+        User user = userService
+                .findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+
+        // Returning the user thread list which matches the user interests
+        List<Thread> personalizedThreads = user
+                .getInterests()
+                .stream()
+                .limit(3)
+                .flatMap(interest -> interest.getTag().getThreads().stream())
+                .distinct()
+                .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
+                .toList();
+
+        // Creating a HashSet for quick searching and lookup
+        Set<Thread> personalizedSet = new HashSet<>(personalizedThreads);
+
+        // Finding the top exploratory threads and making sure we don't have the same thread multiple times
+        List<Thread> exploratoryThreads = findAllByOrderByCreatedAtDesc()
+                .stream()
+                .filter(thread -> !personalizedSet.contains(thread)) // O(1) Complexity for Hashset
+                .limit(10)
+                .toList();
+
+        // Merging both the lists and returning
+        ArrayList<Thread> finalFeed = new ArrayList<>(personalizedThreads);
+        finalFeed.addAll(exploratoryThreads);
+        return finalFeed;
+    }
+
     // This function fetches the threads by the tag name in descending order of created At
     public List<Thread> findByNameContainingIgnoreCase(String tag) {
         return tagService
@@ -91,13 +126,20 @@ public class ThreadService {
     // This function deletes all the threads from the database
     @Transactional
     public void deleteById(String id, UserDetails userDetails) {
+        // Fetching the user from the database
+        User user = userService
+                .findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+
         // Checking if the thread is present
         Thread savedThread = findById(id);
 
         // Checking if the user is the creator of the thread
-        if (!savedThread.getCreatedBy().getUsername().equals(userDetails.getUsername()))
+        if (!savedThread.getCreatedBy().getUsername().equals(user.getUsername()))
             throw new UnAuthorized();
 
+        // Decreasing the interests scores
+        interestService.removeInterestFromPostTags(savedThread.getTags(), user);
         threadRepo.delete(savedThread);
     }
 }
