@@ -12,8 +12,8 @@ import { ConversationInterface } from '../interfaces/ConversationInterface';
 import { catchError, map, Observable } from 'rxjs';
 import { ConversationDto } from '../Models/conversation/ConversationDto';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
-import { ConversationHistoryDto } from '../Models/conversation/ConversationHistoryDto';
 import { PageWrapper } from '../Models/common/PageWrapper';
+import { ChatMessageDto } from '../Models/conversation/ChatMessageDto';
 
 @Injectable({ providedIn: 'root' })
 export class ConversationService implements ConversationInterface {
@@ -80,10 +80,15 @@ export class ConversationService implements ConversationInterface {
   }
 
   // This function fetches the conversation history from the backend
-  findConversationHistory(id: string): Observable<ConversationHistoryDto> {
+  findConversationHistory(
+    id: string,
+    pageable: { page: number; size: number }
+  ): Observable<PageWrapper<ChatMessageDto>> {
     return this.http
-      .get<ResponseWrapper<ConversationHistoryDto>>(
-        FETCH_CONVERSATION_HISTORY.replace(':id', id),
+      .get<ResponseWrapper<PageWrapper<ChatMessageDto>>>(
+        FETCH_CONVERSATION_HISTORY.replace(':id', id)
+          .replace(':page', pageable.page.toString())
+          .replace(':size', pageable.size.toString()),
         this.getHeaders()
       )
       .pipe(
