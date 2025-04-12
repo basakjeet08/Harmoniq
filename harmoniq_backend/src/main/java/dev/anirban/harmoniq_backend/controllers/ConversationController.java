@@ -10,6 +10,7 @@ import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.service.conversation.ChatbotService;
 import dev.anirban.harmoniq_backend.service.conversation.ConversationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,8 +18,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
-
-import java.util.List;
 
 
 @RestController
@@ -43,16 +42,14 @@ public class ConversationController {
 
     // This fetches all the conversations for a certain user
     @GetMapping(UrlConstants.FETCH_CONVERSATION_BY_USER_ENDPOINTS)
-    public ResponseWrapper<List<ConversationDto>> handleConversationsForCertainUser(
+    public ResponseWrapper<Page<ConversationDto>> handleConversationsForCertainUser(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "25") int size
+            @RequestParam(defaultValue = "10") int size
     ) {
-        List<ConversationDto> conversationDto = conversationService
+        Page<ConversationDto> conversationDto = conversationService
                 .findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails, PageRequest.of(page, size))
-                .stream()
-                .map(Conversation::toConversationDto)
-                .toList();
+                .map(Conversation::toConversationDto);
 
         return new ResponseWrapper<>("Conversations for the user is fetched successfully!!", conversationDto);
     }
