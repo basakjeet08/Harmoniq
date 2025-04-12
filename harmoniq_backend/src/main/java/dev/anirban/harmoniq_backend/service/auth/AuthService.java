@@ -1,10 +1,11 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.auth;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

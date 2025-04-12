@@ -4,7 +4,7 @@ import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
-import dev.anirban.harmoniq_backend.service.AuthService;
+import dev.anirban.harmoniq_backend.service.auth.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

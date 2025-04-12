@@ -6,6 +6,7 @@ import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.CommentRepository;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;

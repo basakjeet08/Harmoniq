@@ -8,6 +8,8 @@ import dev.anirban.harmoniq_backend.exception.ConversationNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ConversationRepository;
+import dev.anirban.harmoniq_backend.service.user.AvatarService;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.*;

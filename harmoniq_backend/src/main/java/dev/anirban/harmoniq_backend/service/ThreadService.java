@@ -8,6 +8,7 @@ import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ThreadRepository;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

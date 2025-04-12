@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.user;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;

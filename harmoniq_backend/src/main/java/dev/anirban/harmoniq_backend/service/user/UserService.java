@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.user;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
@@ -7,6 +7,7 @@ import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.UserRepository;
+import dev.anirban.harmoniq_backend.service.RandomNameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
