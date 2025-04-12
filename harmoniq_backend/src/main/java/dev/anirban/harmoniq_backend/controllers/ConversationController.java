@@ -1,11 +1,12 @@
 package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
+import dev.anirban.harmoniq_backend.dto.chat.ChatMessageDto;
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationDto;
-import dev.anirban.harmoniq_backend.dto.chat.ConversationHistoryDto;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
+import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.service.conversation.ChatbotService;
 import dev.anirban.harmoniq_backend.service.conversation.ConversationService;
@@ -56,15 +57,17 @@ public class ConversationController {
 
     // This function returns the conversation history
     @GetMapping(UrlConstants.FETCH_CONVERSATION_HISTORY_ENDPOINT)
-    public ResponseWrapper<ConversationHistoryDto> handleConversationHistoryRequest(
+    public ResponseWrapper<Page<ChatMessageDto>> handleConversationHistoryRequest(
+            @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable(value = "id") String conversationId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
     ) {
-        ConversationHistoryDto conversationHistoryDto = conversationService
-                .findById(conversationId, userDetails)
-                .toConversationHistoryDto();
+        Page<ChatMessageDto> chatMessageDto = conversationService
+                .findByConversation_IdOrderByCreatedAtDesc(conversationId, PageRequest.of(page, size))
+                .map(ChatMessage::toChatMessageDto);
 
-        return new ResponseWrapper<>("Conversation History fetched Successfully !!", conversationHistoryDto);
+        return new ResponseWrapper<>("Conversation History fetched Successfully !!", chatMessageDto);
     }
 
     @PostMapping(value = UrlConstants.PROMPT_CHATBOT_ENDPOINT, produces = MediaType.TEXT_EVENT_STREAM_VALUE)

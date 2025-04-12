@@ -5,6 +5,7 @@ import dev.anirban.harmoniq_backend.service.conversation.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.*;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,11 +36,11 @@ public class CustomChatMemoryImpl implements ChatMemory {
     // This function fetches the conversation by the id and then returns all the Messages in it
     public List<Message> get(String conversationId, int lastN) {
         return service
-                .findById(conversationId)
-                .getChatMessageList()
+                .findByConversation_IdOrderByCreatedAtDesc(conversationId, PageRequest.of(0, 20))
                 .stream()
                 .map(this::parseChatMessage)
-                .toList();
+                .toList()
+                .reversed();
     }
 
     @Override
