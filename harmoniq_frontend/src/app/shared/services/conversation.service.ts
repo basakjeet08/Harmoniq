@@ -13,6 +13,7 @@ import { catchError, map, Observable } from 'rxjs';
 import { ConversationDto } from '../Models/conversation/ConversationDto';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 import { ConversationHistoryDto } from '../Models/conversation/ConversationHistoryDto';
+import { PageWrapper } from '../Models/common/PageWrapper';
 
 @Injectable({ providedIn: 'root' })
 export class ConversationService implements ConversationInterface {
@@ -56,10 +57,20 @@ export class ConversationService implements ConversationInterface {
   }
 
   // This function fetches all the conversations for a certain user
-  findAllUserConversation(): Observable<ConversationDto[]> {
+  findAllUserConversation(pageable: {
+    page: number;
+    size: number;
+  }): Observable<PageWrapper<ConversationDto>> {
+    // Page Data
+    const pageString = pageable.page.toString();
+    const pageSize = pageable.size.toString();
+
     return this.http
-      .get<ResponseWrapper<ConversationDto[]>>(
-        FETCH_USER_CONVERSATIONS,
+      .get<ResponseWrapper<PageWrapper<ConversationDto>>>(
+        FETCH_USER_CONVERSATIONS.replace(':page', pageString).replace(
+          ':size',
+          pageSize
+        ),
         this.getHeaders()
       )
       .pipe(

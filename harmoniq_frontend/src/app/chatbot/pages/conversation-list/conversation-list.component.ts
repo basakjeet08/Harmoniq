@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
+import { PageWrapper } from 'src/app/shared/Models/common/PageWrapper';
 import { ConversationDto } from 'src/app/shared/Models/conversation/ConversationDto';
 import { ConversationService } from 'src/app/shared/services/conversation.service';
 
@@ -16,6 +17,11 @@ export class ConversationListComponent implements OnInit {
   // These are the data for this component
   conversationList: ConversationDto[] = [];
   loaderState!: boolean;
+
+  // Paging data values
+  page = 0;
+  pageSize = 10;
+  lastPage: boolean = false;
 
   // Injecting the necessary dependencies
   constructor(
@@ -32,40 +38,48 @@ export class ConversationListComponent implements OnInit {
 
   // Fetching the necessary conversation list data from the Backend
   ngOnInit(): void {
-    this.fetchConversations();
+    this.loadMoreConversations();
   }
 
   // This function fetches the conversation list
-  fetchConversations() {
+  loadMoreConversations() {
+    // If already loading or end of data
+    if (this.loaderState || this.lastPage) return;
+
     // Starting the loader
     this.loaderService.startLoading();
 
     // Calling the Api
-    this.conversationService.findAllUserConversation().subscribe({
-      // Success State
-      next: (conversationList: ConversationDto[]) => {
-        this.loaderService.endLoading();
-        this.conversationList = conversationList;
+    this.conversationService
+      .findAllUserConversation({ page: this.page, size: this.pageSize })
+      .subscribe({
+        // Success State
+        next: (pageWrapper: PageWrapper<ConversationDto>) => {
+          this.loaderService.endLoading();
 
-        if (conversationList.length === 0) {
-          this.toastService.showToast({
-            type: 'info',
-            message: `You don't have any conversation. Create a new conversation and get started with the chatbot !!`,
-          });
-        } else {
-          this.toastService.showToast({
-            type: 'success',
-            message: 'All the Conversations are fetched Successfully !!',
-          });
-        }
-      },
+          // Updating the data
+          this.conversationList.push(...pageWrapper.content);
+          this.page = pageWrapper.pageable.pageNumber + 1;
+          this.lastPage = pageWrapper.last;
 
-      // Error State
-      error: (error: Error) => {
-        this.loaderService.endLoading();
-        this.toastService.showToast({ type: 'error', message: error.message });
-      },
-    });
+          // Showing message if the user doesn't have any conversation window
+          if (this.conversationList.length === 0) {
+            this.toastService.showToast({
+              type: 'info',
+              message: `You don't have any conversation. Create a new conversation and get started with the chatbot !!`,
+            });
+          }
+        },
+
+        // Error State
+        error: (error: Error) => {
+          this.loaderService.endLoading();
+          this.toastService.showToast({
+            type: 'error',
+            message: error.message,
+          });
+        },
+      });
   }
 
   // This function is invoked when the user adds a new Conversation
