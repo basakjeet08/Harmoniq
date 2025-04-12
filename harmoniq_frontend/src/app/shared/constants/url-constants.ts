@@ -3,6 +3,9 @@ import { environment } from 'src/environments/environment';
 // Base Url
 export const BASE_URL = `${environment.apiBaseUrl}/api`;
 
+// Chatbot Avatar URl
+export const CHATBOT_AVATAR_URL = `${environment.apiBaseUrl}/avatars/chatbot/chatbot.jpg`;
+
 // Authentication Endpoints
 export const REGISTER_ENDPOINT = `${BASE_URL}/auth/register`;
 export const LOGIN_ENDPOINT = `${BASE_URL}/auth/login`;
