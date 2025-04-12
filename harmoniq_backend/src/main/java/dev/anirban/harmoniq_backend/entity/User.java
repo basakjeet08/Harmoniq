@@ -94,14 +94,6 @@ public class User implements UserDetails {
         }
     }
 
-    // This function helps to add conversation
-    public void addConversation(Conversation conversation) {
-        if (!conversations.contains(conversation)) {
-            conversations.add(conversation);
-            conversation.setCreatedBy(this);
-        }
-    }
-
     // Helper function to add interest
     public void addInterest(Interest interest) {
         if (!interests.contains(interest)) {

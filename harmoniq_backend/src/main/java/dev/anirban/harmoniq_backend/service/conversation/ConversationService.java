@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.conversation;
 
 import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.entity.ChatMessage;
@@ -11,7 +11,10 @@ import dev.anirban.harmoniq_backend.service.user.AvatarService;
 import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ConversationService {
@@ -30,6 +34,12 @@ public class ConversationService {
 
     // This function creates a conversation room with the given ID
     public Conversation create(ConversationRequest conversationRequest, UserDetails userDetails) {
+        log.info("(|) - Received new conversation creation request from {}", userDetails.getUsername());
+
+        // checking if the title and everything is provided
+        if (conversationRequest.getTitle() == null || conversationRequest.getTitle().isEmpty())
+            throw new IllegalArgumentException("Conversation title is required !!");
+
         // Fetching the user account
         User user = userService.findByEmail(userDetails.getUsername());
 
@@ -39,11 +49,9 @@ public class ConversationService {
                 .title(conversationRequest.getTitle())
                 .createdAt(LocalDateTime.now())
                 .chatBotImage(avatarService.getChatbotAvatar())
+                .createdBy(user)
                 .chatMessageList(new ArrayList<>())
                 .build();
-
-        // Adding the conversation for relationship
-        user.addConversation(conversation);
 
         return conversationRepo.save(conversation);
     }
@@ -67,8 +75,8 @@ public class ConversationService {
     }
 
     // This function fetches all the conversations for a particular user
-    public List<Conversation> findByCreatedBy_EmailOrderByCreatedAtDesc(UserDetails userDetails) {
-        return conversationRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
+    public Page<Conversation> findByCreatedBy_EmailOrderByCreatedAtDesc(UserDetails userDetails, Pageable pageable) {
+        return conversationRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername(), pageable);
     }
 
     // This function adds the given Messages in the conversation

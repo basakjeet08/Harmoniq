@@ -7,9 +7,10 @@ import dev.anirban.harmoniq_backend.dto.chat.ConversationHistoryDto;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.entity.Conversation;
-import dev.anirban.harmoniq_backend.service.ChatbotService;
-import dev.anirban.harmoniq_backend.service.ConversationService;
+import dev.anirban.harmoniq_backend.service.conversation.ChatbotService;
+import dev.anirban.harmoniq_backend.service.conversation.ConversationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,10 +44,12 @@ public class ConversationController {
     // This fetches all the conversations for a certain user
     @GetMapping(UrlConstants.FETCH_CONVERSATION_BY_USER_ENDPOINTS)
     public ResponseWrapper<List<ConversationDto>> handleConversationsForCertainUser(
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "25") int size
     ) {
         List<ConversationDto> conversationDto = conversationService
-                .findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails)
+                .findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails, PageRequest.of(page, size))
                 .stream()
                 .map(Conversation::toConversationDto)
                 .toList();

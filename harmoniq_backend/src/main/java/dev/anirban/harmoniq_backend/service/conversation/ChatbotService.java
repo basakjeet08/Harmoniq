@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.conversation;
 
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
 import dev.anirban.harmoniq_backend.entity.User;

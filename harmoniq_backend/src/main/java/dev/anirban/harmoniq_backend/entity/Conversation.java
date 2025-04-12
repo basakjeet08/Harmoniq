@@ -35,7 +35,7 @@ public class Conversation {
 
     @ManyToOne(
             cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST},
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "created_by_id")
     private User createdBy;
@@ -43,7 +43,7 @@ public class Conversation {
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "conversation",
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     @OrderBy("createdAt ASC")
@@ -62,7 +62,6 @@ public class Conversation {
                 .builder()
                 .id(id)
                 .title(title)
-                .createdBy(createdBy.toUserDto())
                 .build();
     }
 
