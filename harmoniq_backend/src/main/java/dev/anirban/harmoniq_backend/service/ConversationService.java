@@ -6,7 +6,6 @@ import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ConversationNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ConversationRepository;
 import dev.anirban.harmoniq_backend.service.user.AvatarService;
 import dev.anirban.harmoniq_backend.service.user.UserService;
@@ -32,9 +31,7 @@ public class ConversationService {
     // This function creates a conversation room with the given ID
     public Conversation create(ConversationRequest conversationRequest, UserDetails userDetails) {
         // Fetching the user account
-        User user = userService
-                .findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+        User user = userService.findByEmail(userDetails.getUsername());
 
         // creating a new Conversation Object
         Conversation conversation = Conversation

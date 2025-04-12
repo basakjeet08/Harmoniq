@@ -3,7 +3,6 @@ package dev.anirban.harmoniq_backend.service.auth;
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
 import dev.anirban.harmoniq_backend.entity.User;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
 import dev.anirban.harmoniq_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +50,7 @@ public class AuthService {
         );
 
         // Fetching the user Details Object and creating the token wrapper and user Dto
-        User userDetails = userService
-                .findByEmail(authRequest.getEmail())
-                .orElseThrow(() -> new UserNotFound(authRequest.getEmail()));
+        User userDetails = userService.findByEmail(authRequest.getEmail());
 
         String[] tokens = generateTokenWrapper(userDetails);
         AuthResponse user = userDetails.toAuthResponse();

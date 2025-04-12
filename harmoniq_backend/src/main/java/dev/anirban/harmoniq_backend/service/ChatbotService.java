@@ -3,7 +3,6 @@ package dev.anirban.harmoniq_backend.service;
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
 import dev.anirban.harmoniq_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +41,7 @@ public class ChatbotService {
             throw new UnAuthorized();
 
         // Fetching the user details from the service
-        User user = userService
-                .findByEmail(username)
-                .orElseThrow(() -> new UserNotFound(username));
+        User user = userService.findByEmail(username);
 
         // Checking if the user token is valid or not
         if (!jwtService.isTokenValid(jwtToken, user))

@@ -7,7 +7,6 @@ import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.UserRepository;
-import dev.anirban.harmoniq_backend.service.RandomNameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -109,8 +108,10 @@ public class UserService {
     }
 
     // This function fetches the user object with the given email
-    public Optional<User> findByEmail(String email) {
-        return userRepo.findByEmail(email);
+    public User findByEmail(String email) {
+        return userRepo
+                .findByEmail(email)
+                .orElseThrow(() -> new UserNotFound(email));
     }
 
     // This function fetches the user details by ID
@@ -144,8 +145,7 @@ public class UserService {
 
     // This function deletes the user
     public void delete(UserDetails userDetails) {
-        User savedUser = findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+        User savedUser = findByEmail(userDetails.getUsername());
 
         // Removing the likes from the threads. This way I don't have to manually manage the totalLikes fields
         savedUser

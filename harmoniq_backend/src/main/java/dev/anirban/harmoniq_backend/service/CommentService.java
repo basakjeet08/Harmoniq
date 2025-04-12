@@ -4,7 +4,6 @@ import dev.anirban.harmoniq_backend.dto.comment.CommentRequest;
 import dev.anirban.harmoniq_backend.entity.Comment;
 import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.entity.User;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.CommentRepository;
 import dev.anirban.harmoniq_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +24,7 @@ public class CommentService {
     // This function creates a comment and returns the created comment
     public Comment create(String threadId, CommentRequest commentRequest, UserDetails userDetails) {
         // Fetching the user details
-        User user = userService
-                .findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+        User user = userService.findByEmail(userDetails.getUsername());
 
         // Fetching the thread by its id
         Thread thread = threadService.findById(threadId);
