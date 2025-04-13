@@ -1,8 +1,6 @@
-package dev.anirban.harmoniq_backend.chatbot;
+package dev.anirban.harmoniq_backend.service.conversation;
 
 import dev.anirban.harmoniq_backend.entity.ChatMessage;
-import dev.anirban.harmoniq_backend.service.conversation.ChatMessageService;
-import dev.anirban.harmoniq_backend.service.conversation.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.*;
