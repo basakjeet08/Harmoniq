@@ -85,9 +85,4 @@ public class AvatarService {
     public String generateAvatar() {
         return cachedAvatars.get(random.nextInt(cachedAvatars.size()));
     }
-
-    // This function returns the chatbot avatar
-    public String getChatbotAvatar() {
-        return imageBaseUrl + "/avatars/chatbot/chatbot.jpg";
-    }
 }

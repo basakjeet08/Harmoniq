@@ -86,11 +86,9 @@ public class ConversationService {
 
     // This function clears the conversation after checking if the user is allowed to delete
     public void deleteById(String id, UserDetails userDetails) {
-        Conversation conversation = findById(id);
+        int rowsDeleted = conversationRepo.deleteByIdAndCreatedBy_Email(id, userDetails.getUsername());
 
-        if (!conversation.getCreatedBy().getUsername().equals(userDetails.getUsername()))
+        if (rowsDeleted != 1)
             throw new UnAuthorized();
-        else
-            deleteById(id);
     }
 }
