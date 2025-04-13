@@ -31,6 +31,7 @@ export class ConversationDetailsComponent implements OnInit {
   page = 0;
   pageSize = 10;
   lastPage: boolean = false;
+  offset: number = 0;
 
   // Getting the Input component
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
@@ -63,8 +64,27 @@ export class ConversationDetailsComponent implements OnInit {
     this.loadOlderMessages();
   }
 
+  // This function increase the offset of the current page
+  updateOffset(value: number = 1) {
+    // Increasing the offset
+    this.offset += value;
+
+    // Checking if the offset is larger than page size, then we increase page no.
+    if (this.offset >= this.pageSize) {
+      this.page += this.offset / this.pageSize;
+      this.offset %= this.pageSize;
+    }
+  }
+
+  // This function resets the offset
+  resetOffset() {
+    this.offset = 0;
+  }
+
   // This function fetches the messages according to the pages
   loadOlderMessages() {
+    if (this.lastPage || this.loaderState) return;
+
     // Starting the loading state
     this.loaderService.startLoading();
 
@@ -83,10 +103,21 @@ export class ConversationDetailsComponent implements OnInit {
           const container = this.scrollContainer.nativeElement;
           const previousScrollHeight = container.scrollHeight;
 
+          // Calculating the new Valid Array to be added
+          const newPage = pageWrapper.content.reverse();
+          const startIndex = newPage.length - this.offset;
+          const countToDelete = this.offset;
+
+          // Removing the items which are sent by us and are already added in the offset
+          newPage.splice(startIndex, countToDelete);
+
           // Adding the new elements at the start of
-          this.messages.unshift(...pageWrapper.content.reverse());
+          this.messages.unshift(...newPage);
           this.page++;
           this.lastPage = pageWrapper.last;
+
+          // Resetting the offset since we dont need it anymore
+          this.resetOffset();
 
           // Making sure the scroll state is managed
           requestAnimationFrame(() => {
@@ -143,6 +174,9 @@ export class ConversationDetailsComponent implements OnInit {
       createdAt: new Date(),
     });
 
+    // Increase so we dont append 1 duplicate item when loading the older messages
+    this.updateOffset();
+
     this.input.resetComponent();
     this.currentResponse = ' ';
     this.scrollToBottom();
@@ -168,6 +202,9 @@ export class ConversationDetailsComponent implements OnInit {
         // Complete State
         complete: () => {
           this.loaderService.endLoading();
+
+          // Increase so we dont append 1 duplicate item when loading the older messages
+          this.updateOffset();
           this.updateMessage();
         },
       });
