@@ -1,9 +1,13 @@
-<div class="w-50 col-container g-24 space">
-  <div class="col-container g-24" [@staggerAnimation]="messages.length === 0">
+<div class="col-container g-24 items-center">
+  <div
+    #scrollContainer
+    class="conversation-container hide-scrollbar"
+    (scroll)="onScroll()"
+  >
     <!-- Message Card Container -->
     <div
       *ngFor="let message of messages"
-      class="w-70 row-container g-24 items-center"
+      class="w-80 row-container g-24 items-center"
       [ngClass]="{
         'bot-message-container': !isUserMessage(message),
         'user-message-container': isUserMessage(message)
@@ -27,12 +31,12 @@
 
     <!-- Current Chat Response for showing streaming output -->
     <div
-      class="w-70 row-container g-24 items-center bot-message-container"
+      class="w-80 row-container g-24 items-center bot-message-container"
       *ngIf="currentResponse"
     >
       <!-- Message Card -->
       <div class="card-container p-24">
-        <p class="body-text">{{ currentResponse }}</p>
+        <p class="body-text">{{ currentResponse }} . . .</p>
       </div>
 
       <!-- Profile Pic -->
@@ -42,6 +46,7 @@
 
   <!-- User Input -->
   <app-input
+    class="input-container"
     placeholder="Enter your Query"
     buttonText="Generate"
     (onButtonClick)="onGenerateClick($event)"

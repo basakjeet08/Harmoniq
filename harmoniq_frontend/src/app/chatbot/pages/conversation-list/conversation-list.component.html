@@ -1,6 +1,9 @@
 <!-- Container for the whole Conversation Page UI -->
 <div
   class="w-50 col-container g-16"
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  (scrolled)="loadMoreConversations()"
   [@staggerAnimation]="conversationList.length"
 >
   <!-- Input field for Generate New Conversation -->

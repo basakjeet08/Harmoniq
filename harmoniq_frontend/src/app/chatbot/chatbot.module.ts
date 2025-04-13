@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ConversationListComponent } from './pages/conversation-list/conversation-list.component';
 import { ConversationDetailsComponent } from './pages/conversation-details/conversation-details.component';
 import { HomeComponent } from './pages/home/home.component';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 // These are the routes for the chatbot module
 const chatbotRoutes: Routes = [
@@ -31,6 +32,11 @@ const chatbotRoutes: Routes = [
     ConversationDetailsComponent,
     HomeComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(chatbotRoutes), SharedModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(chatbotRoutes),
+    SharedModule,
+    InfiniteScrollDirective,
+  ],
 })
 export class ChatbotModule {}

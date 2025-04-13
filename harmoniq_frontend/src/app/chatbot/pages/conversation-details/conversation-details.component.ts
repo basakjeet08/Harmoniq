@@ -1,22 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { CHATBOT_AVATAR_URL } from './../../../shared/constants/url-constants';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
+import { PageWrapper } from 'src/app/shared/Models/common/PageWrapper';
 import {
   ChatMessageDto,
   MessageType,
 } from 'src/app/shared/Models/conversation/ChatMessageDto';
-import { ConversationHistoryDto } from 'src/app/shared/Models/conversation/ConversationHistoryDto';
 import { ChatbotService } from 'src/app/shared/services/chatbot.service';
 import { ConversationService } from 'src/app/shared/services/conversation.service';
+import { ProfileService } from 'src/app/shared/services/profile.service';
 
 @Component({
   selector: 'app-conversation-details',
   templateUrl: './conversation-details.component.html',
   styleUrls: ['./conversation-details.component.css'],
-  animations: [staggerAnimation],
 })
 export class ConversationDetailsComponent implements OnInit {
   // This is the data for the components
@@ -27,11 +27,19 @@ export class ConversationDetailsComponent implements OnInit {
   currentResponse: string = '';
   conversationId = '';
 
+  // Paging data values
+  page = 0;
+  pageSize = 10;
+  lastPage: boolean = false;
+  offset: number = 0;
+
   // Getting the Input component
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
   @ViewChild(InputComponent) input!: InputComponent;
 
   // Injecting the necessary dependencies
   constructor(
+    profileService: ProfileService,
     private conversationService: ConversationService,
     private chatbotService: ChatbotService,
     private toastService: ToastService,
@@ -41,42 +49,84 @@ export class ConversationDetailsComponent implements OnInit {
     this.loaderService.loaderState$.subscribe(
       (state) => (this.loaderState = state)
     );
+
+    // Setting the user and chatbot avatar
+    this.userImage = profileService.getUser()?.avatar || '';
+    this.chatBotImage = CHATBOT_AVATAR_URL;
   }
 
   // Fetching the old history messages
   ngOnInit(): void {
+    // Fetching the conversation ID
+    this.conversationId = this.route.snapshot.params['id'];
+
+    // Loading the initial (most recent) messages from the history
+    this.loadOlderMessages();
+  }
+
+  // This function increase the offset of the current page
+  updateOffset(value: number = 1) {
+    // Increasing the offset
+    this.offset += value;
+
+    // Checking if the offset is larger than page size, then we increase page no.
+    if (this.offset >= this.pageSize) {
+      this.page += this.offset / this.pageSize;
+      this.offset %= this.pageSize;
+    }
+  }
+
+  // This function resets the offset
+  resetOffset() {
+    this.offset = 0;
+  }
+
+  // This function fetches the messages according to the pages
+  loadOlderMessages() {
+    if (this.lastPage || this.loaderState) return;
+
     // Starting the loading state
     this.loaderService.startLoading();
 
-    // Fetching the ID for the conversation
-    this.conversationId = this.route.snapshot.params['id'];
-
     // Calling the API
     this.conversationService
-      .findConversationHistory(this.conversationId)
+      .findConversationHistory(this.conversationId, {
+        page: this.page,
+        size: this.pageSize,
+      })
       .subscribe({
         // Success State
-        next: (conversationHistory: ConversationHistoryDto) => {
+        next: (pageWrapper: PageWrapper<ChatMessageDto>) => {
           this.loaderService.endLoading();
-          this.messages = conversationHistory.chatMessageList;
 
-          // Setting the user and chatbot images
-          this.userImage = conversationHistory.userDto.avatar || '';
-          this.chatBotImage = conversationHistory.chatBotImage;
+          // Storing the scroll state
+          const container = this.scrollContainer.nativeElement;
+          const previousScrollHeight = container.scrollHeight;
+
+          // Calculating the new Valid Array to be added
+          const newPage = pageWrapper.content.reverse();
+          const startIndex = newPage.length - this.offset;
+          const countToDelete = this.offset;
+
+          // Removing the items which are sent by us and are already added in the offset
+          newPage.splice(startIndex, countToDelete);
+
+          // Adding the new elements at the start of
+          this.messages.unshift(...newPage);
+          this.page++;
+          this.lastPage = pageWrapper.last;
+
+          // Resetting the offset since we dont need it anymore
+          this.resetOffset();
+
+          // Making sure the scroll state is managed
+          requestAnimationFrame(() => {
+            container.scrollTop = container.scrollHeight - previousScrollHeight;
+          });
 
           // Checking if its the user's first time in the conversation window or not
-          if (conversationHistory.chatMessageList.length === 0) {
+          if (this.messages.length === 0) {
             this.onGenerateClick('Hello !!');
-            this.toastService.showToast({
-              type: 'success',
-              message:
-                'Created a new Conversation Window and sent a default prompt to start the chatbot',
-            });
-          } else {
-            this.toastService.showToast({
-              type: 'success',
-              message: 'Conversation History restored successfully !!',
-            });
           }
         },
 
@@ -105,7 +155,9 @@ export class ConversationDetailsComponent implements OnInit {
         messageType: MessageType.ASSISTANT,
         createdAt: new Date(),
       });
+
       this.currentResponse = '';
+      this.scrollToBottom();
     }
   }
 
@@ -122,7 +174,12 @@ export class ConversationDetailsComponent implements OnInit {
       createdAt: new Date(),
     });
 
+    // Increase so we dont append 1 duplicate item when loading the older messages
+    this.updateOffset();
+
     this.input.resetComponent();
+    this.currentResponse = ' ';
+    this.scrollToBottom();
 
     // Calling the API
     this.chatbotService
@@ -145,8 +202,27 @@ export class ConversationDetailsComponent implements OnInit {
         // Complete State
         complete: () => {
           this.loaderService.endLoading();
+
+          // Increase so we dont append 1 duplicate item when loading the older messages
+          this.updateOffset();
           this.updateMessage();
         },
       });
+  }
+
+  // This function is called when the user scrolls
+  onScroll(): void {
+    const target = this.scrollContainer.nativeElement;
+
+    // If the user reaches the top then we fetch older messages
+    if (target.scrollTop === 0) this.loadOlderMessages();
+  }
+
+  // This function takes the user to the most current scroll location (Bottom of scroll)
+  scrollToBottom(): void {
+    requestAnimationFrame(() => {
+      const container = this.scrollContainer.nativeElement;
+      container.scrollTop = container.scrollHeight;
+    });
   }
 }

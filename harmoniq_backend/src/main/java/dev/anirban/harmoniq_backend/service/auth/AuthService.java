@@ -1,11 +1,10 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.auth;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
 import dev.anirban.harmoniq_backend.entity.User;
-import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,10 +27,6 @@ public class AuthService {
     // This function registers a Member
     public User register(AuthRequest authRequest) {
         log.info("(|) - Received new register request for email : {}", authRequest.getEmail());
-
-        if (userService.findByEmail(authRequest.getEmail()).isPresent())
-            throw new EmailAlreadyExists(authRequest.getEmail());
-
         return userService.create(authRequest);
     }
 
@@ -55,9 +50,7 @@ public class AuthService {
         );
 
         // Fetching the user Details Object and creating the token wrapper and user Dto
-        User userDetails = userService
-                .findByEmail(authRequest.getEmail())
-                .orElseThrow(() -> new UserNotFound(authRequest.getEmail()));
+        User userDetails = userService.findByEmail(authRequest.getEmail());
 
         String[] tokens = generateTokenWrapper(userDetails);
         AuthResponse user = userDetails.toAuthResponse();
@@ -75,13 +68,6 @@ public class AuthService {
 
         // Creating a Guest User
         User user = userService.createGuest();
-
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getEmail(),
-                        "Guest Password"
-                )
-        );
 
         // Generating the tokens
         String[] tokens = generateTokenWrapper(user);

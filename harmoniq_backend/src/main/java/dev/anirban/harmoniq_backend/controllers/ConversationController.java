@@ -1,15 +1,19 @@
 package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
+import dev.anirban.harmoniq_backend.dto.chat.ChatMessageDto;
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationDto;
-import dev.anirban.harmoniq_backend.dto.chat.ConversationHistoryDto;
 import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
+import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
-import dev.anirban.harmoniq_backend.service.ChatbotService;
-import dev.anirban.harmoniq_backend.service.ConversationService;
+import dev.anirban.harmoniq_backend.service.conversation.ChatMessageService;
+import dev.anirban.harmoniq_backend.service.conversation.ChatbotService;
+import dev.anirban.harmoniq_backend.service.conversation.ConversationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,14 +21,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
-
 
 @RestController
 @RequiredArgsConstructor
 public class ConversationController {
     // this class contains the business logic for the conversation
     private final ConversationService conversationService;
+    private final ChatMessageService chatMessageService;
     private final ChatbotService chatbotService;
 
     // This creates a conversation window in the database
@@ -42,29 +45,31 @@ public class ConversationController {
 
     // This fetches all the conversations for a certain user
     @GetMapping(UrlConstants.FETCH_CONVERSATION_BY_USER_ENDPOINTS)
-    public ResponseWrapper<List<ConversationDto>> handleConversationsForCertainUser(
-            @AuthenticationPrincipal UserDetails userDetails
+    public ResponseWrapper<Page<ConversationDto>> handleConversationsForCertainUser(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        List<ConversationDto> conversationDto = conversationService
-                .findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails)
-                .stream()
-                .map(Conversation::toConversationDto)
-                .toList();
+        Page<ConversationDto> conversationDto = conversationService
+                .fetchUserConversationHistory(userDetails, PageRequest.of(page, size))
+                .map(Conversation::toConversationDto);
 
         return new ResponseWrapper<>("Conversations for the user is fetched successfully!!", conversationDto);
     }
 
     // This function returns the conversation history
     @GetMapping(UrlConstants.FETCH_CONVERSATION_HISTORY_ENDPOINT)
-    public ResponseWrapper<ConversationHistoryDto> handleConversationHistoryRequest(
+    public ResponseWrapper<Page<ChatMessageDto>> handleConversationHistoryRequest(
+            @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable(value = "id") String conversationId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        ConversationHistoryDto conversationHistoryDto = conversationService
-                .findById(conversationId, userDetails)
-                .toConversationHistoryDto();
+        Page<ChatMessageDto> chatMessageDto = chatMessageService
+                .fetchConversationChatHistory(conversationId, userDetails, PageRequest.of(page, size))
+                .map(ChatMessage::toChatMessageDto);
 
-        return new ResponseWrapper<>("Conversation History fetched Successfully !!", conversationHistoryDto);
+        return new ResponseWrapper<>("Conversation History fetched Successfully !!", chatMessageDto);
     }
 
     @PostMapping(value = UrlConstants.PROMPT_CHATBOT_ENDPOINT, produces = MediaType.TEXT_EVENT_STREAM_VALUE)

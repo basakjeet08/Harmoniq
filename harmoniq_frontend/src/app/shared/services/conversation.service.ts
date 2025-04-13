@@ -12,7 +12,8 @@ import { ConversationInterface } from '../interfaces/ConversationInterface';
 import { catchError, map, Observable } from 'rxjs';
 import { ConversationDto } from '../Models/conversation/ConversationDto';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
-import { ConversationHistoryDto } from '../Models/conversation/ConversationHistoryDto';
+import { PageWrapper } from '../Models/common/PageWrapper';
+import { ChatMessageDto } from '../Models/conversation/ChatMessageDto';
 
 @Injectable({ providedIn: 'root' })
 export class ConversationService implements ConversationInterface {
@@ -56,10 +57,20 @@ export class ConversationService implements ConversationInterface {
   }
 
   // This function fetches all the conversations for a certain user
-  findAllUserConversation(): Observable<ConversationDto[]> {
+  findAllUserConversation(pageable: {
+    page: number;
+    size: number;
+  }): Observable<PageWrapper<ConversationDto>> {
+    // Page Data
+    const pageString = pageable.page.toString();
+    const pageSize = pageable.size.toString();
+
     return this.http
-      .get<ResponseWrapper<ConversationDto[]>>(
-        FETCH_USER_CONVERSATIONS,
+      .get<ResponseWrapper<PageWrapper<ConversationDto>>>(
+        FETCH_USER_CONVERSATIONS.replace(':page', pageString).replace(
+          ':size',
+          pageSize
+        ),
         this.getHeaders()
       )
       .pipe(
@@ -69,10 +80,15 @@ export class ConversationService implements ConversationInterface {
   }
 
   // This function fetches the conversation history from the backend
-  findConversationHistory(id: string): Observable<ConversationHistoryDto> {
+  findConversationHistory(
+    id: string,
+    pageable: { page: number; size: number }
+  ): Observable<PageWrapper<ChatMessageDto>> {
     return this.http
-      .get<ResponseWrapper<ConversationHistoryDto>>(
-        FETCH_CONVERSATION_HISTORY.replace(':id', id),
+      .get<ResponseWrapper<PageWrapper<ChatMessageDto>>>(
+        FETCH_CONVERSATION_HISTORY.replace(':id', id)
+          .replace(':page', pageable.page.toString())
+          .replace(':size', pageable.size.toString()),
         this.getHeaders()
       )
       .pipe(

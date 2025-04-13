@@ -3,6 +3,9 @@ import { environment } from 'src/environments/environment';
 // Base Url
 export const BASE_URL = `${environment.apiBaseUrl}/api`;
 
+// Chatbot Avatar URl
+export const CHATBOT_AVATAR_URL = `${environment.apiBaseUrl}/avatars/chatbot/chatbot.jpg`;
+
 // Authentication Endpoints
 export const REGISTER_ENDPOINT = `${BASE_URL}/auth/register`;
 export const LOGIN_ENDPOINT = `${BASE_URL}/auth/login`;
@@ -30,7 +33,7 @@ export const CREATE_COMMENT_ENDPOINT = `${BASE_URL}/threads/:threadId/comments`;
 
 // Conversation Endpoints
 export const CREATE_CONVERSATION_ENDPOINT = `${BASE_URL}/conversations`;
-export const FETCH_USER_CONVERSATIONS = `${BASE_URL}/conversations`;
+export const FETCH_USER_CONVERSATIONS = `${BASE_URL}/conversations?page=:page&size=:size`;
 export const SEND_MESSAGE = `${BASE_URL}/conversations/:id/messages`;
-export const FETCH_CONVERSATION_HISTORY = `${BASE_URL}/conversations/:id/messages`;
+export const FETCH_CONVERSATION_HISTORY = `${BASE_URL}/conversations/:id/messages?page=:page&size=:size`;
 export const DELETE_CONVERSATION_ENDPOINT = `${BASE_URL}/conversations/:id`;

@@ -6,8 +6,8 @@ import dev.anirban.harmoniq_backend.entity.Thread;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ThreadRepository;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,9 +29,7 @@ public class ThreadService {
     @Transactional
     public Thread create(ThreadRequest threadRequest, UserDetails userDetails) {
         // Fetching the user object from the database
-        User user = userService
-                .findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+        User user = userService.findByEmail(userDetails.getUsername());
 
         // Fetching the generated final tag List from the tag service
         List<Tag> tagList = tagService.generateTags(threadRequest.getDescription());
@@ -82,9 +80,7 @@ public class ThreadService {
     @Transactional
     public List<Thread> findThreadsAccordingToInterests(UserDetails userDetails) {
         // Fetching the user from the database
-        User user = userService
-                .findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+        User user = userService.findByEmail(userDetails.getUsername());
 
         // Returning the user thread list which matches the user interests
         List<Thread> personalizedThreads = user
@@ -127,9 +123,7 @@ public class ThreadService {
     @Transactional
     public void deleteById(String id, UserDetails userDetails) {
         // Fetching the user from the database
-        User user = userService
-                .findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+        User user = userService.findByEmail(userDetails.getUsername());
 
         // Checking if the thread is present
         Thread savedThread = findById(id);

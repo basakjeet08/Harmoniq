@@ -1,10 +1,10 @@
-package dev.anirban.harmoniq_backend.chatbot;
+package dev.anirban.harmoniq_backend.service.conversation;
 
 import dev.anirban.harmoniq_backend.entity.ChatMessage;
-import dev.anirban.harmoniq_backend.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.*;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +14,12 @@ import java.util.List;
 public class CustomChatMemoryImpl implements ChatMemory {
 
     // Injecting the conversation service
-    private final ConversationService service;
+    private final ConversationService conversationService;
+    private final ChatMessageService chatMessageService;
 
     @Override
     public void add(String conversationId, List<Message> messages) {
-        service.addMessages(conversationId, messages);
+        conversationService.addMessages(conversationId, messages);
     }
 
     // This function parses the chat messages to the individual classes required
@@ -34,16 +35,16 @@ public class CustomChatMemoryImpl implements ChatMemory {
     @Override
     // This function fetches the conversation by the id and then returns all the Messages in it
     public List<Message> get(String conversationId, int lastN) {
-        return service
-                .findById(conversationId)
-                .getChatMessageList()
+        return chatMessageService
+                .fetchConversationChatHistory(conversationId, PageRequest.of(0, 40))
                 .stream()
                 .map(this::parseChatMessage)
-                .toList();
+                .toList()
+                .reversed();
     }
 
     @Override
     public void clear(String conversationId) {
-        service.deleteById(conversationId);
+        conversationService.deleteById(conversationId);
     }
 }

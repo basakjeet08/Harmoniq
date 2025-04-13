@@ -1,16 +1,18 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.conversation;
 
 import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
-import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ConversationNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.ConversationRepository;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,32 +21,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ConversationService {
 
+    // Injecting all the required dependencies
     private final ConversationRepository conversationRepo;
     private final UserService userService;
-    private final AvatarService avatarService;
+    private final ChatMessageService chatMessageService;
 
     // This function creates a conversation room with the given ID
     public Conversation create(ConversationRequest conversationRequest, UserDetails userDetails) {
+        log.info("(|) - Received new conversation creation request from {}", userDetails.getUsername());
+
+        // checking if the title and everything is provided
+        if (conversationRequest.getTitle() == null || conversationRequest.getTitle().isEmpty())
+            throw new IllegalArgumentException("Conversation title is required !!");
+
         // Fetching the user account
-        User user = userService
-                .findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new UserNotFound(userDetails.getUsername()));
+        User user = userService.findByEmail(userDetails.getUsername());
 
         // creating a new Conversation Object
         Conversation conversation = Conversation
                 .builder()
                 .title(conversationRequest.getTitle())
                 .createdAt(LocalDateTime.now())
-                .chatBotImage(avatarService.getChatbotAvatar())
+                .createdBy(user)
                 .chatMessageList(new ArrayList<>())
                 .build();
-
-        // Adding the conversation for relationship
-        user.addConversation(conversation);
 
         return conversationRepo.save(conversation);
     }
@@ -56,20 +61,9 @@ public class ConversationService {
                 .orElseThrow(() -> new ConversationNotFound(id));
     }
 
-    // This function checks if the user can view the conversation before returning the conversation
-    public Conversation findById(String id, UserDetails userDetails) {
-        Conversation conversation = findById(id);
-
-        // Checking if the user is valid or not
-        if (!conversation.getCreatedBy().getUsername().equals(userDetails.getUsername()))
-            throw new UnAuthorized();
-
-        return conversation;
-    }
-
     // This function fetches all the conversations for a particular user
-    public List<Conversation> findByCreatedBy_EmailOrderByCreatedAtDesc(UserDetails userDetails) {
-        return conversationRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
+    public Page<Conversation> fetchUserConversationHistory(UserDetails userDetails, Pageable pageable) {
+        return conversationRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername(), pageable);
     }
 
     // This function adds the given Messages in the conversation
@@ -77,20 +71,7 @@ public class ConversationService {
     public void addMessages(String conversationId, List<Message> messages) {
         // Fetching the saved conversation or creating a new one
         Conversation savedConversation = findById(conversationId);
-
-        // Adding the messages in the conversation
-        messages.forEach(message -> {
-            ChatMessage chatMessage = ChatMessage
-                    .builder()
-                    .text(message.getText())
-                    .messageType(message.getMessageType())
-                    .createdAt(LocalDateTime.now())
-                    .build();
-
-            savedConversation.addChatMessage(chatMessage);
-        });
-
-        conversationRepo.save(savedConversation);
+        chatMessageService.create(savedConversation, messages);
     }
 
     // This function clears the conversation with the given id
@@ -100,11 +81,9 @@ public class ConversationService {
 
     // This function clears the conversation after checking if the user is allowed to delete
     public void deleteById(String id, UserDetails userDetails) {
-        Conversation conversation = findById(id);
+        int rowsDeleted = conversationRepo.deleteByIdAndCreatedBy_Email(id, userDetails.getUsername());
 
-        if (!conversation.getCreatedBy().getUsername().equals(userDetails.getUsername()))
+        if (rowsDeleted != 1)
             throw new UnAuthorized();
-        else
-            deleteById(id);
     }
 }

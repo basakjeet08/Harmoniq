@@ -1,10 +1,11 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.conversation;
 
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
+import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
-import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.security.JwtService;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -23,9 +24,10 @@ public class ChatbotService {
     private final JwtService jwtService;
     private final UserService userService;
     private final ChatClient chatbotChatClient;
+    private final ConversationService conversationService;
 
     // This function validates the user -> authentication and authorization
-    public void validateUser(String authHeader) {
+    private User validateUser(String authHeader) {
 
         // If no token is passed then we invalidate
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -41,9 +43,7 @@ public class ChatbotService {
             throw new UnAuthorized();
 
         // Fetching the user details from the service
-        User user = userService
-                .findByEmail(username)
-                .orElseThrow(() -> new UserNotFound(username));
+        User user = userService.findByEmail(username);
 
         // Checking if the user token is valid or not
         if (!jwtService.isTokenValid(jwtToken, user))
@@ -52,6 +52,8 @@ public class ChatbotService {
         // Checking if the user has the required roles or not
         if (user.getRole() == User.Type.GUEST)
             throw new UnAuthorized();
+
+        return user;
     }
 
     // This function generate the Chatbot response
@@ -59,7 +61,12 @@ public class ChatbotService {
         log.info("(|) - Generating prompt response for conversation Id - {}", conversationId);
 
         // Getting the validated User (If he is a valid user)
-        validateUser(authHeader);
+        User user = validateUser(authHeader);
+
+        // Checking if the user has created the conversation or not
+        Conversation savedConversation = conversationService.findById(conversationId);
+        if (!savedConversation.getCreatedBy().getEmail().equals(user.getEmail()))
+            throw new UnAuthorized();
 
         return chatbotChatClient
                 .prompt()
