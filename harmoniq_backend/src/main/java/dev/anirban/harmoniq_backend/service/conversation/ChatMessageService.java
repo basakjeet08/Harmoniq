@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -44,5 +45,16 @@ public class ChatMessageService {
     // This function fetches all the chat messages with a given conversation id
     public Page<ChatMessage> findByConversation_IdOrderByCreatedAtDesc(String conversationId, Pageable pageable) {
         return chatMessageRepo.findByConversation_IdOrderByCreatedAtDesc(conversationId, pageable);
+    }
+
+    // This function returns all the chat messages with a given conversation id if the conversation is created by the user
+    public Page<ChatMessage> findByConversation_IdAndConversation_CreatedBy_EmailOrderByCreatedAtDesc(
+            String conversationId,
+            UserDetails userDetails,
+            Pageable pageable
+    ) {
+        return chatMessageRepo.findByConversation_IdAndConversation_CreatedBy_EmailOrderByCreatedAtDesc(
+                conversationId, userDetails.getUsername(), pageable
+        );
     }
 }

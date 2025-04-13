@@ -8,6 +8,7 @@ import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
+import dev.anirban.harmoniq_backend.service.conversation.ChatMessageService;
 import dev.anirban.harmoniq_backend.service.conversation.ChatbotService;
 import dev.anirban.harmoniq_backend.service.conversation.ConversationService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import reactor.core.publisher.Flux;
 public class ConversationController {
     // this class contains the business logic for the conversation
     private final ConversationService conversationService;
+    private final ChatMessageService chatMessageService;
     private final ChatbotService chatbotService;
 
     // This creates a conversation window in the database
@@ -63,9 +65,10 @@ public class ConversationController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
-        Page<ChatMessageDto> chatMessageDto = conversationService
-                .findByConversation_IdOrderByCreatedAtDesc(conversationId, PageRequest.of(page, size))
-                .map(ChatMessage::toChatMessageDto);
+        Page<ChatMessageDto> chatMessageDto = chatMessageService
+                .findByConversation_IdAndConversation_CreatedBy_EmailOrderByCreatedAtDesc(
+                        conversationId, userDetails, PageRequest.of(page, size)
+                ).map(ChatMessage::toChatMessageDto);
 
         return new ResponseWrapper<>("Conversation History fetched Successfully !!", chatMessageDto);
     }

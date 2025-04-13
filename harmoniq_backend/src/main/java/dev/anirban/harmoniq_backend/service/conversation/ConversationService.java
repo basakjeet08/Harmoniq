@@ -1,7 +1,6 @@
 package dev.anirban.harmoniq_backend.service.conversation;
 
 import dev.anirban.harmoniq_backend.dto.chat.ConversationRequest;
-import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.entity.User;
 import dev.anirban.harmoniq_backend.exception.ConversationNotFound;
@@ -60,10 +59,6 @@ public class ConversationService {
         return conversationRepo
                 .findById(id)
                 .orElseThrow(() -> new ConversationNotFound(id));
-    }
-
-    public Page<ChatMessage> findByConversation_IdOrderByCreatedAtDesc(String conversationId, Pageable pageable) {
-        return chatMessageService.findByConversation_IdOrderByCreatedAtDesc(conversationId, pageable);
     }
 
     // This function fetches all the conversations for a particular user

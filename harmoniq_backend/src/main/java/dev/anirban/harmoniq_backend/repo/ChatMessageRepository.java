@@ -7,4 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, String> {
     Page<ChatMessage> findByConversation_IdOrderByCreatedAtDesc(String conversationId, Pageable pageable);
+
+    Page<ChatMessage> findByConversation_IdAndConversation_CreatedBy_EmailOrderByCreatedAtDesc(
+            String id, String email, Pageable pageable
+    );
 }
