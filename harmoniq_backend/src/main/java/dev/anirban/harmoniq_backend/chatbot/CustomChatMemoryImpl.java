@@ -38,7 +38,7 @@ public class CustomChatMemoryImpl implements ChatMemory {
     // This function fetches the conversation by the id and then returns all the Messages in it
     public List<Message> get(String conversationId, int lastN) {
         return chatMessageService
-                .findByConversation_IdOrderByCreatedAtDesc(conversationId, PageRequest.of(0, 40))
+                .fetchConversationChatHistory(conversationId, PageRequest.of(0, 40))
                 .stream()
                 .map(this::parseChatMessage)
                 .toList()

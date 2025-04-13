@@ -3,6 +3,7 @@ package dev.anirban.harmoniq_backend.service.conversation;
 import dev.anirban.harmoniq_backend.entity.ChatMessage;
 import dev.anirban.harmoniq_backend.entity.Conversation;
 import dev.anirban.harmoniq_backend.repo.ChatMessageRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepo;
 
     // This function create all the messages in the conversation
+    @Transactional
     public void create(Conversation conversation, List<Message> messages) {
         // Creating a new chat message list to store in the database
         List<ChatMessage> chatMessages = new ArrayList<>();
@@ -43,12 +45,12 @@ public class ChatMessageService {
     }
 
     // This function fetches all the chat messages with a given conversation id
-    public Page<ChatMessage> findByConversation_IdOrderByCreatedAtDesc(String conversationId, Pageable pageable) {
+    public Page<ChatMessage> fetchConversationChatHistory(String conversationId, Pageable pageable) {
         return chatMessageRepo.findByConversation_IdOrderByCreatedAtDesc(conversationId, pageable);
     }
 
     // This function returns all the chat messages with a given conversation id if the conversation is created by the user
-    public Page<ChatMessage> findByConversation_IdAndConversation_CreatedBy_EmailOrderByCreatedAtDesc(
+    public Page<ChatMessage> fetchConversationChatHistory(
             String conversationId,
             UserDetails userDetails,
             Pageable pageable

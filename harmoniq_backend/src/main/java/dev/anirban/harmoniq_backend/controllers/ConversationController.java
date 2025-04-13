@@ -51,7 +51,7 @@ public class ConversationController {
             @RequestParam(defaultValue = "10") int size
     ) {
         Page<ConversationDto> conversationDto = conversationService
-                .findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails, PageRequest.of(page, size))
+                .fetchUserConversationHistory(userDetails, PageRequest.of(page, size))
                 .map(Conversation::toConversationDto);
 
         return new ResponseWrapper<>("Conversations for the user is fetched successfully!!", conversationDto);
@@ -63,12 +63,11 @@ public class ConversationController {
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable(value = "id") String conversationId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+            @RequestParam(defaultValue = "10") int size
     ) {
         Page<ChatMessageDto> chatMessageDto = chatMessageService
-                .findByConversation_IdAndConversation_CreatedBy_EmailOrderByCreatedAtDesc(
-                        conversationId, userDetails, PageRequest.of(page, size)
-                ).map(ChatMessage::toChatMessageDto);
+                .fetchConversationChatHistory(conversationId, userDetails, PageRequest.of(page, size))
+                .map(ChatMessage::toChatMessageDto);
 
         return new ResponseWrapper<>("Conversation History fetched Successfully !!", chatMessageDto);
     }

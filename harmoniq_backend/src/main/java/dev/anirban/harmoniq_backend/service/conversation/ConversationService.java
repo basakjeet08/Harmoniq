@@ -62,7 +62,7 @@ public class ConversationService {
     }
 
     // This function fetches all the conversations for a particular user
-    public Page<Conversation> findByCreatedBy_EmailOrderByCreatedAtDesc(UserDetails userDetails, Pageable pageable) {
+    public Page<Conversation> fetchUserConversationHistory(UserDetails userDetails, Pageable pageable) {
         return conversationRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername(), pageable);
     }
 
