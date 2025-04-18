@@ -28,13 +28,13 @@
     - [1️⃣ Clone the Repository](#1️⃣-clone-the-repository)
     - [2️⃣ Open the Project Directory](#2️⃣-open-the-project-directory)
     - [3️⃣ Build \& Run Using Docker (Recommended)](#3️⃣-build--run-using-docker-recommended)
-    - [What Happens After Running these Commands?](#what-happens-after-running-these-commands)
-    - [Post-Installation](#post-installation)
-  - [Author](#author)
+    - [⚡What Does Docker Compose Do?](#what-does-docker-compose-do)
+    - [✅ Post-Installation](#-post-installation)
+  - [👨‍💻 Author](#-author)
 
 ## Demo
 
-_Coming soon..._
+_A video walkthrough and live demo will be added shortly. Stay tuned!_
 
 ## ✨ Features
 
@@ -72,7 +72,7 @@ _Coming soon..._
 ### 5. 🐳 Docker Support
 
 - The entire application can be run using `Docker Compose`.
-- Simplifies setup for local development, deployment, and contribution.
+- Simplifies setup for local development, testing, and contributions.
 - Backend and frontend `Dockerfiles` are included for isolated builds.
 
 ## 💻 Technologies Used
@@ -105,7 +105,7 @@ harmoniq/
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/
-│   │   │   │   └── dev/anirban/harmoniq/
+│   │   │   │   └── dev/anirban/harmoniq_backend/
 │   │   │   │       ├── config/
 │   │   │   │       ├── constants/
 │   │   │   │       ├── controllers/
@@ -167,26 +167,25 @@ cd harmoniq
 
 ### 3️⃣ Build & Run Using Docker (Recommended)
 
-- **Build using Docker :** Make sure your docker desktop is running.
+**Build using Docker :** Make sure your docker desktop is running.
 
-  ```bash
-  docker-compose build
-  ```
+```bash
+docker-compose build
+```
 
-- **Start the ollama instance :** On its initial run, it downloads the Mistral model
-  `~4GB`, which may take some time. Only run this the first time to pull and prepare the model.
+**Start the ollama instance :** On its initial run, it downloads the Mistral model `~4GB`, which may take some time. Only run this the first time to pull and prepare the model.
 
-  ```bash
-  docker-compose up ollama
-  ```
+```bash
+docker-compose up ollama
+```
 
-- **Run the remaining containers in detach mode** - Run this after the Ollama Mistral model has finished downloading.
+**Now, start the remaining containers in detached mode:** - Run this after the Ollama Mistral model has finished downloading.
 
-  ```bash
-  docker-compose up -d
-  ```
+```bash
+docker-compose up -d
+```
 
-### What Happens After Running these Commands?
+### ⚡What Does Docker Compose Do?
 
 This will start four containers:
 
@@ -197,12 +196,14 @@ This will start four containers:
 
 The setup is configured for a local development environment, so all the necessary database URLs and Spring Boot connections are automatically handled, making it easy to get started without manual configuration **(when using docker compose)**.
 
-### Post-Installation
+### ✅ Post-Installation
 
 - Once the containers are up and running, navigate to the frontend at `http://127.0.0.1:5000` to start using the application.
 - For the backend, you can access it through `http://localhost:8080`.
 - The application will be running locally, and the database will be connected automatically.
 
-## Author
+## 👨‍💻 Author
 
 - **Anirban Basak** - [GitHub](https://github.com/basakjeet08) | [LinkedIn](https://www.linkedin.com/in/anirban-basak-b96055249/)
+
+Building things with 💻, coffee ☕, and a lot of ❤️ for clean code.
