@@ -7,7 +7,7 @@ import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
 import dev.anirban.harmoniq_backend.entity.Thread;
-import dev.anirban.harmoniq_backend.service.ThreadService;
+import dev.anirban.harmoniq_backend.service.threads.ThreadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

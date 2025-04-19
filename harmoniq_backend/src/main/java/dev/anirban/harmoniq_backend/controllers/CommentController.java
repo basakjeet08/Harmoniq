@@ -4,7 +4,7 @@ import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.comment.CommentRequest;
 import dev.anirban.harmoniq_backend.dto.comment.CommentDto;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
-import dev.anirban.harmoniq_backend.service.CommentService;
+import dev.anirban.harmoniq_backend.service.threads.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

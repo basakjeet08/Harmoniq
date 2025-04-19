@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.threads;
 
 import dev.anirban.harmoniq_backend.entity.Like;
 import dev.anirban.harmoniq_backend.entity.Thread;
