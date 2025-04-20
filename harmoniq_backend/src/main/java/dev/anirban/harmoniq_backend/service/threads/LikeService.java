@@ -1,8 +1,8 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
-import dev.anirban.harmoniq_backend.entity.Like;
-import dev.anirban.harmoniq_backend.entity.Thread;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.threads.Like;
+import dev.anirban.harmoniq_backend.entity.threads.Thread;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
 import dev.anirban.harmoniq_backend.repo.LikeRepository;

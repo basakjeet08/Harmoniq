@@ -1,6 +1,6 @@
 package dev.anirban.harmoniq_backend.repo;
 
-import dev.anirban.harmoniq_backend.entity.Thread;
+import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

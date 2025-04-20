@@ -1,7 +1,7 @@
 package dev.anirban.harmoniq_backend.security;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

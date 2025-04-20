@@ -2,9 +2,9 @@ package dev.anirban.harmoniq_backend.dto.thread;
 
 import dev.anirban.harmoniq_backend.dto.comment.CommentDto;
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
-import dev.anirban.harmoniq_backend.entity.Comment;
-import dev.anirban.harmoniq_backend.entity.Tag;
-import dev.anirban.harmoniq_backend.entity.Thread;
+import dev.anirban.harmoniq_backend.entity.threads.Comment;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
+import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import lombok.*;
 
 import java.util.List;

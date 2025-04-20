@@ -1,6 +1,6 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
-import dev.anirban.harmoniq_backend.entity.Tag;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.repo.TagRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

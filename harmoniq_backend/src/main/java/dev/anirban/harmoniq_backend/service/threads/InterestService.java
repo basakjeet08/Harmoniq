@@ -1,8 +1,8 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
-import dev.anirban.harmoniq_backend.entity.Interest;
-import dev.anirban.harmoniq_backend.entity.Tag;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.user.Interest;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.repo.InterestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

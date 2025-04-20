@@ -1,7 +1,11 @@
-package dev.anirban.harmoniq_backend.entity;
+package dev.anirban.harmoniq_backend.entity.user;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthResponse;
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
+import dev.anirban.harmoniq_backend.entity.threads.Comment;
+import dev.anirban.harmoniq_backend.entity.chat.Conversation;
+import dev.anirban.harmoniq_backend.entity.threads.Like;
+import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

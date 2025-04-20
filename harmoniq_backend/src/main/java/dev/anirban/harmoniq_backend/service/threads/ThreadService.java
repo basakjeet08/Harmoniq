@@ -1,9 +1,9 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
-import dev.anirban.harmoniq_backend.entity.Tag;
-import dev.anirban.harmoniq_backend.entity.Thread;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
+import dev.anirban.harmoniq_backend.entity.threads.Thread;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.repo.ThreadRepository;

@@ -2,7 +2,7 @@ package dev.anirban.harmoniq_backend.service.user;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
