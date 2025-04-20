@@ -1,7 +1,9 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
 import dev.anirban.harmoniq_backend.entity.threads.Like;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
+import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
 import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,9 +32,16 @@ public class LikeService {
     // This function creates a new like
     @Transactional
     public Like create(User user, Thread thread) {
+        // fetching the thread tags list (Only 3 tags are there so this is fine)
+        List<Tag> tags = thread
+                .getThreadTags()
+                .stream()
+                .map(ThreadTag::getTag)
+                .toList();
+
         // Updating the necessary thread and interest details
         thread.incrementTotalLikesCount();
-        interestService.addInterestsFromPostTags(thread.getThreadTags(), user);
+        interestService.markPositiveInterest(tags, user);
 
         // Creating a new Like Object
         Like newLike = Like
@@ -70,7 +80,7 @@ public class LikeService {
     @Transactional
     public void deleteLike(Like like) {
         // Reducing the interests
-        interestService.removeInterestFromPostTags(like.getThread().getThreadTags(), like.getUser());
+        interestService.markNegativeInterest(like.getThread().getThreadTags(), like.getUser());
 
         // Removing the likes from the thread
         like.getThread().decrementTotalLikesCount();

@@ -1,7 +1,6 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
-import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
 import dev.anirban.harmoniq_backend.entity.user.User;
@@ -27,16 +26,16 @@ public class ThreadService {
     private final InterestService interestService;
     private final ThreadTagService threadTagService;
 
-    // This function creates a new Thread and returns the created Thread
-    @Transactional
+    // This function creates the thread and returns the created thread
     public Thread create(ThreadRequest threadRequest, UserDetails userDetails) {
+        // Checking if the given request is valid or not
+        if (threadRequest.getDescription() == null || threadRequest.getDescription().isBlank())
+            throw new IllegalArgumentException("Thread description cannot be empty !!");
+
         // Fetching the user object from the database
         User user = userService.findByEmail(userDetails.getUsername());
 
-        // Fetching the generated final tag List from the tag service
-        List<Tag> tagList = tagService.generateTags(threadRequest.getDescription());
-
-        // Creating a new Thread
+        // Creating a new Thread object
         Thread thread = Thread
                 .builder()
                 .description(threadRequest.getDescription())
@@ -45,16 +44,14 @@ public class ThreadService {
                 .threadTags(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .totalComments(0)
-                .likes(new HashSet<>())
+                .likes(new ArrayList<>())
                 .totalLikes(0)
                 .build();
 
-        // Attaching the ThreadTag List
-        List<ThreadTag> savedTheadTags = threadTagService.createAll(tagList, thread);
+        // Creating the thread tag object for mapping thread and tags
+        threadTagService.create(thread, user);
 
-        // Updating the user interests
-        interestService.addInterestsFromPostTags(savedTheadTags, user);
-
+        // Storing the final Thread object in the database
         return threadRepo.save(thread);
     }
 
@@ -134,7 +131,7 @@ public class ThreadService {
             throw new UnAuthorized();
 
         // Decreasing the interests scores
-        interestService.removeInterestFromPostTags(savedThread.getThreadTags(), user);
+        interestService.markNegativeInterest(savedThread.getThreadTags(), user);
         threadRepo.delete(savedThread);
     }
 }

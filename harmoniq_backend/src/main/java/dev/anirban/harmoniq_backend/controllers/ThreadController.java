@@ -24,8 +24,8 @@ public class ThreadController {
     // This function handles the thread creation requests
     @PostMapping(UrlConstants.CREATE_THREAD_ENDPOINT)
     public ResponseWrapper<ThreadDto> handleCreateThreadRequest(
-            @RequestBody ThreadRequest threadRequest,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody ThreadRequest threadRequest
     ) {
         ThreadDto thread = service.create(threadRequest, userDetails).toThreadDto();
         return new ResponseWrapper<>("Thread created Successfully !!", thread);

@@ -38,7 +38,7 @@ public class InterestService {
 
     // This function updates the interest based on the list of tags and the user
     @Transactional
-    public void addInterestsFromPostTags(List<ThreadTag> threadTagList, User user) {
+    public void markPositiveInterest(List<Tag> tagList, User user) {
         // Fetching all the current user interest
         List<Interest> userInterests = findAllUserInterest(user);
 
@@ -48,13 +48,13 @@ public class InterestService {
                 .collect(Collectors.toMap(i -> i.getTag().getId(), i -> i));
 
         // Looping through all the tags and updating the score for each tag
-        threadTagList.forEach(threadTag -> {
+        tagList.forEach(tag -> {
             // Checking if the interest exists
-            Interest existing = interestMap.get(threadTag.getTag().getId());
+            Interest existing = interestMap.get(tag.getId());
 
             // Checking if the interest already exists otherwise we create a new Interest
             if (existing == null) {
-                Interest newInterest = createNewInterest(user, threadTag.getTag());
+                Interest newInterest = createNewInterest(user, tag);
                 userInterests.add(newInterest);
             } else
                 existing.increaseScore();
@@ -66,7 +66,7 @@ public class InterestService {
 
     // This function decreases interests based on tags and user
     @Transactional
-    public void removeInterestFromPostTags(List<ThreadTag> threadTagList, User user) {
+    public void markNegativeInterest(List<ThreadTag> threadTagList, User user) {
         // Fetching all the current user interest
         List<Interest> userInterests = findAllUserInterest(user);
 

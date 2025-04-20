@@ -2,7 +2,9 @@ package dev.anirban.harmoniq_backend.service.threads;
 
 import dev.anirban.harmoniq_backend.dto.comment.CommentRequest;
 import dev.anirban.harmoniq_backend.entity.threads.Comment;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
+import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
 import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.repo.CommentRepository;
 import dev.anirban.harmoniq_backend.service.user.UserService;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,9 +34,16 @@ public class CommentService {
         // Fetching the thread by its id
         Thread thread = threadService.findById(threadId);
 
+        // List of tags of this thread (Only 3 tags are there so it's fine)
+        List<Tag> tags = thread
+                .getThreadTags()
+                .stream()
+                .map(ThreadTag::getTag)
+                .toList();
+
         // Updating the necessary data
         thread.incrementTotalCommentCount();
-        interestService.addInterestsFromPostTags(thread.getThreadTags(), user);
+        interestService.markPositiveInterest(tags, user);
 
         // Creating the comment object
         Comment comment = Comment
