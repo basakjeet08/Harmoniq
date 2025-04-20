@@ -31,10 +31,10 @@ public class LikeService {
     public Like create(User user, Thread thread) {
         Like newLike = Like
                 .builder()
+                .user(user)
                 .build();
 
         // Managing the relationships
-        user.addLikes(newLike);
         thread.addLikes(newLike);
 
         // Generating interests based on likes

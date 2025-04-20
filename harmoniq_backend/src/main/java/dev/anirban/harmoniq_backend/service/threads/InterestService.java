@@ -29,10 +29,10 @@ public class InterestService {
                 .builder()
                 .score(1)
                 .lastVisited(LocalDateTime.now())
+                .user(user)
                 .build();
 
         // For Managing the Bi Directional Relationship
-        user.addInterest(interest);
         tag.addInterest(interest);
 
         return interestRepo.save(interest);

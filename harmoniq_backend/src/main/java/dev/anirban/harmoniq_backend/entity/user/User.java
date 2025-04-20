@@ -59,6 +59,9 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Conversation> conversations;
+
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Thread> threads;
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -67,44 +70,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Like> likes;
 
-    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Conversation> conversations;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("score DESC")
     private Set<Interest> interests;
-
-    // Helper function to add threads
-    public void addThread(Thread thread) {
-        if (!threads.contains(thread)) {
-            threads.add(thread);
-            thread.setCreatedBy(this);
-        }
-    }
-
-    // Helper function to add comments
-    public void addComment(Comment comment) {
-        if (!comments.contains(comment)) {
-            comments.add(comment);
-            comment.setCreatedBy(this);
-        }
-    }
-
-    // Helper function to add likes
-    public void addLikes(Like like) {
-        if (!likes.contains(like)) {
-            likes.add(like);
-            like.setUser(this);
-        }
-    }
-
-    // Helper function to add interest
-    public void addInterest(Interest interest) {
-        if (!interests.contains(interest)) {
-            interests.add(interest);
-            interest.setUser(this);
-        }
-    }
 
     public AuthResponse toAuthResponse() {
         return AuthResponse

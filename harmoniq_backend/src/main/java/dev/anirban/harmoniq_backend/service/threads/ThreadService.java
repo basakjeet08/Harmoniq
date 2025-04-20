@@ -39,6 +39,7 @@ public class ThreadService {
                 .builder()
                 .description(threadRequest.getDescription())
                 .createdAt(LocalDateTime.now())
+                .createdBy(user)
                 .tags(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .totalComments(0)
@@ -49,9 +50,6 @@ public class ThreadService {
         // Saving the tags and threads for Bi - Directional relationship
         for (Tag tag : tagList)
             thread.addTags(tag);
-
-        // Managing the parent dependencies
-        user.addThread(thread);
 
         // Updating the user interests
         interestService.addInterestsFromPostTags(thread.getTags(), user);

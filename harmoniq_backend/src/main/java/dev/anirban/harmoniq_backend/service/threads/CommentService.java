@@ -34,10 +34,10 @@ public class CommentService {
                 .builder()
                 .content(commentRequest.getComment())
                 .createdAt(LocalDateTime.now())
+                .createdBy(user)
                 .build();
 
         // Managing the relationships
-        user.addComment(comment);
         thread.addComment(comment);
 
         // Updating the user interest score

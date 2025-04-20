@@ -52,6 +52,7 @@ public class UserService {
                 .avatar(authRequest.getAvatar())
                 .role(User.Type.MEMBER)
                 .createdAt(LocalDateTime.now())
+                .conversations(new ArrayList<>())
                 .threads(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .likes(new HashSet<>())
