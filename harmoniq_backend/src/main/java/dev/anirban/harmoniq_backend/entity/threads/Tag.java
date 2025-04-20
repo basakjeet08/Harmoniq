@@ -34,12 +34,4 @@ public class Tag {
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Interest> interests;
-
-    // Helper function to add interest
-    public void addInterest(Interest interest) {
-        if (!interests.contains(interest)) {
-            interests.add(interest);
-            interest.setTag(this);
-        }
-    }
 }

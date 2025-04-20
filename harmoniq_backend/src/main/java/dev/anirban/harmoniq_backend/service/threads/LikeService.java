@@ -29,16 +29,17 @@ public class LikeService {
     // This function creates a new like
     @Transactional
     public Like create(User user, Thread thread) {
+        // Updating the necessary thread and interest details
+        thread.incrementTotalLikesCount();
+        interestService.addInterestsFromPostTags(thread.getTags(), user);
+
+        // Creating a new Like Object
         Like newLike = Like
                 .builder()
                 .user(user)
+                .thread(thread)
                 .build();
 
-        // Managing the relationships
-        thread.addLikes(newLike);
-
-        // Generating interests based on likes
-        interestService.addInterestsFromPostTags(thread.getTags(), user);
         return likeRepo.save(newLike);
     }
 
@@ -72,7 +73,7 @@ public class LikeService {
         interestService.removeInterestFromPostTags(like.getThread().getTags(), like.getUser());
 
         // Removing the likes from the thread
-        like.getThread().removeLike(like);
+        like.getThread().decrementTotalLikesCount();
         likeRepo.delete(like);
     }
 }

@@ -6,6 +6,7 @@ import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.repo.CommentRepository;
 import dev.anirban.harmoniq_backend.service.user.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class CommentService {
     private final InterestService interestService;
 
     // This function creates a comment and returns the created comment
+    @Transactional
     public Comment create(String threadId, CommentRequest commentRequest, UserDetails userDetails) {
         // Fetching the user details
         User user = userService.findByEmail(userDetails.getUsername());
@@ -29,19 +31,18 @@ public class CommentService {
         // Fetching the thread by its id
         Thread thread = threadService.findById(threadId);
 
+        // Updating the necessary data
+        thread.incrementTotalCommentCount();
+        interestService.addInterestsFromPostTags(thread.getTags(), user);
+
         // Creating the comment object
         Comment comment = Comment
                 .builder()
                 .content(commentRequest.getComment())
                 .createdAt(LocalDateTime.now())
                 .createdBy(user)
+                .thread(thread)
                 .build();
-
-        // Managing the relationships
-        thread.addComment(comment);
-
-        // Updating the user interest score
-        interestService.addInterestsFromPostTags(thread.getTags(), user);
 
         return commentRepo.save(comment);
     }

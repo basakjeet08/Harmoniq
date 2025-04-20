@@ -22,7 +22,6 @@ public class InterestService {
     private final InterestRepository interestRepo;
 
     // This function creates a new Interest based on the user and tag
-    @Transactional
     public Interest createNewInterest(User user, Tag tag) {
         // New Interest Object Created
         Interest interest = Interest
@@ -30,10 +29,8 @@ public class InterestService {
                 .score(1)
                 .lastVisited(LocalDateTime.now())
                 .user(user)
+                .tag(tag)
                 .build();
-
-        // For Managing the Bi Directional Relationship
-        tag.addInterest(interest);
 
         return interestRepo.save(interest);
     }

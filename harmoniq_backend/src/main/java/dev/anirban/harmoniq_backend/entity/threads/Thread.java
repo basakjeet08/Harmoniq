@@ -69,39 +69,25 @@ public class Thread {
     }
 
     // This function adds the comments to the thread
-    public void addComment(Comment comment) {
-        if (!comments.contains(comment)) {
-            comments.add(comment);
-            comment.setThread(this);
-            totalComments++;
-        }
+    public void incrementTotalCommentCount() {
+        totalComments++;
     }
 
     // This function deletes the comment from the thread
-    public void removeComment(Comment comment) {
-        if (comments.contains(comment)) {
-            comments.remove(comment);
-            comment.setThread(null);
+    public void decrementTotalCommentCount() {
+        if (totalComments > 0)
             totalComments--;
-        }
     }
 
     // This function adds the likes to the thread
-    public void addLikes(Like like) {
-        if (!likes.contains(like)) {
-            likes.add(like);
-            like.setThread(this);
-            totalLikes++;
-        }
+    public void incrementTotalLikesCount() {
+        totalLikes++;
     }
 
     // This function removes likes from the thread
-    public void removeLike(Like like) {
-        if (likes.contains(like)) {
-            likes.remove(like);
-            like.setThread(null);
+    public void decrementTotalLikesCount() {
+        if (totalLikes > 0)
             totalLikes--;
-        }
     }
 
     public ThreadDto toThreadDto() {

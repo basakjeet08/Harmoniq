@@ -151,12 +151,12 @@ public class UserService {
         // Removing the likes from the threads. This way I don't have to manually manage the totalLikes fields
         savedUser
                 .getLikes()
-                .forEach(like -> like.getThread().removeLike(like));
+                .forEach(like -> like.getThread().decrementTotalLikesCount());
 
         // Removing the comments from the threads
         savedUser
                 .getComments()
-                .forEach(comment -> comment.getThread().removeComment(comment));
+                .forEach(comment -> comment.getThread().decrementTotalCommentCount());
 
         userRepo.delete(savedUser);
     }
