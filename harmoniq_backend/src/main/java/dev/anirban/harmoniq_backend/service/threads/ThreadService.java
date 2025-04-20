@@ -1,8 +1,10 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
+import dev.anirban.harmoniq_backend.entity.user.Interest;
 import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
@@ -22,7 +24,6 @@ public class ThreadService {
 
     private final ThreadRepository threadRepo;
     private final UserService userService;
-    private final TagService tagService;
     private final InterestService interestService;
     private final ThreadTagService threadTagService;
 
@@ -78,15 +79,20 @@ public class ThreadService {
         // Fetching the user from the database
         User user = userService.findByEmail(userDetails.getUsername());
 
-        // Returning the user thread list which matches the user interests
-        List<Thread> personalizedThreads = user
+        // Creating the tags which are in interest of the user
+        List<Tag> userInterestTags = user
                 .getInterests()
                 .stream()
                 .limit(3)
-                .flatMap(interest -> interest.getTag().getThreadTags().stream())
+                .map(Interest::getTag)
+                .toList();
+
+        // These are the personalised threads of the user
+        List<Thread> personalizedThreads = threadTagService
+                .findByTags(userInterestTags)
+                .stream()
                 .map(ThreadTag::getThread)
                 .distinct()
-                .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
                 .toList();
 
         // Creating a HashSet for quick searching and lookup
@@ -107,10 +113,9 @@ public class ThreadService {
 
     // This function fetches the threads by the tag name in descending order of created At
     public List<Thread> findByNameContainingIgnoreCase(String tag) {
-        return tagService
-                .findByNameContainingIgnoreCase(tag)
+        return threadTagService
+                .findByTagNameContaining(tag)
                 .stream()
-                .flatMap(t -> t.getThreadTags().stream())
                 .map(ThreadTag::getThread)
                 .distinct()
                 .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())

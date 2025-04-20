@@ -34,8 +34,8 @@ public class ThreadController {
     // This function handles requests to fetch all threads
     @GetMapping(UrlConstants.FETCH_ALL_THREADS_ENDPOINT)
     public ResponseWrapper<List<ThreadDto>> handleFetchAllThreadsRequest(
-            @RequestParam(name = "tag", required = false) String tag,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(name = "tag", required = false) String tag
     ) {
 
         // fetching the thread list

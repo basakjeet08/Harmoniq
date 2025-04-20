@@ -38,4 +38,14 @@ public class ThreadTagService {
         // Storing the thead tag objects
         threadTagRepo.saveAll(threadTagsList);
     }
+
+    // This function returns the list of ThreadTag entries which has a similar name like our given tag name
+    public List<ThreadTag> findByTagNameContaining(String tagName) {
+        return threadTagRepo.findByTag_NameContainingIgnoreCase(tagName);
+    }
+
+    // This function returns the thread tag list which contains the given tags
+    public List<ThreadTag> findByTags(List<Tag> tagNames) {
+        return threadTagRepo.findByTagIn(tagNames);
+    }
 }
