@@ -135,8 +135,15 @@ public class ThreadService {
         if (!savedThread.getCreatedBy().getUsername().equals(user.getUsername()))
             throw new UnAuthorized();
 
+        // fetching the thread tags list (Only 3 tags are there so this is fine)
+        List<Tag> tags = savedThread
+                .getThreadTags()
+                .stream()
+                .map(ThreadTag::getTag)
+                .toList();
+
         // Decreasing the interests scores
-        interestService.markNegativeInterest(savedThread.getThreadTags(), user);
+        interestService.markNegativeInterest(tags, user);
         threadRepo.delete(savedThread);
     }
 }

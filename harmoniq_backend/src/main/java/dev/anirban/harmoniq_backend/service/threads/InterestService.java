@@ -1,6 +1,5 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
-import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
 import dev.anirban.harmoniq_backend.entity.user.Interest;
 import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.user.User;
@@ -40,7 +39,7 @@ public class InterestService {
     @Transactional
     public void markPositiveInterest(List<Tag> tagList, User user) {
         // Fetching all the current user interest
-        List<Interest> userInterests = findAllUserInterest(user);
+        List<Interest> userInterests = findAllUserInterest(user, tagList);
 
         // Storing all the user interests on the map for a quick look up
         Map<String, Interest> interestMap = userInterests
@@ -66,9 +65,9 @@ public class InterestService {
 
     // This function decreases interests based on tags and user
     @Transactional
-    public void markNegativeInterest(List<ThreadTag> threadTagList, User user) {
+    public void markNegativeInterest(List<Tag> tagList, User user) {
         // Fetching all the current user interest
-        List<Interest> userInterests = findAllUserInterest(user);
+        List<Interest> userInterests = findAllUserInterest(user, tagList);
 
         // Storing all the user interests on the map for a quick look up
         Map<String, Interest> interestMap = userInterests
@@ -76,9 +75,9 @@ public class InterestService {
                 .collect(Collectors.toMap(i -> i.getTag().getId(), i -> i));
 
         // Looping through all the tags and updating the score for each tag
-        threadTagList.forEach(threadTag -> {
+        tagList.forEach(tag -> {
             // Checking if the interest exists
-            Interest existing = interestMap.get(threadTag.getTag().getId());
+            Interest existing = interestMap.get(tag.getId());
 
             // Checking if the interest already exists otherwise we create a new Interest
             if (existing != null)
@@ -90,8 +89,8 @@ public class InterestService {
     }
 
     // This function fetches all the user interests
-    public List<Interest> findAllUserInterest(User user) {
-        return interestRepo.findByUser(user);
+    public List<Interest> findAllUserInterest(User user, List<Tag> tags) {
+        return interestRepo.findByUserAndTagIn(user, tags);
     }
 
     // This function is a cron job that clears all the un - wanted interests

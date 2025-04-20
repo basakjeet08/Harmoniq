@@ -79,8 +79,16 @@ public class LikeService {
     // This function deletes the specific like
     @Transactional
     public void deleteLike(Like like) {
+        // fetching the thread tags list (Only 3 tags are there so this is fine)
+        List<Tag> tags = like
+                .getThread()
+                .getThreadTags()
+                .stream()
+                .map(ThreadTag::getTag)
+                .toList();
+
         // Reducing the interests
-        interestService.markNegativeInterest(like.getThread().getThreadTags(), like.getUser());
+        interestService.markNegativeInterest(tags, like.getUser());
 
         // Removing the likes from the thread
         like.getThread().decrementTotalLikesCount();

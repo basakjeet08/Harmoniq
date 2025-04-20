@@ -24,7 +24,7 @@ public class TagService {
     private final InterestService interestService;
 
     // This function generates the String tags which are the most relevant for the given description
-    public List<String> generateTags(String description, String allTags) {
+    private List<String> generateTags(String description, String allTags) {
         // Prompt to generate the tag
         String prompt = "Generate the 3 most relevant tags from these tags :" + allTags + " for the " +
                 "following thread description:" + description;
@@ -103,19 +103,11 @@ public class TagService {
         return tagRepo.findAll();
     }
 
-    // This function fetches tags by their Name
-    public List<Tag> findByNameContainingIgnoreCase(String name) {
-        return tagRepo.findByNameContainingIgnoreCase(name);
-    }
-
     // This function deletes the unused tags automatically
     @Scheduled(fixedRate = 86400000)
     @Transactional
     public void deleteUnusedTags() {
-        List<Tag> unusedTags = fetchAllTags()
-                .stream()
-                .filter(tag -> tag.getThreadTags() == null || tag.getThreadTags().isEmpty())
-                .toList();
+        List<Tag> unusedTags = tagRepo.findByThreadTagsIsEmpty();
 
         // When there are unused tags we delete it
         log.info("(|) - Checking for unused tags and found {} unused tags to delete !!", unusedTags.size());
