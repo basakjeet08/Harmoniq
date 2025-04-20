@@ -1,7 +1,6 @@
 package dev.anirban.harmoniq_backend.dto.thread;
 
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
-import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import lombok.*;
 
@@ -28,9 +27,9 @@ public class ThreadHistoryResponse {
                                         .id(thread.getId())
                                         .description(thread.getDescription())
                                         .tags(thread
-                                                .getTags()
+                                                .getThreadTags()
                                                 .stream()
-                                                .map(Tag::getName)
+                                                .map(threadTag -> threadTag.getTag().getName())
                                                 .toList()
                                         )
                                         .totalLikes(thread.getTotalLikes())

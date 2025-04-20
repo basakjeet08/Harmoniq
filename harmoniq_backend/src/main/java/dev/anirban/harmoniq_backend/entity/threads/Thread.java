@@ -39,13 +39,8 @@ public class Thread {
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;
 
-    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name = "thread_tags",
-            joinColumns = @JoinColumn(name = "thread_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private List<Tag> tags;
+    @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ThreadTag> threadTags;
 
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("createdAt DESC")
@@ -59,14 +54,6 @@ public class Thread {
 
     @Column(name = "total_likes", nullable = false)
     private Integer totalLikes;
-
-    // This function add the tags to the thread
-    public void addTags(Tag tag) {
-        if (!tags.contains(tag)) {
-            tags.add(tag);
-            tag.getThreads().add(this);
-        }
-    }
 
     // This function adds the comments to the thread
     public void incrementTotalCommentCount() {
@@ -95,7 +82,11 @@ public class Thread {
                 .builder()
                 .id(id)
                 .description(description)
-                .tags(tags.stream().map(Tag::getName).toList())
+                .tags(threadTags
+                        .stream()
+                        .map(threadTag -> threadTag.getTag().getName())
+                        .toList()
+                )
                 .createdBy(createdBy.toUserDto())
                 .totalLikes(totalLikes)
                 .likedByUserIds(likes.stream().map(like -> like.getUser().getId()).toList())

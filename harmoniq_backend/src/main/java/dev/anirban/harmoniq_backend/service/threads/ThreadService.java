@@ -3,6 +3,7 @@ package dev.anirban.harmoniq_backend.service.threads;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
+import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
 import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
@@ -24,6 +25,7 @@ public class ThreadService {
     private final UserService userService;
     private final TagService tagService;
     private final InterestService interestService;
+    private final ThreadTagService threadTagService;
 
     // This function creates a new Thread and returns the created Thread
     @Transactional
@@ -40,19 +42,18 @@ public class ThreadService {
                 .description(threadRequest.getDescription())
                 .createdAt(LocalDateTime.now())
                 .createdBy(user)
-                .tags(new ArrayList<>())
+                .threadTags(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .totalComments(0)
                 .likes(new HashSet<>())
                 .totalLikes(0)
                 .build();
 
-        // Saving the tags and threads for Bi - Directional relationship
-        for (Tag tag : tagList)
-            thread.addTags(tag);
+        // Attaching the ThreadTag List
+        List<ThreadTag> savedTheadTags = threadTagService.createAll(tagList, thread);
 
         // Updating the user interests
-        interestService.addInterestsFromPostTags(thread.getTags(), user);
+        interestService.addInterestsFromPostTags(savedTheadTags, user);
 
         return threadRepo.save(thread);
     }
@@ -85,7 +86,8 @@ public class ThreadService {
                 .getInterests()
                 .stream()
                 .limit(3)
-                .flatMap(interest -> interest.getTag().getThreads().stream())
+                .flatMap(interest -> interest.getTag().getThreadTags().stream())
+                .map(ThreadTag::getThread)
                 .distinct()
                 .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
                 .toList();
@@ -111,7 +113,8 @@ public class ThreadService {
         return tagService
                 .findByNameContainingIgnoreCase(tag)
                 .stream()
-                .flatMap(t -> t.getThreads().stream())
+                .flatMap(t -> t.getThreadTags().stream())
+                .map(ThreadTag::getThread)
                 .distinct()
                 .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
                 .toList();
@@ -131,7 +134,7 @@ public class ThreadService {
             throw new UnAuthorized();
 
         // Decreasing the interests scores
-        interestService.removeInterestFromPostTags(savedThread.getTags(), user);
+        interestService.removeInterestFromPostTags(savedThread.getThreadTags(), user);
         threadRepo.delete(savedThread);
     }
 }

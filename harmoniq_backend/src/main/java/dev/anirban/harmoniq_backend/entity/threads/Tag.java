@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,12 +26,8 @@ public class Tag {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(
-            mappedBy = "tags",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}
-    )
-    private Set<Thread> threads;
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ThreadTag> threadTags;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Interest> interests;

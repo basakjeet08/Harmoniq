@@ -3,7 +3,6 @@ package dev.anirban.harmoniq_backend.dto.thread;
 import dev.anirban.harmoniq_backend.dto.comment.CommentDto;
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
 import dev.anirban.harmoniq_backend.entity.threads.Comment;
-import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import lombok.*;
 
@@ -31,9 +30,9 @@ public class ThreadDetailsResponse {
                 .id(thread.getId())
                 .description(thread.getDescription())
                 .tags(thread
-                        .getTags()
+                        .getThreadTags()
                         .stream()
-                        .map(Tag::getName)
+                        .map(threadTag -> threadTag.getTag().getName())
                         .toList()
                 )
                 .createdBy(thread.getCreatedBy().toUserDto())

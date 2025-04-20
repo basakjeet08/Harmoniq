@@ -33,7 +33,7 @@ public class CommentService {
 
         // Updating the necessary data
         thread.incrementTotalCommentCount();
-        interestService.addInterestsFromPostTags(thread.getTags(), user);
+        interestService.addInterestsFromPostTags(thread.getThreadTags(), user);
 
         // Creating the comment object
         Comment comment = Comment

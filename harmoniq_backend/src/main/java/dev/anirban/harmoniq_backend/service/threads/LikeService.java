@@ -31,7 +31,7 @@ public class LikeService {
     public Like create(User user, Thread thread) {
         // Updating the necessary thread and interest details
         thread.incrementTotalLikesCount();
-        interestService.addInterestsFromPostTags(thread.getTags(), user);
+        interestService.addInterestsFromPostTags(thread.getThreadTags(), user);
 
         // Creating a new Like Object
         Like newLike = Like
@@ -70,7 +70,7 @@ public class LikeService {
     @Transactional
     public void deleteLike(Like like) {
         // Reducing the interests
-        interestService.removeInterestFromPostTags(like.getThread().getTags(), like.getUser());
+        interestService.removeInterestFromPostTags(like.getThread().getThreadTags(), like.getUser());
 
         // Removing the likes from the thread
         like.getThread().decrementTotalLikesCount();

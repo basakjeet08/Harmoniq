@@ -1,5 +1,6 @@
 package dev.anirban.harmoniq_backend.service.threads;
 
+import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
 import dev.anirban.harmoniq_backend.entity.user.Interest;
 import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.user.User;
@@ -37,7 +38,7 @@ public class InterestService {
 
     // This function updates the interest based on the list of tags and the user
     @Transactional
-    public void addInterestsFromPostTags(List<Tag> tagList, User user) {
+    public void addInterestsFromPostTags(List<ThreadTag> threadTagList, User user) {
         // Fetching all the current user interest
         List<Interest> userInterests = findAllUserInterest(user);
 
@@ -47,13 +48,13 @@ public class InterestService {
                 .collect(Collectors.toMap(i -> i.getTag().getId(), i -> i));
 
         // Looping through all the tags and updating the score for each tag
-        tagList.forEach(tag -> {
+        threadTagList.forEach(threadTag -> {
             // Checking if the interest exists
-            Interest existing = interestMap.get(tag.getId());
+            Interest existing = interestMap.get(threadTag.getTag().getId());
 
             // Checking if the interest already exists otherwise we create a new Interest
             if (existing == null) {
-                Interest newInterest = createNewInterest(user, tag);
+                Interest newInterest = createNewInterest(user, threadTag.getTag());
                 userInterests.add(newInterest);
             } else
                 existing.increaseScore();
@@ -65,7 +66,7 @@ public class InterestService {
 
     // This function decreases interests based on tags and user
     @Transactional
-    public void removeInterestFromPostTags(List<Tag> tagList, User user) {
+    public void removeInterestFromPostTags(List<ThreadTag> threadTagList, User user) {
         // Fetching all the current user interest
         List<Interest> userInterests = findAllUserInterest(user);
 
@@ -75,9 +76,9 @@ public class InterestService {
                 .collect(Collectors.toMap(i -> i.getTag().getId(), i -> i));
 
         // Looping through all the tags and updating the score for each tag
-        tagList.forEach(tag -> {
+        threadTagList.forEach(threadTag -> {
             // Checking if the interest exists
-            Interest existing = interestMap.get(tag.getId());
+            Interest existing = interestMap.get(threadTag.getTag().getId());
 
             // Checking if the interest already exists otherwise we create a new Interest
             if (existing != null)
@@ -119,5 +120,4 @@ public class InterestService {
         // Saving all the interests
         interestRepo.saveAll(allSavedInterest);
     }
-
 }

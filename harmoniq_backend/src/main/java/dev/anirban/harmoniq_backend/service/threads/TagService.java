@@ -77,7 +77,7 @@ public class TagService {
                 .stream()
                 .map(tagName -> tagLookupTable.getOrDefault(
                         tagName,
-                        new Tag(null, tagName, new HashSet<>(), new HashSet<>())
+                        new Tag(null, tagName, new ArrayList<>(), new HashSet<>())
                 ))
                 .toList();
     }
@@ -88,7 +88,7 @@ public class TagService {
     public void deleteUnusedTags() {
         List<Tag> unusedTags = fetchAllTags()
                 .stream()
-                .filter(tag -> tag.getThreads() == null || tag.getThreads().isEmpty())
+                .filter(tag -> tag.getThreadTags() == null || tag.getThreadTags().isEmpty())
                 .toList();
 
         // When there are unused tags we delete it
