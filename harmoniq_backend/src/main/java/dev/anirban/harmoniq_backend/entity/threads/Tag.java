@@ -6,7 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -30,5 +29,6 @@ public class Tag {
     private List<ThreadTag> threadTags;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Interest> interests;
+    @OrderBy("score DESC")
+    private List<Interest> interests;
 }

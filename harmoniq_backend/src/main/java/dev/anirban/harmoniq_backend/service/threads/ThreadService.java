@@ -12,6 +12,8 @@ import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -76,47 +78,13 @@ public class ThreadService {
 
     // This function fetches the threads which are created by the specified user
     @Transactional
-    public List<Thread> findThreadsAccordingToInterests(UserDetails userDetails) {
-        // These are the personalised threads of the user
-        List<Thread> personalizedThreads = interestService
-                .findAllUserInterest(userDetails.getUsername())
-                .stream()
-                .flatMap(interest -> interest
-                        .getTag()
-                        .getThreadTags()
-                        .stream()
-                        .map(ThreadTag::getThread)
-                        .sorted(Comparator.comparingInt(t -> -(t.getTotalLikes() + t.getTotalComments())))
-                )
-                .distinct()
-                .limit(5)
-                .toList();
-
-        // These are the threads that are already included in the personalized threads
-        List<String> exclusionList = personalizedThreads
-                .stream()
-                .map(Thread::getId)
-                .toList();
-
-        // Finding the top exploratory threads and making sure we don't have the same thread multiple times
-        List<Thread> exploratoryThreads = threadRepo
-                .findAllByIdNotInOrderByCreatedAtDesc(exclusionList)
-                .stream()
-                .limit(10 - exclusionList.size())
-                .sorted(Comparator.comparingInt(t -> -(t.getTotalLikes() + t.getTotalComments())))
-                .toList();
-
-        // Merging both the lists and returning
-        ArrayList<Thread> finalFeed = new ArrayList<>();
-        finalFeed.addAll(personalizedThreads);
-        finalFeed.addAll(exploratoryThreads);
-
-        return finalFeed;
+    public Page<Thread> findThreadsAccordingToInterests(UserDetails userDetails, Pageable pageable) {
+        return threadRepo.findUserInterestedPersonalizedThreads(userDetails.getUsername(), pageable);
     }
 
     // This function fetches the threads by the tag name in descending order of created At
-    public List<Thread> findByTagNameContainingIgnoreCase(String tag) {
-        return threadRepo.findThreadByThreadTags_Tag_NameContainingIgnoreCaseOrderByCreatedAtDesc(tag);
+    public Page<Thread> findByTagNameContainingIgnoreCase(String tag, Pageable pageable) {
+        return threadRepo.findThreadByThreadTags_Tag_NameContainingIgnoreCaseOrderByCreatedAtDesc(tag, pageable);
     }
 
     // This function deletes all the threads from the database

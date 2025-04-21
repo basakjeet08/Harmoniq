@@ -45,7 +45,7 @@ public class TagService {
                         .builder()
                         .name(relevantTag)
                         .threadTags(new ArrayList<>())
-                        .interests(new HashSet<>())
+                        .interests(new ArrayList<>())
                         .build();
 
                 // Storing the new tags in the list to save at last
