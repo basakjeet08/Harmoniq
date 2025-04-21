@@ -14,13 +14,14 @@ import {
   CREATE_THREAD_ENDPOINT,
   DELETE_THREAD_BY_ID_ENDPOINT,
   FETCH_ALL_THREADS_BY_TAG,
-  FETCH_ALL_THREADS_ENDPOINT,
+  FETCH_PERSONALISED_THREADS_ENDPOINT,
   FETCH_CURRENT_USER_THREADS_ENDPOINT,
   FETCH_THREAD_BY_ID_ENDPOINT,
   TOGGLE_LIKE_ENDPOINTS,
 } from '../constants/url-constants';
 import { ProfileService } from './profile.service';
 import { AuthResponse } from '../Models/auth/AuthResponse';
+import { PageWrapper } from '../Models/common/PageWrapper';
 
 @Injectable({ providedIn: 'root' })
 export class ThreadService implements ThreadInterface {
@@ -91,32 +92,61 @@ export class ThreadService implements ThreadInterface {
       );
   }
 
-  // This function fetches all the threads from the backend
-  findAll(): Observable<ThreadDto[]> {
+  // This function fetches all the personalized threads for the user
+  findAllPersonalized(pageable: {
+    page: number;
+    size: number;
+  }): Observable<PageWrapper<ThreadDto>> {
+    // Page related data
+    const page = pageable.page.toString();
+    const size = pageable.size.toString();
+
+    // Creating the url
+    let url = FETCH_PERSONALISED_THREADS_ENDPOINT;
+    url = url.replace(':page', page);
+    url = url.replace(':size', size);
+
+    // Calling the API
     return this.http
-      .get<ResponseWrapper<ThreadDto[]>>(
-        FETCH_ALL_THREADS_ENDPOINT,
-        this.getHeaders()
-      )
+      .get<ResponseWrapper<PageWrapper<ThreadDto>>>(url, this.getHeaders())
       .pipe(
-        map((response) =>
-          response.data.map((thread) => this.updateLikedByCurrentUser(thread))
-        ),
+        map((response) => {
+          response.data.content = response.data.content.map((thread) =>
+            this.updateLikedByCurrentUser(thread)
+          );
+
+          return response.data;
+        }),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }
 
   // This function fetches all the threads with the given tag from the backend
-  findByTags(tag: string): Observable<ThreadDto[]> {
+  findByTags(
+    tag: string,
+    pageable: { page: number; size: number }
+  ): Observable<PageWrapper<ThreadDto>> {
+    // Page related data
+    const page = pageable.page.toString();
+    const size = pageable.size.toString();
+
+    // Creating the url
+    let url = FETCH_ALL_THREADS_BY_TAG;
+    url = url.replace(':tag', tag);
+    url = url.replace(':page', page);
+    url = url.replace(':size', size);
+
+    // Calling the API
     return this.http
-      .get<ResponseWrapper<ThreadDto[]>>(
-        FETCH_ALL_THREADS_BY_TAG.replace(':tag', tag),
-        this.getHeaders()
-      )
+      .get<ResponseWrapper<PageWrapper<ThreadDto>>>(url, this.getHeaders())
       .pipe(
-        map((response) =>
-          response.data.map((thread) => this.updateLikedByCurrentUser(thread))
-        ),
+        map((response) => {
+          response.data.content = response.data.content.map((thread) =>
+            this.updateLikedByCurrentUser(thread)
+          );
+
+          return response.data;
+        }),
         catchError(this.apiErrorHandler.handleApiError)
       );
   }

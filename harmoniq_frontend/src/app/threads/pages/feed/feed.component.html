@@ -10,7 +10,13 @@
 </div>
 
 <!-- This is the Thread list container -->
-<div class="w-full col-container g-16" [@staggerAnimation]="threadList.length">
+<div
+  class="w-full col-container g-16"
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  (scrolled)="loadMoreFeeds()"
+  [@staggerAnimation]="threadList.length"
+>
   <!-- Each Thread Component -->
   <div
     class="w-full col-container items-center g-16"
