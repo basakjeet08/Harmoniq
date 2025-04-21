@@ -12,4 +12,7 @@ public interface ThreadRepository extends JpaRepository<Thread, String> {
 
     // Finding threads in descending Order of created at time
     List<Thread> findAllByOrderByCreatedAtDesc();
+
+    // Finding threads based on the tag names
+    List<Thread> findThreadByThreadTags_Tag_NameContainingIgnoreCaseOrderByCreatedAtDesc(String tagName);
 }

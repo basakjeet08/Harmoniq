@@ -72,7 +72,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("score DESC")
-    private Set<Interest> interests;
+    private List<Interest> interests;
 
     public AuthResponse toAuthResponse() {
         return AuthResponse

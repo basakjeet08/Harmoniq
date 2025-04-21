@@ -115,14 +115,8 @@ public class ThreadService {
     }
 
     // This function fetches the threads by the tag name in descending order of created At
-    public List<Thread> findByNameContainingIgnoreCase(String tag) {
-        return threadTagService
-                .findByTagNameContaining(tag)
-                .stream()
-                .map(ThreadTag::getThread)
-                .distinct()
-                .sorted(Comparator.comparing(Thread::getCreatedAt).reversed())
-                .toList();
+    public List<Thread> findByTagNameContainingIgnoreCase(String tag) {
+        return threadRepo.findThreadByThreadTags_Tag_NameContainingIgnoreCaseOrderByCreatedAtDesc(tag);
     }
 
     // This function deletes all the threads from the database

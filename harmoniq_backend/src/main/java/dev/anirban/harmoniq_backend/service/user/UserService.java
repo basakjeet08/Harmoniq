@@ -56,7 +56,7 @@ public class UserService {
                 .threads(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .likes(new HashSet<>())
-                .interests(new HashSet<>())
+                .interests(new ArrayList<>())
                 .build();
 
         // Checking if the email already exists

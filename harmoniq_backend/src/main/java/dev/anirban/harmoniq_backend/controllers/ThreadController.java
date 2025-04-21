@@ -40,7 +40,7 @@ public class ThreadController {
 
         // fetching the thread list
         List<Thread> threadList = tag != null && !tag.isEmpty()
-                ? service.findByNameContainingIgnoreCase(tag)
+                ? service.findByTagNameContainingIgnoreCase(tag)
                 : service.findThreadsAccordingToInterests(userDetails);
 
         // mapping the thread list to the response DTO
