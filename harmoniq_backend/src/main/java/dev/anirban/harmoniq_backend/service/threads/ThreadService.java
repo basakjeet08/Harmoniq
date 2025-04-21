@@ -4,7 +4,6 @@ import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
-import dev.anirban.harmoniq_backend.entity.user.Interest;
 import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
@@ -59,11 +58,6 @@ public class ThreadService {
         return savedThread;
     }
 
-    // This function fetches all the threads from the Database
-    public List<Thread> findAllByOrderByCreatedAtDesc() {
-        return threadRepo.findAllByOrderByCreatedAtDesc();
-    }
-
     // This function searches the thread by its id
     public Thread findById(String id) {
         return threadRepo
@@ -79,38 +73,40 @@ public class ThreadService {
     // This function fetches the threads which are created by the specified user
     @Transactional
     public List<Thread> findThreadsAccordingToInterests(UserDetails userDetails) {
-        // Fetching the user from the database
-        User user = userService.findByEmail(userDetails.getUsername());
-
-        // Creating the tags which are in interest of the user
-        List<Tag> userInterestTags = user
-                .getInterests()
-                .stream()
-                .limit(3)
-                .map(Interest::getTag)
-                .toList();
-
         // These are the personalised threads of the user
-        List<Thread> personalizedThreads = threadTagService
-                .findByTags(userInterestTags)
+        List<Thread> personalizedThreads = interestService
+                .findAllUserInterest(userDetails.getUsername())
                 .stream()
-                .map(ThreadTag::getThread)
+                .flatMap(interest -> interest
+                        .getTag()
+                        .getThreadTags()
+                        .stream()
+                        .map(ThreadTag::getThread)
+                        .sorted(Comparator.comparingInt(t -> -(t.getTotalLikes() + t.getTotalComments())))
+                )
                 .distinct()
+                .limit(5)
                 .toList();
 
-        // Creating a HashSet for quick searching and lookup
-        Set<Thread> personalizedSet = new HashSet<>(personalizedThreads);
+        // These are the threads that are already included in the personalized threads
+        List<String> exclusionList = personalizedThreads
+                .stream()
+                .map(Thread::getId)
+                .toList();
 
         // Finding the top exploratory threads and making sure we don't have the same thread multiple times
-        List<Thread> exploratoryThreads = findAllByOrderByCreatedAtDesc()
+        List<Thread> exploratoryThreads = threadRepo
+                .findAllByIdNotInOrderByCreatedAtDesc(exclusionList)
                 .stream()
-                .filter(thread -> !personalizedSet.contains(thread)) // O(1) Complexity for Hashset
-                .limit(10)
+                .limit(10 - exclusionList.size())
+                .sorted(Comparator.comparingInt(t -> -(t.getTotalLikes() + t.getTotalComments())))
                 .toList();
 
         // Merging both the lists and returning
-        ArrayList<Thread> finalFeed = new ArrayList<>(personalizedThreads);
+        ArrayList<Thread> finalFeed = new ArrayList<>();
+        finalFeed.addAll(personalizedThreads);
         finalFeed.addAll(exploratoryThreads);
+
         return finalFeed;
     }
 

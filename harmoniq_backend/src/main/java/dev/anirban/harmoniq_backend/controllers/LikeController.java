@@ -20,8 +20,8 @@ public class LikeController {
     // This function handles the incoming toggle like requests
     @PostMapping(UrlConstants.TOGGLE_LIKE_ENDPOINT)
     public ResponseWrapper<Void> handleToggleLikeRequest(
-            @PathVariable(name = "threadId") String threadId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable(name = "threadId") String threadId
     ) {
         service.toggleLike(userDetails, threadId);
         return new ResponseWrapper<>("Like toggled successfully !!", null);

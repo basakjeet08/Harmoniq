@@ -72,8 +72,8 @@ public class ThreadController {
     // This function deleted the given thread
     @DeleteMapping(UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT)
     public ResponseWrapper<Void> handleDeleteThreadByIdRequest(
-            @PathVariable String id,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable String id
     ) {
         service.deleteById(id, userDetails);
         return new ResponseWrapper<>("Thread Deleted Successfully !!", null);

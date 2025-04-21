@@ -22,9 +22,9 @@ public class CommentController {
     // This function handles the creation request for a Comment
     @PostMapping(UrlConstants.CREATE_COMMENT_ENDPOINT)
     public ResponseWrapper<CommentDto> handleCreateCommentRequest(
+            @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable("threadId") String threadId,
-            @RequestBody CommentRequest commentRequest,
-            @AuthenticationPrincipal UserDetails userDetails
+            @RequestBody CommentRequest commentRequest
     ) {
         CommentDto comment = service.create(threadId, commentRequest, userDetails).toCommentDto();
         return new ResponseWrapper<>("Comment created Successfully !!", comment);

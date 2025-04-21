@@ -88,6 +88,11 @@ public class InterestService {
         interestRepo.saveAll(userInterests);
     }
 
+    // This function returns the interests of a specific user
+    public List<Interest> findAllUserInterest(String userEmail) {
+        return interestRepo.findInterestByUser_EmailOrderByScoreDesc(userEmail);
+    }
+
     // This function fetches all the user interests
     public List<Interest> findAllUserInterest(User user, List<Tag> tags) {
         return interestRepo.findByUserAndTagIn(user, tags);
