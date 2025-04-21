@@ -49,11 +49,14 @@ public class ThreadService {
                 .totalLikes(0)
                 .build();
 
-        // Creating the thread tag object for mapping thread and tags
-        threadTagService.create(thread, user);
+        // saving the current thread before the Async Tasks
+        Thread savedThread = threadRepo.save(thread);
 
-        // Storing the final Thread object in the database
-        return threadRepo.save(thread);
+        // Creating the thread tag object for mapping thread and tags
+        threadTagService.create(savedThread.getId(), user.getEmail());
+
+        // Returning the final Thread object from the database
+        return savedThread;
     }
 
     // This function fetches all the threads from the Database

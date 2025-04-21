@@ -4,9 +4,13 @@ import dev.anirban.harmoniq_backend.entity.threads.Tag;
 import dev.anirban.harmoniq_backend.entity.threads.Thread;
 import dev.anirban.harmoniq_backend.entity.threads.ThreadTag;
 import dev.anirban.harmoniq_backend.entity.user.User;
+import dev.anirban.harmoniq_backend.exception.ThreadNotFound;
+import dev.anirban.harmoniq_backend.repo.ThreadRepository;
 import dev.anirban.harmoniq_backend.repo.ThreadTagRepository;
+import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +21,19 @@ import java.util.List;
 public class ThreadTagService {
     private final ThreadTagRepository threadTagRepo;
     private final TagService tagService;
+    private final ThreadRepository threadRepo;
+    private final UserService userService;
 
     // This function creates the thread tag object and store it in the database
     @Transactional
-    public void create(Thread thread, User user) {
+    @Async
+    public void create(String threadId, String userEmail) {
+        // Fetching the user and thread
+        User user = userService.findByEmail(userEmail);
+        Thread thread = threadRepo
+                .findById(threadId)
+                .orElseThrow(() -> new ThreadNotFound(threadId));
+
         // Generating the necessary tags
         List<Tag> tags = tagService.getRelevantTags(thread, user);
 
