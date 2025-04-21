@@ -32,6 +32,8 @@ public class LikeService {
     // This function creates a new like
     @Transactional
     public Like create(User user, Thread thread) {
+        log.info("(|) - Received new like creation request from {} for thread : {}", user.getUsername(), thread.getId());
+
         // fetching the thread tags list (Only 3 tags are there so this is fine)
         List<Tag> tags = thread
                 .getThreadTags()
@@ -79,6 +81,11 @@ public class LikeService {
     // This function deletes the specific like
     @Transactional
     public void deleteLike(Like like) {
+        log.info(
+                "(|) - Received new like deletion request from {} for thread : {}",
+                like.getUser().getUsername(), like.getThread().getId()
+        );
+
         // fetching the thread tags list (Only 3 tags are there so this is fine)
         List<Tag> tags = like
                 .getThread()

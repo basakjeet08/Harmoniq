@@ -11,12 +11,14 @@ import dev.anirban.harmoniq_backend.repo.ThreadRepository;
 import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ThreadService {
@@ -28,6 +30,8 @@ public class ThreadService {
 
     // This function creates the thread and returns the created thread
     public Thread create(ThreadRequest threadRequest, UserDetails userDetails) {
+        log.info("(|) - Received new thread creation request from {}", userDetails.getUsername());
+
         // Checking if the given request is valid or not
         if (threadRequest.getDescription() == null || threadRequest.getDescription().isBlank())
             throw new IllegalArgumentException("Thread description cannot be empty !!");
@@ -118,6 +122,8 @@ public class ThreadService {
     // This function deletes all the threads from the database
     @Transactional
     public void deleteById(String id, UserDetails userDetails) {
+        log.info("(|) - Received new thread deletion request from {} for thread : {}", userDetails.getUsername(), id);
+
         // Fetching the user from the database
         User user = userService.findByEmail(userDetails.getUsername());
 

@@ -10,12 +10,14 @@ import dev.anirban.harmoniq_backend.repo.ThreadTagRepository;
 import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ThreadTagService {
@@ -28,6 +30,8 @@ public class ThreadTagService {
     @Transactional
     @Async
     public void create(String threadId, String userEmail) {
+        log.info("(|) - Received new threadTag  creation request for thread : {}", threadId);
+
         // Fetching the user and thread
         User user = userService.findByEmail(userEmail);
         Thread thread = threadRepo
@@ -50,10 +54,5 @@ public class ThreadTagService {
 
         // Storing the thead tag objects
         threadTagRepo.saveAll(threadTagsList);
-    }
-
-    // This function returns the thread tag list which contains the given tags
-    public List<ThreadTag> findByTags(List<Tag> tagNames) {
-        return threadTagRepo.findByTagIn(tagNames);
     }
 }

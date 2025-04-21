@@ -10,12 +10,14 @@ import dev.anirban.harmoniq_backend.repo.CommentRepository;
 import dev.anirban.harmoniq_backend.service.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -28,6 +30,8 @@ public class CommentService {
     // This function creates a comment and returns the created comment
     @Transactional
     public Comment create(String threadId, CommentRequest commentRequest, UserDetails userDetails) {
+        log.info("(|) - Received new comment creation request from {} for thread : {}", userDetails.getUsername(), threadId);
+
         // Fetching the user details
         User user = userService.findByEmail(userDetails.getUsername());
 

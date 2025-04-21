@@ -23,6 +23,8 @@ public class InterestService {
 
     // This function creates a new Interest based on the user and tag
     public Interest createNewInterest(User user, Tag tag) {
+        log.info("(|) - Creating a new interest for user : {} and tag : {}", user.getEmail(), tag.getId());
+
         // New Interest Object Created
         Interest interest = Interest
                 .builder()
