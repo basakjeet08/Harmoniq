@@ -13,11 +13,12 @@ import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 import {
   CREATE_THREAD_ENDPOINT,
   DELETE_THREAD_BY_ID_ENDPOINT,
-  FETCH_ALL_THREADS_BY_TAG,
-  FETCH_PERSONALISED_THREADS_ENDPOINT,
+  FETCH_THREAD_TYPE_TAG_ENDPOINT,
+  FETCH_THREAD_TYPE_PERSONALISED_ENDPOINT,
   FETCH_CURRENT_USER_THREADS_ENDPOINT,
   FETCH_THREAD_BY_ID_ENDPOINT,
   TOGGLE_LIKE_ENDPOINTS,
+  FETCH_THREAD_TYPE_POPULAR_ENDPOINT,
 } from '../constants/url-constants';
 import { ProfileService } from './profile.service';
 import { AuthResponse } from '../Models/auth/AuthResponse';
@@ -55,7 +56,7 @@ export class ThreadService implements ThreadInterface {
     };
   }
 
-  // This function updates the thread if its liked by current user
+  // This function updates the thread if it's liked by current user
   private updateLikedByCurrentUser<
     T extends ThreadDto | ThreadDetailResponse | ThreadHistoryItem
   >(threadDto: T): T {
@@ -92,63 +93,68 @@ export class ThreadService implements ThreadInterface {
       );
   }
 
-  // This function fetches all the personalized threads for the user
-  findAllPersonalized(pageable: {
-    page: number;
-    size: number;
-  }): Observable<PageWrapper<ThreadDto>> {
-    // Page related data
-    const page = pageable.page.toString();
-    const size = pageable.size.toString();
-
-    // Creating the url
-    let url = FETCH_PERSONALISED_THREADS_ENDPOINT;
-    url = url.replace(':page', page);
-    url = url.replace(':size', size);
-
-    // Calling the API
+  // This function calls the fetch thread api endpoints and return the data accordingly
+  private resolveThreadListApiCall(
+    url: string
+  ): Observable<PageWrapper<ThreadDto>> {
     return this.http
       .get<ResponseWrapper<PageWrapper<ThreadDto>>>(url, this.getHeaders())
       .pipe(
         map((response) => {
-          response.data.content = response.data.content.map((thread) =>
-            this.updateLikedByCurrentUser(thread)
+          response.data.content = response.data.content.map(
+            (thread: ThreadDto): ThreadDto =>
+              this.updateLikedByCurrentUser(thread)
           );
 
           return response.data;
-        }),
-        catchError(this.apiErrorHandler.handleApiError)
+        })
       );
   }
 
-  // This function fetches all the threads with the given tag from the backend
-  findByTags(
+  // This function builds the url for fetching the threads according to the relevant tags
+  findThreadsByTag(
     tag: string,
     pageable: { page: number; size: number }
   ): Observable<PageWrapper<ThreadDto>> {
-    // Page related data
-    const page = pageable.page.toString();
-    const size = pageable.size.toString();
+    const page: string = pageable.page.toString();
+    const size: string = pageable.size.toString();
 
-    // Creating the url
-    let url = FETCH_ALL_THREADS_BY_TAG;
-    url = url.replace(':tag', tag);
+    let url = FETCH_THREAD_TYPE_TAG_ENDPOINT;
+    url = url.replace(':tagName', tag);
     url = url.replace(':page', page);
     url = url.replace(':size', size);
 
-    // Calling the API
-    return this.http
-      .get<ResponseWrapper<PageWrapper<ThreadDto>>>(url, this.getHeaders())
-      .pipe(
-        map((response) => {
-          response.data.content = response.data.content.map((thread) =>
-            this.updateLikedByCurrentUser(thread)
-          );
+    return this.resolveThreadListApiCall(url);
+  }
 
-          return response.data;
-        }),
-        catchError(this.apiErrorHandler.handleApiError)
-      );
+  // This function builds the url for fetching the personalised threads of user
+  findPersonalisedThreads(pageable: {
+    page: number;
+    size: number;
+  }): Observable<PageWrapper<ThreadDto>> {
+    const page: string = pageable.page.toString();
+    const size: string = pageable.size.toString();
+
+    let url = FETCH_THREAD_TYPE_PERSONALISED_ENDPOINT;
+    url = url.replace(':page', page);
+    url = url.replace(':size', size);
+
+    return this.resolveThreadListApiCall(url);
+  }
+
+  // This function builds the url for fetching the exploratory threads
+  findPopularThreads(pageable: {
+    page: number;
+    size: number;
+  }): Observable<PageWrapper<ThreadDto>> {
+    const page: string = pageable.page.toString();
+    const size: string = pageable.size.toString();
+
+    let url = FETCH_THREAD_TYPE_POPULAR_ENDPOINT;
+    url = url.replace(':page', page);
+    url = url.replace(':size', size);
+
+    return this.resolveThreadListApiCall(url);
   }
 
   // This function fetches the current user thread post history

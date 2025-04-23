@@ -5,6 +5,8 @@ import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { ThreadDto } from 'src/app/shared/Models/thread/ThreadDto';
 import { ThreadService } from 'src/app/shared/services/thread.service';
+import { Observable } from 'rxjs';
+import { PageWrapper } from '../../../shared/Models/common/PageWrapper';
 
 // Fetching type for this component
 type FetchType = 'PERSONALISED' | 'TAG_BASED';
@@ -85,17 +87,20 @@ export class FeedComponent implements OnInit {
   }
 
   // This function handles the api call to hit
-  getApiObservable() {
+  getApiObservable(): Observable<PageWrapper<ThreadDto>> {
     // Returning the api caller observable
-    return this.fetchType === 'PERSONALISED'
-      ? this.threadService.findAllPersonalized({
-          page: this.page,
-          size: this.pageSize,
-        })
-      : this.threadService.findByTags(this.userEnteredTag, {
+    switch (this.fetchType) {
+      case 'TAG_BASED':
+        return this.threadService.findThreadsByTag(this.userEnteredTag, {
           page: this.page,
           size: this.pageSize,
         });
+      case 'PERSONALISED':
+        return this.threadService.findPersonalisedThreads({
+          page: this.page,
+          size: this.pageSize,
+        });
+    }
   }
 
   // This function is invoked when the user clicks on the search button
