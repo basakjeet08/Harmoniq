@@ -1,7 +1,6 @@
 export enum MessageType {
   USER = 'USER',
   ASSISTANT = 'ASSISTANT',
-  SYSTEM = 'SYSTEM',
 }
 
 export interface ChatMessageDto {

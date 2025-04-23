@@ -11,7 +11,7 @@ export interface ThreadInterface {
 
   findThreadsByTag(
     tag: string,
-    pageable: { page: number; size: number }
+    pageable: { page: number; size: number },
   ): Observable<PageWrapper<ThreadDto>>;
 
   findPersonalisedThreads(pageable: {
@@ -19,10 +19,7 @@ export interface ThreadInterface {
     size: number;
   }): Observable<PageWrapper<ThreadDto>>;
 
-  findPopularThreads(pageable: {
-    page: number;
-    size: number;
-  }): Observable<PageWrapper<ThreadDto>>;
+  findPopularThreads(pageable: { page: number; size: number }): Observable<PageWrapper<ThreadDto>>;
 
   fetchThreadHistory(): Observable<ThreadHistoryResponse>;
 

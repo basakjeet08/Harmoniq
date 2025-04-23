@@ -6,11 +6,11 @@ import { ProfileInterface } from '../interfaces/ProfileInterface';
 @Injectable({ providedIn: 'root' })
 export class ProfileService implements ProfileInterface {
   // local storage tokens
-  private USER_DATA_TOKEN = 'USER_DATA';
+  private USER_DATA_TOKEN: string = 'USER_DATA';
 
   // User Subject which will transfer state data to all the required places
   private user: AuthResponse | undefined = undefined;
-  private userSubject = new Subject<AuthResponse | undefined>();
+  private userSubject: Subject<AuthResponse | undefined> = new Subject<AuthResponse | undefined>();
 
   constructor() {
     this.user = this.getUserFromLocal();
@@ -29,7 +29,7 @@ export class ProfileService implements ProfileInterface {
 
   // This function returns the current stored user in the local storage
   getUserFromLocal(): AuthResponse | undefined {
-    const data = localStorage.getItem(this.USER_DATA_TOKEN);
+    const data: string | null = localStorage.getItem(this.USER_DATA_TOKEN);
     return data ? JSON.parse(data) : undefined;
   }
 

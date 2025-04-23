@@ -7,18 +7,8 @@ import { ToastComponent } from './components/toast/toast.component';
 import { AvatarSelectorComponent } from './components/avatar-selector/avatar-selector.component';
 
 @NgModule({
-  declarations: [
-    LoaderComponent,
-    InputComponent,
-    ToastComponent,
-    AvatarSelectorComponent,
-  ],
+  declarations: [LoaderComponent, InputComponent, ToastComponent, AvatarSelectorComponent],
   imports: [CommonModule, FormsModule],
-  exports: [
-    LoaderComponent,
-    InputComponent,
-    ToastComponent,
-    AvatarSelectorComponent,
-  ],
+  exports: [LoaderComponent, InputComponent, ToastComponent, AvatarSelectorComponent],
 })
 export class SharedModule {}

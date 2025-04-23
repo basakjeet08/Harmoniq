@@ -16,7 +16,7 @@ export class CommentService implements CommentInterface {
   constructor(
     private http: HttpClient,
     private apiErrorHandler: ApiErrorHandlerService,
-    profileService: ProfileService
+    profileService: ProfileService,
   ) {
     // Storing the token in the variable
     this.token = profileService.getUser()?.token || 'Invalid Token';
@@ -35,19 +35,13 @@ export class CommentService implements CommentInterface {
   }
 
   // This calls the api to create a comment
-  create(commentRequest: {
-    comment: string;
-    threadId: string;
-  }): Observable<CommentDto> {
-    return this.http
-      .post<ResponseWrapper<CommentDto>>(
-        CREATE_COMMENT_ENDPOINT.replace(':threadId', commentRequest.threadId),
-        commentRequest,
-        this.getHeaders()
-      )
-      .pipe(
-        map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
-      );
+  create(commentRequest: { comment: string; threadId: string }): Observable<CommentDto> {
+    let url: string = CREATE_COMMENT_ENDPOINT;
+    url = url.replace(':threadId', commentRequest.threadId);
+
+    return this.http.post<ResponseWrapper<CommentDto>>(url, commentRequest, this.getHeaders()).pipe(
+      map((response) => response.data),
+      catchError(this.apiErrorHandler.handleApiError),
+    );
   }
 }
