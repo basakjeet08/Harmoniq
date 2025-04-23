@@ -3,21 +3,15 @@
   <button
     *ngFor="let item of fetchFilters"
     class="btn card-btn caption-text secondary-text row-container g-4 items-center flex-1"
-    [ngClass]="{ active : fetchType === item }"
+    [ngClass]="{ active: fetchType === item }"
     [disabled]="loaderState"
     (click)="onFetchTypeChange(item)"
   >
-    <ng-container *ngIf="item === 'TAG_BASED'">
-      Search for threads
-    </ng-container>
+    <ng-container *ngIf="item === 'TAG_BASED'"> Search for threads </ng-container>
 
-    <ng-container *ngIf="item === 'PERSONALISED'">
-      Check Personalised Threads
-    </ng-container>
+    <ng-container *ngIf="item === 'PERSONALISED'"> Check Personalised Threads </ng-container>
 
-    <ng-container *ngIf="item === 'POPULAR'">
-      Explore Popular Threads
-    </ng-container>
+    <ng-container *ngIf="item === 'POPULAR'"> Explore Popular Threads </ng-container>
   </button>
 </div>
 
@@ -41,10 +35,7 @@
   [@staggerAnimation]="threadList.length"
 >
   <!-- Each Thread Component -->
-  <div
-    class="w-full col-container items-center g-16"
-    *ngFor="let thread of threadList"
-  >
+  <div class="w-full col-container items-center g-16" *ngFor="let thread of threadList">
     <!-- Thread Card Component-->
     <app-thread-card
       [createdBy]="thread.createdBy"
@@ -58,6 +49,6 @@
     />
 
     <!-- Horizontal Divider -->
-    <hr/>
+    <hr />
   </div>
 </div>

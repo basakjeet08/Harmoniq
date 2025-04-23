@@ -33,9 +33,7 @@
     </div>
 
     <!-- Error text for Email input -->
-    <p class="error-text caption-text" *ngIf="!name.valid && name.touched">
-      Please enter the Name
-    </p>
+    <p class="error-text caption-text" *ngIf="!name.valid && name.touched">Please enter the Name</p>
   </div>
 
   <!-- Email input container with SVG -->
@@ -89,10 +87,7 @@
     </div>
 
     <!-- Error text for password input -->
-    <p
-      class="error-text caption-text"
-      *ngIf="password.touched && password.invalid"
-    >
+    <p class="error-text caption-text" *ngIf="password.touched && password.invalid">
       Please enter the Password of length < 5
     </p>
   </div>
@@ -107,12 +102,6 @@
       Confirm
     </button>
 
-    <button
-      class="btn btn-destructive flex-1"
-      type="button"
-      (click)="onEditClose()"
-    >
-      Cancel
-    </button>
+    <button class="btn btn-destructive flex-1" type="button" (click)="onEditClose()">Cancel</button>
   </div>
 </form>

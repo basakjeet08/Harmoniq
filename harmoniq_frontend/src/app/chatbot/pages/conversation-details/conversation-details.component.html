@@ -1,23 +1,16 @@
 <div class="col-container g-24 items-center">
-  <div
-    #scrollContainer
-    class="conversation-container hide-scrollbar"
-    (scroll)="onScroll()"
-  >
+  <div #scrollContainer class="conversation-container hide-scrollbar" (scroll)="onScroll()">
     <!-- Message Card Container -->
     <div
       *ngFor="let message of messages"
       class="w-80 row-container g-24 items-center"
       [ngClass]="{
         'bot-message-container': !isUserMessage(message),
-        'user-message-container': isUserMessage(message)
+        'user-message-container': isUserMessage(message),
       }"
     >
       <!-- Message Card -->
-      <div
-        class="card-container p-24"
-        [ngClass]="{ 'user-message-card': isUserMessage(message) }"
-      >
+      <div class="card-container p-24" [ngClass]="{ 'user-message-card': isUserMessage(message) }">
         <p class="body-text">{{ message.text }}</p>
       </div>
 
@@ -30,17 +23,14 @@
     </div>
 
     <!-- Current Chat Response for showing streaming output -->
-    <div
-      class="w-80 row-container g-24 items-center bot-message-container"
-      *ngIf="currentResponse"
-    >
+    <div class="w-80 row-container g-24 items-center bot-message-container" *ngIf="currentResponse">
       <!-- Message Card -->
       <div class="card-container p-24">
         <p class="body-text">{{ currentResponse }} . . .</p>
       </div>
 
       <!-- Profile Pic -->
-      <img class="profile-image" [src]="chatBotImage" alt="Chatbot Pic"/>
+      <img class="profile-image" [src]="chatBotImage" alt="Chatbot Pic" />
     </div>
   </div>
 

@@ -68,10 +68,7 @@
     </div>
 
     <!-- Error text for password input -->
-    <p
-      class="error-text caption-text"
-      *ngIf="password.touched && password.invalid"
-    >
+    <p class="error-text caption-text" *ngIf="password.touched && password.invalid">
       Please enter the Password of length < 5
     </p>
   </div>
@@ -130,11 +127,7 @@
   <button
     class="flex-1 btn btn-primary"
     type="submit"
-    [disabled]="
-      formContainer.invalid ||
-      password.value !== confirmPassword.value ||
-      loaderState
-    "
+    [disabled]="formContainer.invalid || password.value !== confirmPassword.value || loaderState"
   >
     Register User
   </button>
