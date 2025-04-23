@@ -12,7 +12,7 @@ export class ProfileComponent {
   isEditMode: boolean = false;
 
   // This function is invoked when the user clicks on the edit button
-  onEditToggle() {
+  onEditToggle(): void {
     this.isEditMode = !this.isEditMode;
   }
 }
