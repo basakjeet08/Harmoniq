@@ -1,14 +1,11 @@
-import { CHATBOT_AVATAR_URL } from './../../../shared/constants/url-constants';
+import { CHATBOT_AVATAR_URL } from '../../../shared/constants/url-constants';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { PageWrapper } from 'src/app/shared/Models/common/PageWrapper';
-import {
-  ChatMessageDto,
-  MessageType,
-} from 'src/app/shared/Models/conversation/ChatMessageDto';
+import { ChatMessageDto, MessageType } from 'src/app/shared/Models/conversation/ChatMessageDto';
 import { ChatbotService } from 'src/app/shared/services/chatbot.service';
 import { ConversationService } from 'src/app/shared/services/conversation.service';
 import { ProfileService } from 'src/app/shared/services/profile.service';
@@ -44,11 +41,9 @@ export class ConversationDetailsComponent implements OnInit {
     private chatbotService: ChatbotService,
     private toastService: ToastService,
     private loaderService: LoaderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
 
     // Setting the user and chatbot avatar
     this.userImage = profileService.getUser()?.avatar || '';
@@ -65,7 +60,7 @@ export class ConversationDetailsComponent implements OnInit {
   }
 
   // This function increase the offset of the current page
-  updateOffset(value: number = 1) {
+  updateOffset(value: number = 1): void {
     // Increasing the offset
     this.offset += value;
 
@@ -77,12 +72,12 @@ export class ConversationDetailsComponent implements OnInit {
   }
 
   // This function resets the offset
-  resetOffset() {
+  resetOffset(): void {
     this.offset = 0;
   }
 
   // This function fetches the messages according to the pages
-  loadOlderMessages() {
+  loadOlderMessages(): void {
     if (this.lastPage || this.loaderState) return;
 
     // Starting the loading state
@@ -116,7 +111,7 @@ export class ConversationDetailsComponent implements OnInit {
           this.page++;
           this.lastPage = pageWrapper.last;
 
-          // Resetting the offset since we dont need it anymore
+          // Resetting the offset since we don't need it anymore
           this.resetOffset();
 
           // Making sure the scroll state is managed
@@ -124,7 +119,7 @@ export class ConversationDetailsComponent implements OnInit {
             container.scrollTop = container.scrollHeight - previousScrollHeight;
           });
 
-          // Checking if its the user's first time in the conversation window or not
+          // Checking if it's the user's first time in the conversation window or not
           if (this.messages.length === 0) {
             this.onGenerateClick('Hello !!');
           }
@@ -141,13 +136,13 @@ export class ConversationDetailsComponent implements OnInit {
       });
   }
 
-  // This funcition tells if the message is a user message or not
-  isUserMessage(message: ChatMessageDto) {
+  // This function tells if the message is a user message or not
+  isUserMessage(message: ChatMessageDto): boolean {
     return message.messageType === MessageType.USER;
   }
 
-  // This function updates the message array with chat bot responses
-  updateMessage() {
+  // This function updates the message array with chatbot responses
+  updateMessage(): void {
     if (this.currentResponse) {
       this.messages.push({
         id: '',
@@ -162,7 +157,7 @@ export class ConversationDetailsComponent implements OnInit {
   }
 
   // This function sends the prompt to the service layer
-  onGenerateClick(prompt: string) {
+  onGenerateClick(prompt: string): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
@@ -174,7 +169,7 @@ export class ConversationDetailsComponent implements OnInit {
       createdAt: new Date(),
     });
 
-    // Increase so we dont append 1 duplicate item when loading the older messages
+    // Increase so we don't append 1 duplicate item when loading the older messages
     this.updateOffset();
 
     this.input.resetComponent();
@@ -182,37 +177,35 @@ export class ConversationDetailsComponent implements OnInit {
     this.scrollToBottom();
 
     // Calling the API
-    this.chatbotService
-      .generateResponse(prompt, this.conversationId)
-      .subscribe({
-        // Success State
-        next: (chunk: string) => (this.currentResponse += chunk),
+    this.chatbotService.generateResponse(prompt, this.conversationId).subscribe({
+      // Success State
+      next: (chunk: string) => (this.currentResponse += chunk),
 
-        // Error State
-        error: (error: Error) => {
-          // Storing the chat response if any proper response is generated before the error
-          this.loaderService.endLoading();
-          this.updateMessage();
+      // Error State
+      error: (error: Error) => {
+        // Storing the chat response if any proper response is generated before the error
+        this.loaderService.endLoading();
+        this.updateMessage();
 
-          // Storing the error as a new Response
-          this.currentResponse = error.message;
-          this.updateMessage();
-        },
+        // Storing the error as a new Response
+        this.currentResponse = error.message;
+        this.updateMessage();
+      },
 
-        // Complete State
-        complete: () => {
-          this.loaderService.endLoading();
+      // Complete State
+      complete: () => {
+        this.loaderService.endLoading();
 
-          // Increase so we dont append 1 duplicate item when loading the older messages
-          this.updateOffset();
-          this.updateMessage();
-        },
-      });
+        // Increase so we don't append 1 duplicate item when loading the older messages
+        this.updateOffset();
+        this.updateMessage();
+      },
+    });
   }
 
   // This function is called when the user scrolls
   onScroll(): void {
-    const target = this.scrollContainer.nativeElement;
+    const target: HTMLElement = this.scrollContainer.nativeElement;
 
     // If the user reaches the top then we fetch older messages
     if (target.scrollTop === 0) this.loadOlderMessages();
