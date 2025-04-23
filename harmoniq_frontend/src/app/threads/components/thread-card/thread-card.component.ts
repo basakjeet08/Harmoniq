@@ -25,8 +25,8 @@ export class ThreadCardComponent {
   @Input('showDelete') showDelete: boolean = false;
   @Input('showMore') showMore: boolean = true;
 
-  @Output('onShowMoreClick') showMoreEmitter = new EventEmitter<void>();
-  @Output('onDeleteClick') deleteEmitter = new EventEmitter<void>();
+  @Output('onShowMoreClick') showMoreEmitter: EventEmitter<void> = new EventEmitter<void>();
+  @Output('onDeleteClick') deleteEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   loaderState!: boolean;
 
@@ -35,30 +35,28 @@ export class ThreadCardComponent {
     private threadService: ThreadService,
     private loaderService: LoaderService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
   }
 
   // This function gives if the user is a moderator or not
-  get isModerator() {
+  get isModerator(): boolean {
     return this.createdBy.role === Roles.MODERATOR;
   }
 
   // This function is invoked when the thread card is clicked
-  onShowMoreClick() {
+  onShowMoreClick(): void {
     this.showMoreEmitter.emit();
   }
 
   // This function is invoked when the delete button is clicked
-  onDeleteClick() {
+  onDeleteClick(): void {
     this.deleteEmitter.emit();
   }
 
   // This function is invoked when the like button is clicked
-  onLikeButtonClick() {
+  onLikeButtonClick(): void {
     // Starting the loading state
     this.loaderService.startLoading();
 
@@ -80,7 +78,7 @@ export class ThreadCardComponent {
   }
 
   // This function is invoked when the user clicks on the user avatar
-  onAvatarClick() {
-    this.router.navigate(['/dashboard/profile', this.createdBy.id]);
+  onAvatarClick(): void {
+    this.router.navigate(['/dashboard/profile', this.createdBy.id]).then();
   }
 }

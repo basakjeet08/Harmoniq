@@ -23,11 +23,11 @@ export class FeedComponent implements OnInit {
   loaderState!: boolean;
   fetchType: FetchType = 'PERSONALISED';
   userEnteredTag: string = '';
-  fetchFilters: FetchType[] = ['TAG_BASED', 'PERSONALISED', 'POPULAR']
+  fetchFilters: FetchType[] = ['TAG_BASED', 'PERSONALISED', 'POPULAR'];
 
   // Paging data values
-  page = 0;
-  pageSize = 2;
+  page: number = 0;
+  pageSize: number = 2;
   lastPage: boolean = false;
 
   // Injecting the necessary dependencies
@@ -36,11 +36,9 @@ export class FeedComponent implements OnInit {
     private toastService: ToastService,
     private loaderService: LoaderService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
   }
 
   // Fetching the thread list when the component is loaded
@@ -49,7 +47,7 @@ export class FeedComponent implements OnInit {
   }
 
   // This function loads More data
-  loadMoreFeeds(takeLastPage: boolean = true) {
+  loadMoreFeeds(takeLastPage: boolean = true): void {
     // If already loading we skip
     if (this.loaderState) return;
 
@@ -101,16 +99,16 @@ export class FeedComponent implements OnInit {
           page: this.page,
           size: this.pageSize,
         });
-      case "POPULAR":
+      case 'POPULAR':
         return this.threadService.findPopularThreads({
           page: this.page,
-          size: this.pageSize
+          size: this.pageSize,
         });
     }
   }
 
   // This function is invoked when the user clicks on the search button
-  onSearchClick(searchInput: string) {
+  onSearchClick(searchInput: string): void {
     // Resetting the old data
     this.fetchType = 'TAG_BASED';
     this.page = 0;
@@ -129,12 +127,11 @@ export class FeedComponent implements OnInit {
     this.threadList = [];
     this.userEnteredTag = '';
 
-    if (fetchType !== 'TAG_BASED')
-      this.loadMoreFeeds(false);
+    if (fetchType !== 'TAG_BASED') this.loadMoreFeeds(false);
   }
 
   // This function is executed when the user clicks on any of the card for Thread
-  onThreadCardClick(id: string) {
-    this.router.navigate(['../', 'details', id], {relativeTo: this.route});
+  onThreadCardClick(id: string): void {
+    this.router.navigate(['../', 'details', id], { relativeTo: this.route }).then();
   }
 }

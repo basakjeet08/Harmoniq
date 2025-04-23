@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
@@ -15,7 +15,7 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
   styleUrls: ['./history.component.css'],
   animations: [staggerAnimation],
 })
-export class HistoryComponent {
+export class HistoryComponent implements OnInit {
   // This is the thread list and user data for the component
   threadList: ThreadHistoryItem[] = [];
   createdByUser: UserDto | null = null;
@@ -24,7 +24,7 @@ export class HistoryComponent {
   constructor(
     private threadService: ThreadService,
     private toastService: ToastService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
   ) {}
 
   // Fetching the history thread list when the component is loaded
@@ -33,7 +33,7 @@ export class HistoryComponent {
   }
 
   // This function fetches the history data from the API
-  fetchThreadHistory() {
+  fetchThreadHistory(): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
@@ -63,7 +63,7 @@ export class HistoryComponent {
   }
 
   // This function is invoked when the user clicks on the delete button
-  onDeleteThreadClick(id: string) {
+  onDeleteThreadClick(id: string): void {
     // Setting the loading State
     this.loaderService.startLoading();
 

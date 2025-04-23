@@ -17,12 +17,12 @@ export class CommentCardComponent {
   constructor(private router: Router) {}
 
   // This function returns if the user is a moderator or not
-  get isModerator() {
+  get isModerator(): boolean {
     return this.createdBy.role === Roles.MODERATOR;
   }
 
   // This function is invoked when the user clicks on the user avatar
-  onAvatarClick() {
-    this.router.navigate(['/dashboard/profile', this.createdBy.id]);
+  onAvatarClick(): void {
+    this.router.navigate(['/dashboard/profile', this.createdBy.id]).then();
   }
 }

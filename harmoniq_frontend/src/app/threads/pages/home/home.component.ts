@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   // Fetching the user data and checking if the user is a guest user
@@ -28,17 +28,17 @@ export class HomeComponent implements OnInit {
   }
 
   // This function is invoked when the user clicks on the navigate to feed card
-  onNavigateToFeedClick() {
-    this.router.navigate(['../', 'feed'], { relativeTo: this.route });
+  onNavigateToFeedClick(): void {
+    this.router.navigate(['../', 'feed'], { relativeTo: this.route }).then();
   }
 
   // This function is invoked when the user clicks on the Post a thread card
-  onPostThreadClick() {
-    this.router.navigate(['../', 'add'], { relativeTo: this.route });
+  onPostThreadClick(): void {
+    this.router.navigate(['../', 'add'], { relativeTo: this.route }).then();
   }
 
   // This function is invoked when the user clicks on the view Thread History Card
-  onViewHistoryClick() {
-    this.router.navigate(['../', 'history'], { relativeTo: this.route });
+  onViewHistoryClick(): void {
+    this.router.navigate(['../', 'history'], { relativeTo: this.route }).then();
   }
 }
