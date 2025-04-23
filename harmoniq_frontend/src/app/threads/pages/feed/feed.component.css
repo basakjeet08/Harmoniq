@@ -10,6 +10,19 @@
   padding: 12px;
 }
 
+.card-btn {
+  padding: 8px;
+  background-color: var(--surface);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active {
+  background-color: var(--surface-variant);
+}
+
 .input-container {
   width: 70%;
 }

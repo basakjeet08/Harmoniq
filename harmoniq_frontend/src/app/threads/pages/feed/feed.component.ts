@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { PageWrapper } from '../../../shared/Models/common/PageWrapper';
 
 // Fetching type for this component
-type FetchType = 'PERSONALISED' | 'TAG_BASED';
+type FetchType = 'PERSONALISED' | 'TAG_BASED' | 'POPULAR';
 
 @Component({
   selector: 'app-feed',
@@ -23,6 +23,7 @@ export class FeedComponent implements OnInit {
   loaderState!: boolean;
   fetchType: FetchType = 'PERSONALISED';
   userEnteredTag: string = '';
+  fetchFilters: FetchType[] = ['TAG_BASED', 'PERSONALISED', 'POPULAR']
 
   // Paging data values
   page = 0;
@@ -100,6 +101,11 @@ export class FeedComponent implements OnInit {
           page: this.page,
           size: this.pageSize,
         });
+      case "POPULAR":
+        return this.threadService.findPopularThreads({
+          page: this.page,
+          size: this.pageSize
+        });
     }
   }
 
@@ -115,8 +121,20 @@ export class FeedComponent implements OnInit {
     this.loadMoreFeeds(false);
   }
 
+  // This function changes the state of the page fetch type
+  onFetchTypeChange(fetchType: FetchType): void {
+    // Resetting the old data
+    this.fetchType = fetchType;
+    this.page = 0;
+    this.threadList = [];
+    this.userEnteredTag = '';
+
+    if (fetchType !== 'TAG_BASED')
+      this.loadMoreFeeds(false);
+  }
+
   // This function is executed when the user clicks on any of the card for Thread
   onThreadCardClick(id: string) {
-    this.router.navigate(['../', 'details', id], { relativeTo: this.route });
+    this.router.navigate(['../', 'details', id], {relativeTo: this.route});
   }
 }
