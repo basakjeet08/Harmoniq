@@ -40,48 +40,49 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(request ->
-                        request
-                                // Root Routes
-                                .requestMatchers(HttpMethod.GET, UrlConstants.PUBLIC_ROUTE).permitAll()
-                                .requestMatchers(HttpMethod.GET, UrlConstants.PRIVATE_ROUTE).authenticated()
+                .authorizeHttpRequests(request -> request
+                        // Root Routes
+                        .requestMatchers(HttpMethod.GET, UrlConstants.PUBLIC_ROUTE).permitAll()
+                        .requestMatchers(HttpMethod.GET, UrlConstants.PRIVATE_ROUTE).authenticated()
 
-                                // Authentication and login Endpoints
-                                .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_ENDPOINT).permitAll()
-                                .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_ENDPOINT).permitAll()
-                                .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_AS_GUEST_ENDPOINT).permitAll()
+                        // Authentication and login Endpoints
+                        .requestMatchers(HttpMethod.POST, UrlConstants.REGISTER_ENDPOINT).permitAll()
+                        .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_ENDPOINT).permitAll()
+                        .requestMatchers(HttpMethod.POST, UrlConstants.LOGIN_AS_GUEST_ENDPOINT).permitAll()
 
-                                // User Endpoints
-                                .requestMatchers(HttpMethod.GET, UrlConstants.USER_AVATAR_FETCH_ALL_ENDPOINT).permitAll()
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_USER_BY_ID_ENDPOINT).permitAll()
-                                .requestMatchers(HttpMethod.PATCH, UrlConstants.UPDATE_USER_ENDPOINT).authenticated()
-                                .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_USER_ENDPOINT).authenticated()
+                        // User Endpoints
+                        .requestMatchers(HttpMethod.GET, UrlConstants.USER_AVATAR_FETCH_ALL_ENDPOINT).permitAll()
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_USER_BY_ID_ENDPOINT).permitAll()
+                        .requestMatchers(HttpMethod.PATCH, UrlConstants.UPDATE_USER_ENDPOINT).authenticated()
+                        .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_USER_ENDPOINT).authenticated()
 
-                                // Thread Endpoints
-                                .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_THREAD_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_THREAD_BY_ID_ENDPOINT).authenticated()
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_ALL_THREADS_ENDPOINT).authenticated()
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
-                                .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        // Thread Endpoints
+                        .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_THREAD_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_THREAD_BY_ID_ENDPOINT).authenticated()
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_THREADS_TYPE_TAG_ENDPOINT).authenticated()
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_THREADS_TYPE_PERSONALISE_ENDPOINT).authenticated()
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_THREADS_TYPE_POPULAR_ENDPOINT).authenticated()
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
-                                // Like Endpoint
-                                .requestMatchers(HttpMethod.POST, UrlConstants.TOGGLE_LIKE_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        // Like Endpoint
+                        .requestMatchers(HttpMethod.POST, UrlConstants.TOGGLE_LIKE_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
-                                // Comment Endpoints
-                                .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_COMMENT_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        // Comment Endpoints
+                        .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_COMMENT_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
-                                // Requests for public static resources are permitted
-                                .requestMatchers("/avatars/**").permitAll()
+                        // Requests for public static resources are permitted
+                        .requestMatchers("/avatars/**").permitAll()
 
-                                // Conversation Endpoints
-                                .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_CONVERSATION_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CONVERSATION_BY_USER_ENDPOINTS).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
-                                .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CONVERSATION_HISTORY_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
-                                .requestMatchers(HttpMethod.POST, UrlConstants.PROMPT_CHATBOT_ENDPOINT).permitAll()
-                                .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_CONVERSATION_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        // Conversation Endpoints
+                        .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_CONVERSATION_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CONVERSATION_BY_USER_ENDPOINTS).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CONVERSATION_HISTORY_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        .requestMatchers(HttpMethod.POST, UrlConstants.PROMPT_CHATBOT_ENDPOINT).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_CONVERSATION_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
-                                // For any other or all requests
-                                .anyRequest().authenticated()
+                        // For any other or all requests
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

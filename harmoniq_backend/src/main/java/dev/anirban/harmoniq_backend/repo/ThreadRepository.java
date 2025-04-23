@@ -26,4 +26,8 @@ public interface ThreadRepository extends JpaRepository<Thread, String> {
             ORDER BY t.totalComments DESC, t.totalLikes DESC
             """)
     Page<Thread> findUserInterestedPersonalizedThreads(String email, Pageable pageable);
+
+    // This function fetches the threads ordered by their popularity (determined by comments , likes and creation time)
+    @Query("SELECT t from Thread t ORDER BY t.totalComments DESC , t.totalComments DESC, t.createdAt DESC")
+    Page<Thread> findThreadByPopularity(Pageable pageable);
 }

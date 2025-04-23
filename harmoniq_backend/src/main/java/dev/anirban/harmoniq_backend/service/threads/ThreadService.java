@@ -76,15 +76,19 @@ public class ThreadService {
         return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
     }
 
+    // This function fetches the threads by the tag name in descending order of created At
+    public Page<Thread> findTagRelevantThreads(String tag, Pageable pageable) {
+        return threadRepo.findThreadByThreadTags_Tag_NameContainingIgnoreCaseOrderByCreatedAtDesc(tag, pageable);
+    }
+
     // This function fetches the threads which are created by the specified user
-    @Transactional
-    public Page<Thread> findThreadsAccordingToInterests(UserDetails userDetails, Pageable pageable) {
+    public Page<Thread> findPersonalisedThreads(UserDetails userDetails, Pageable pageable) {
         return threadRepo.findUserInterestedPersonalizedThreads(userDetails.getUsername(), pageable);
     }
 
-    // This function fetches the threads by the tag name in descending order of created At
-    public Page<Thread> findByTagNameContainingIgnoreCase(String tag, Pageable pageable) {
-        return threadRepo.findThreadByThreadTags_Tag_NameContainingIgnoreCaseOrderByCreatedAtDesc(tag, pageable);
+    // This function fetches the popular threads for exploring more threads
+    public Page<Thread> findPopularThreads(Pageable pageable) {
+        return threadRepo.findThreadByPopularity(pageable);
     }
 
     // This function deletes all the threads from the database

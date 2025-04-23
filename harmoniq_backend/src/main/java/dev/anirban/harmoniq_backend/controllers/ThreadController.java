@@ -33,22 +33,47 @@ public class ThreadController {
         return new ResponseWrapper<>("Thread created Successfully !!", thread);
     }
 
-    // This function handles requests to fetch all threads
-    @GetMapping(UrlConstants.FETCH_ALL_THREADS_ENDPOINT)
-    public ResponseWrapper<Page<ThreadDto>> handleFetchAllThreadsRequest(
+    // This function handles tag based thread fetching requests
+    @GetMapping(UrlConstants.FETCH_THREADS_TYPE_TAG_ENDPOINT)
+    public ResponseWrapper<Page<ThreadDto>> handleTagBasedThreadFetchRequest(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam(name = "tag", required = false) String tag,
+            @PathVariable String tagName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        // fetching the thread list
-        Page<ThreadDto> threadDtoList = (
-                tag != null && !tag.isEmpty()
-                        ? service.findByTagNameContainingIgnoreCase(tag, PageRequest.of(page, size))
-                        : service.findThreadsAccordingToInterests(userDetails, PageRequest.of(page, size))
-        ).map(Thread::toThreadDto);
+        Page<ThreadDto> threadDtoPage = service
+                .findTagRelevantThreads(tagName, PageRequest.of(page, size))
+                .map(Thread::toThreadDto);
 
-        return new ResponseWrapper<>("Thread List fetched Successfully !!", threadDtoList);
+        return new ResponseWrapper<>("Tag relevant threads fetched successfully !!", threadDtoPage);
+    }
+
+    // This function handles the personalised threads requests
+    @GetMapping(UrlConstants.FETCH_THREADS_TYPE_PERSONALISE_ENDPOINT)
+    public ResponseWrapper<Page<ThreadDto>> handlePersonalisedThreadFetchRequest(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<ThreadDto> threadDtoPage = service
+                .findPersonalisedThreads(userDetails, PageRequest.of(page, size))
+                .map(Thread::toThreadDto);
+
+        return new ResponseWrapper<>("Personalised threads fetched successfully !!", threadDtoPage);
+    }
+
+    // This function handles the popular thread fetch requests
+    @GetMapping(UrlConstants.FETCH_THREADS_TYPE_POPULAR_ENDPOINT)
+    public ResponseWrapper<Page<ThreadDto>> handlePopularThreadFetchRequest(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<ThreadDto> threadDtoPage = service
+                .findPopularThreads(PageRequest.of(page, size))
+                .map(Thread::toThreadDto);
+
+        return new ResponseWrapper<>("Popular threads fetched successfully !!", threadDtoPage);
     }
 
     // This function handle fetch the thread by id Requests
