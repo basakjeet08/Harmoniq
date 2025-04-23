@@ -24,18 +24,16 @@ export class InputComponent {
 
   // Injecting the necessary dependencies
   constructor(private loaderService: LoaderService) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loadingState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loadingState = state));
   }
 
   // This function is invoked when the user clicks the input button
-  onButtonClick() {
+  onButtonClick(): void {
     this.buttonEvent.emit(this.userInput);
   }
 
   // This function is invoked when the user wants to reset the Component
-  resetComponent() {
+  resetComponent(): void {
     this.userInput = '';
   }
 }

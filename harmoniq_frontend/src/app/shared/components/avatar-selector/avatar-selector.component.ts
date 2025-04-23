@@ -14,7 +14,7 @@ export class AvatarSelectorComponent implements OnInit {
   // Parent passed values
   @Input('buttonDisabled') isButtonDisabled: boolean = false;
   @Input('currentAvatar') currentChosenAvatar: string = '';
-  @Output('onAvatarChosen') avatarEmitter = new EventEmitter<string>();
+  @Output('onAvatarChosen') avatarEmitter: EventEmitter<string> = new EventEmitter<string>();
 
   // This is the data for the component
   avatarList: string[] = [];
@@ -24,7 +24,7 @@ export class AvatarSelectorComponent implements OnInit {
   constructor(
     private userService: UserService,
     private loaderService: LoaderService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   // This function fetches all the avatars
@@ -33,7 +33,7 @@ export class AvatarSelectorComponent implements OnInit {
   }
 
   // This function is invoked when the user clicks the register button
-  fetchAvatars() {
+  fetchAvatars(): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
@@ -58,21 +58,21 @@ export class AvatarSelectorComponent implements OnInit {
   }
 
   // This function is invoked when the user clicks to choose the avatar
-  onEnableChooseMode() {
+  onEnableChooseMode(): void {
     if (!this.isButtonDisabled) {
       this.chooseMode = true;
     }
   }
 
   // This function is invoked when the user clicks on the cancel button
-  onDisableChoosemode() {
+  onDisableChosenMode(): void {
     this.chooseMode = false;
   }
 
-  // this function is invoked when the user has choosen a component
-  onAvatarChosen(avatarLink: string) {
+  // this function is invoked when the user has chosen a component
+  onAvatarChosen(avatarLink: string): void {
     this.currentChosenAvatar = avatarLink;
     this.avatarEmitter.emit(avatarLink);
-    this.onDisableChoosemode();
+    this.onDisableChosenMode();
   }
 }

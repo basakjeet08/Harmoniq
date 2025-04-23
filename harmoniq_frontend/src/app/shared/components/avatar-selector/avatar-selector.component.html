@@ -3,7 +3,7 @@
   class="row-container justify-center chosen-avatar"
   (click)="onEnableChooseMode()"
 >
-  <img [src]="currentChosenAvatar" alt="Choosen Avatar" />
+  <img [src]="currentChosenAvatar" alt="Chosen Avatar"/>
 
   <!-- Edit Svg Container -->
   <div class="svg-container" *ngIf="!isButtonDisabled">
@@ -28,7 +28,7 @@
     <button
       class="btn btn-destructive"
       type="button"
-      (click)="onDisableChoosemode()"
+      (click)="onDisableChosenMode()"
     >
       Close
     </button>

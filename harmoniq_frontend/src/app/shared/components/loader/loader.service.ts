@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LoaderService {
   // Global Loader State related data
-  private loaderState = new BehaviorSubject<boolean>(false);
-  loaderState$ = this.loaderState.asObservable();
+  private loaderState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loaderState$: Observable<boolean> = this.loaderState.asObservable();
 
   // This function is used to start loading state
-  startLoading() {
+  startLoading(): void {
     this.loaderState.next(true);
   }
 
   // This function is used to end loading state
-  endLoading() {
+  endLoading(): void {
     this.loaderState.next(false);
   }
 }
