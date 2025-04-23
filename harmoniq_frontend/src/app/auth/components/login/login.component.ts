@@ -14,21 +14,21 @@ export class LoginComponent {
   loaderState!: boolean;
 
   // These are the event emitters which will notify the parent about the api state
-  @Output('onSuccess') successEmitter = new EventEmitter<void>();
+  @Output('onSuccess') successEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   // Injecting the necessary dependencies
   constructor(
     private authService: AuthService,
     private loaderService: LoaderService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
     this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
+      (state: boolean): boolean => (this.loaderState = state),
     );
   }
 
   // This function is invoked when the user clicks the login button
-  onLoginClick() {
+  onLoginClick(): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
@@ -56,7 +56,7 @@ export class LoginComponent {
   }
 
   // This function is invoked when the user clicks on login as Guest Button
-  onLoginAsGuestClick() {
+  onLoginAsGuestClick(): void {
     // Setting the loading state
     this.loaderService.startLoading();
 

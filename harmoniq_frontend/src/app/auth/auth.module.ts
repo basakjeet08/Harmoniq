@@ -12,11 +12,6 @@ const authRoutes: Routes = [{ path: '', component: AuthComponent }];
 
 @NgModule({
   declarations: [AuthComponent, LoginComponent, RegisterComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(authRoutes),
-    FormsModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, RouterModule.forChild(authRoutes), FormsModule, SharedModule],
 })
 export class AuthModule {}

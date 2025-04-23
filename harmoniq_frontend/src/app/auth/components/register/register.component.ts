@@ -20,20 +20,18 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private loaderService: LoaderService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
   }
 
   // This function is invoked when the avatar is chosen by the user
-  onAvatarChosen(avatarLink: string) {
+  onAvatarChosen(avatarLink: string): void {
     this.userInput.avatar = avatarLink;
   }
 
   // This function is invoked when the user clicks the register button
-  onRegisterClick() {
+  onRegisterClick(): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
