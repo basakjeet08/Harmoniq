@@ -22,12 +22,12 @@ export class DashboardComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
   ) {}
 
   // Checking if the user is a guest user or not
   ngOnInit(): void {
-    const storedAuthRes = this.profileService.getUser();
+    const storedAuthRes: AuthResponse | undefined = this.profileService.getUser();
 
     // If the user deletes his data from the local storage
     if (!storedAuthRes) {
@@ -44,12 +44,12 @@ export class DashboardComponent implements OnInit {
   }
 
   // This function is invoked when the user clicks on the profile pic
-  toggleProfileClick() {
+  toggleProfileClick(): void {
     this.isExpanded = !this.isExpanded;
   }
 
   // This function is invoked when the user clicks the logout button
-  onLogoutClick(showToast: boolean = true) {
+  onLogoutClick(showToast: boolean = true): void {
     // Clearing out the cache of the current user data and navigating back to login page
     this.profileService.logout();
 
@@ -59,6 +59,6 @@ export class DashboardComponent implements OnInit {
         message: 'User logged out successfully !!',
       });
     }
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/auth']).then();
   }
 }

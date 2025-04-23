@@ -12,7 +12,7 @@
       class="row-container g-4 items-center pointer"
       (click)="toggleProfileClick()"
     >
-      <img class="avatar" [src]="userData.avatar" alt="User Profile Avatar" />
+      <img class="avatar" [src]="userData.avatar" alt="User Profile Avatar"/>
 
       <svg viewBox="0 0 448 512" class="svg" *ngIf="!isExpanded">
         <path
@@ -53,6 +53,6 @@
 <!-- Child Routes of this Module -->
 <main class="flex-1 row-container justify-center">
   <div class="outer-container row-container justify-center">
-    <router-outlet />
+    <router-outlet/>
   </div>
 </main>

@@ -35,7 +35,7 @@
 .dropdown-nav-parent {
   position: absolute;
   top: 100%;
-  right: 0%;
+  right: 0;
 
   width: 200px;
   z-index: 10;
