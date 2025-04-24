@@ -1,0 +1,26 @@
+<!-- Input Container Box -->
+<div class="input-container col-container p-4 g-8">
+  <!--  This is the input field -->
+  <input
+    class="input-element flex-1"
+    type="text"
+    placeholder="Enter Tag to Search"
+    [(ngModel)]="userInput"
+    (click)="onSearchFieldClick()"
+    (keyup)="onTagFilter()"
+  />
+
+  <!--  This is the dropdown option list -->
+  <div
+    class="dropdown-container card-container col-container p-8 hide-scrollbar"
+    *ngIf="showDropDown"
+  >
+    <div
+      class="dropdown-option p-8 hover-variant body-text muted-text"
+      *ngFor="let tag of filteredTagList"
+      (click)="onDropdownChosen(tag.name)"
+    >
+      {{ tag.name }}
+    </div>
+  </div>
+</div>

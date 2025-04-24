@@ -13,6 +13,7 @@ import { ThreadCardComponent } from './components/thread-card/thread-card.compon
 import { CommentCardComponent } from './components/comment-card/comment-card.component';
 import { guestGuard } from '../shared/guards/guest.guard';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { TagSearchSelectComponent } from './components/tag-search-select/tag-search-select.component';
 
 // These are the routes for the threads module
 const threadRoutes: Routes = [
@@ -44,6 +45,7 @@ const threadRoutes: Routes = [
     HomeComponent,
     ThreadCardComponent,
     CommentCardComponent,
+    TagSearchSelectComponent,
   ],
   imports: [
     CommonModule,
