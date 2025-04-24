@@ -28,6 +28,7 @@
     - [1️⃣ Clone the Repository](#1️⃣-clone-the-repository)
     - [2️⃣ Open the Project Directory](#2️⃣-open-the-project-directory)
     - [3️⃣ Build \& Run Using Docker (Recommended)](#3️⃣-build--run-using-docker-recommended)
+    - [4️⃣ Stop the docker containers when done](#4️⃣-stop-the-docker-containers-when-done)
     - [⚡What Does Docker Compose Do?](#what-does-docker-compose-do)
     - [✅ Post-Installation](#-post-installation)
   - [👨‍💻 Author](#-author)
@@ -176,13 +177,25 @@ docker-compose build
 **Start the ollama instance :** On its initial run, it downloads the Mistral model `~4GB`, which may take some time. Only run this the first time to pull and prepare the model.
 
 ```bash
-docker-compose up ollama
+docker-compose up -d ollama
+docker logs -f --tail 100 ollama
 ```
 
-**Now, start the remaining containers in detached mode:** - Run this after the Ollama Mistral model has finished downloading.
+**Note :** Keep in mind that after running this command the download would start and you should run the steps once the download is completed.
+
+**Now, stop and then restart the remaining containers in detached mode:** - Run this after the Ollama Mistral model has finished downloading.
 
 ```bash
+# Get out of the previous Process Using Ctrl + C first
 docker-compose up -d
+```
+
+### 4️⃣ Stop the docker containers when done
+
+**Stop the Docker containers :** Make sure you stop the docker container and the docker desktop when you are done.
+
+```bash
+docker stop $(docker ps -q)
 ```
 
 ### ⚡What Does Docker Compose Do?
