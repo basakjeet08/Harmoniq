@@ -4,7 +4,6 @@ import { ApiErrorHandlerService } from './api-error-handler.service';
 import { ProfileService } from './profile.service';
 import { TagInterface } from '../interfaces/TagInterface';
 import { catchError, map, Observable } from 'rxjs';
-import { PageWrapper } from '../Models/common/PageWrapper';
 import { TagDto } from '../Models/tag/TagDto';
 import { FETCH_ALL_TAGS_ENDPOINT } from '../constants/url-constants';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
@@ -37,14 +36,12 @@ export class TagService implements TagInterface {
   }
 
   // This function fetches all the tags
-  fetchAllTags(pageable: { page: number; size: number }): Observable<PageWrapper<TagDto>> {
-    let url: string = FETCH_ALL_TAGS_ENDPOINT;
-    url = url.replace(':page', pageable.page.toString());
-    url = url.replace(':size', pageable.size.toString());
-
-    return this.http.get<ResponseWrapper<PageWrapper<TagDto>>>(url, this.getHeaders()).pipe(
-      map((response) => response.data),
-      catchError(this.apiErrorHandler.handleApiError),
-    );
+  fetchAllTags(): Observable<TagDto[]> {
+    return this.http
+      .get<ResponseWrapper<TagDto[]>>(FETCH_ALL_TAGS_ENDPOINT, this.getHeaders())
+      .pipe(
+        map((response) => response.data),
+        catchError(this.apiErrorHandler.handleApiError),
+      );
   }
 }
