@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface InterestRepository extends JpaRepository<Interest, String> {
-    // This function fetches all the interests of a user
-    List<Interest> findInterestByUser_EmailOrderByScoreDesc(String userEmail);
-
     // This function fetches the interests which align with the given tags
     List<Interest> findByUserAndTagIn(User user, List<Tag> tags);
 

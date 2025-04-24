@@ -97,6 +97,7 @@ public class InterestService {
 
     // This function is a cron job that clears all the un - wanted interests
     @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
     public void clearUnwantedInterest() {
         List<Interest> interestList = interestRepo.findByScore(0);
 
