@@ -27,7 +27,7 @@ export class FeedComponent implements OnInit {
 
   // Paging data values
   page: number = 0;
-  pageSize: number = 2;
+  pageSize: number = 10;
   lastPage: boolean = false;
 
   // Injecting the necessary dependencies
@@ -70,10 +70,20 @@ export class FeedComponent implements OnInit {
 
         // Showing the info if we don't find any relevant data
         if (this.threadList.length === 0) {
-          this.toastService.showToast({
-            type: 'info',
-            message: `There are no Threads Posted yet. Head over to the post a thread section to post your first Thread !!`,
-          });
+          // If the user is new then he won't have any personalised thread hence we show his popular ones
+          if (this.fetchType === 'PERSONALISED' && this.page === 1) {
+            this.onFetchTypeChange('POPULAR');
+
+            this.toastService.showToast({
+              type: 'info',
+              message: `We are yet to figure your personalized feed !! Please explore while we create your personalised feed`,
+            });
+          } else {
+            this.toastService.showToast({
+              type: 'info',
+              message: `There are no Threads Posted yet. Head over to the post a thread section to post your first Thread !!`,
+            });
+          }
         }
       },
 
