@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -108,6 +110,11 @@ public class TagService {
     // This function fetches all the tags from the database
     private List<Tag> fetchAllTags() {
         return tagRepo.findAll();
+    }
+
+    // This Function returns all the tags (Paginated)
+    public Page<Tag> fetchAllTags(Pageable pageable) {
+        return tagRepo.findAll(pageable);
     }
 
     // This function deletes the unused tags automatically

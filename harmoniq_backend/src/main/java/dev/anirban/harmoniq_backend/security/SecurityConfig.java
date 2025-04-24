@@ -65,6 +65,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
                         .requestMatchers(HttpMethod.DELETE, UrlConstants.DELETE_THREAD_BY_ID_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 
+                        // Tag Endpoint
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_ALL_TAGS).authenticated()
+
                         // Like Endpoint
                         .requestMatchers(HttpMethod.POST, UrlConstants.TOGGLE_LIKE_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
 

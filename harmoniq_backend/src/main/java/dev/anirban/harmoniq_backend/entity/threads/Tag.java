@@ -1,5 +1,6 @@
 package dev.anirban.harmoniq_backend.entity.threads;
 
+import dev.anirban.harmoniq_backend.dto.tag.TagDto;
 import dev.anirban.harmoniq_backend.entity.user.Interest;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,4 +32,12 @@ public class Tag {
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("score DESC")
     private List<Interest> interests;
+
+    public TagDto toTagDto() {
+        return TagDto
+                .builder()
+                .id(id)
+                .name(name)
+                .build();
+    }
 }

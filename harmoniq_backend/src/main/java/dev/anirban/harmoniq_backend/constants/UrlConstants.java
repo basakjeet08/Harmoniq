@@ -26,6 +26,9 @@ public class UrlConstants {
     public static final String FETCH_CURRENT_USER_THREADS_ENDPOINT = "/api/users/me/threads";
     public static final String DELETE_THREAD_BY_ID_ENDPOINT = "/api/threads/{id}";
 
+    // Tag Endpoints
+    public static final String FETCH_ALL_TAGS = "/api/tags";
+
     // Like Endpoints
     public static final String TOGGLE_LIKE_ENDPOINT = "/api/threads/{threadId}/likes";
 
