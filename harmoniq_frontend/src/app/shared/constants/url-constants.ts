@@ -26,6 +26,9 @@ export const FETCH_THREAD_TYPE_POPULAR_ENDPOINT = `${BASE_URL}/threads/popular?p
 export const FETCH_CURRENT_USER_THREADS_ENDPOINT = `${BASE_URL}/users/me/threads?page=:page&size=:size`;
 export const DELETE_THREAD_BY_ID_ENDPOINT = `${BASE_URL}/threads/:id`;
 
+// Tag Endpoints
+export const FETCH_ALL_TAGS_ENDPOINT = `${BASE_URL}/tags?page=:page&size=:size`;
+
 // Like Endpoints
 export const TOGGLE_LIKE_ENDPOINTS = `${BASE_URL}/threads/:id/likes`;
 
