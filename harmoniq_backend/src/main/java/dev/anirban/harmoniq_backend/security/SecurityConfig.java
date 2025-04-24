@@ -70,6 +70,7 @@ public class SecurityConfig {
 
                         // Comment Endpoints
                         .requestMatchers(HttpMethod.POST, UrlConstants.CREATE_COMMENT_ENDPOINT).hasAnyAuthority(User.Type.MODERATOR.toString(), User.Type.MEMBER.toString())
+                        .requestMatchers(HttpMethod.GET, UrlConstants.FETCH_ALL_COMMENTS_FOR_THREAD_ENDPOINT).authenticated()
 
                         // Requests for public static resources are permitted
                         .requestMatchers("/avatars/**").permitAll()

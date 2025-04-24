@@ -31,6 +31,7 @@ public class UrlConstants {
 
     // Comment Endpoints
     public static final String CREATE_COMMENT_ENDPOINT = "/api/threads/{threadId}/comments";
+    public static final String FETCH_ALL_COMMENTS_FOR_THREAD_ENDPOINT = "/api/threads/{id}/comments";
 
     // Conversation Endpoints
     public static final String CREATE_CONVERSATION_ENDPOINT = "/api/conversations";

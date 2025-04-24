@@ -1,7 +1,6 @@
 package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
-import dev.anirban.harmoniq_backend.dto.thread.ThreadDetailsResponse;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
@@ -75,8 +74,11 @@ public class ThreadController {
 
     // This function handle fetch the thread by id Requests
     @GetMapping(UrlConstants.FETCH_THREAD_BY_ID_ENDPOINT)
-    public ResponseWrapper<ThreadDetailsResponse> handleFindThreadByIdRequest(@PathVariable String id) {
-        ThreadDetailsResponse threadDto = ThreadDetailsResponse.generateThreadDetailsResponse(service.findById(id));
+    public ResponseWrapper<ThreadDto> handleFindThreadByIdRequest(@PathVariable String id) {
+        ThreadDto threadDto = service
+                .findById(id)
+                .toThreadDto();
+
         return new ResponseWrapper<>("Thread data fetched Successfully !!", threadDto);
     }
 
