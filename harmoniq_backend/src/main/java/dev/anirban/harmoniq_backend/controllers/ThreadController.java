@@ -2,7 +2,6 @@ package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDetailsResponse;
-import dev.anirban.harmoniq_backend.dto.thread.ThreadHistoryResponse;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadRequest;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
 import dev.anirban.harmoniq_backend.dto.thread.ThreadDto;
@@ -14,8 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -85,12 +82,16 @@ public class ThreadController {
 
     // This function fetches the threads of the current user
     @GetMapping(UrlConstants.FETCH_CURRENT_USER_THREADS_ENDPOINT)
-    public ResponseWrapper<ThreadHistoryResponse> handleCurrentUserThreadsRequest(
-            @AuthenticationPrincipal UserDetails userDetails
+    public ResponseWrapper<Page<ThreadDto>> handleCurrentUserThreadsRequest(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        List<Thread> threadList = service.findByCreatedBy_Email(userDetails);
-        ThreadHistoryResponse response = ThreadHistoryResponse.generateThreadHistoryResponse(threadList);
-        return new ResponseWrapper<>("Thread history of the given user is successful !!", response);
+        Page<ThreadDto> threadDtoPage = service
+                .findByCreatedBy_Email(userDetails, PageRequest.of(page, size))
+                .map(Thread::toThreadDto);
+
+        return new ResponseWrapper<>("Thread history of the given user is successful !!", threadDtoPage);
     }
 
     // This function deleted the given thread

@@ -91,7 +91,7 @@ public class InterestService {
     }
 
     // This function fetches all the user interests
-    public List<Interest> findAllUserInterest(User user, List<Tag> tags) {
+    private List<Interest> findAllUserInterest(User user, List<Tag> tags) {
         return interestRepo.findByUserAndTagIn(user, tags);
     }
 

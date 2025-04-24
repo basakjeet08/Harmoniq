@@ -6,12 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-
 public interface ThreadRepository extends JpaRepository<Thread, String> {
 
     // Finding threads created by a specific User and in descending order of created at time
-    List<Thread> findByCreatedBy_EmailOrderByCreatedAtDesc(String createdByEmail);
+    Page<Thread> findByCreatedBy_EmailOrderByCreatedAtDesc(String createdByEmail, Pageable pageable);
 
     // Finding threads based on the tag names
     Page<Thread> findThreadByThreadTags_Tag_NameContainingIgnoreCaseOrderByCreatedAtDesc(String tagName, Pageable pageable);

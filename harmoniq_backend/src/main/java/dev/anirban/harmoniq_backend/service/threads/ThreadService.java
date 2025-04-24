@@ -72,8 +72,8 @@ public class ThreadService {
     }
 
     // This function fetches the threads which are created by the specified user
-    public List<Thread> findByCreatedBy_Email(UserDetails userDetails) {
-        return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername());
+    public Page<Thread> findByCreatedBy_Email(UserDetails userDetails, Pageable pageable) {
+        return threadRepo.findByCreatedBy_EmailOrderByCreatedAtDesc(userDetails.getUsername(), pageable);
     }
 
     // This function fetches the threads by the tag name in descending order of created At
