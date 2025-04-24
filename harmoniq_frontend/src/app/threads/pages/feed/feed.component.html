@@ -7,24 +7,20 @@
     [disabled]="loaderState"
     (click)="onFetchTypeChange(item)"
   >
-    <ng-container *ngIf="item === 'TAG_BASED'"> Search for threads </ng-container>
+    <ng-container *ngIf="item === 'TAG_BASED'"> Search for threads</ng-container>
 
-    <ng-container *ngIf="item === 'PERSONALISED'"> Check Personalised Threads </ng-container>
+    <ng-container *ngIf="item === 'PERSONALISED'"> Check Personalised Threads</ng-container>
 
-    <ng-container *ngIf="item === 'POPULAR'"> Explore Popular Threads </ng-container>
+    <ng-container *ngIf="item === 'POPULAR'"> Explore Popular Threads</ng-container>
   </button>
 </div>
 
 <!-- This is the Component which draws the Search Input -->
-<div class="input-container" *ngIf="fetchType === 'TAG_BASED'">
-  <app-input
-    [placeholder]="'Enter the tag to search'"
-    [buttonText]="'Search'"
-    [type]="'text'"
-    (onButtonClick)="onSearchClick($event)"
-    [disabled]="loaderState"
-  />
-</div>
+<app-tag-search-select
+  class="input-container"
+  *ngIf="fetchType === 'TAG_BASED'"
+  (onButtonClick)="onSearchClick($event)"
+/>
 
 <!-- This is the Thread list container -->
 <div

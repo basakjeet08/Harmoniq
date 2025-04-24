@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -85,5 +86,15 @@ public class ConversationService {
 
         if (rowsDeleted != 1)
             throw new UnAuthorized();
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
+    public void deleteExpiredGuests() {
+        LocalDateTime expiredTime = LocalDateTime.now().minusDays(14);
+
+        // Find all the guest accounts which have expired
+        int rows = conversationRepo.deleteAllByCreatedAtBefore(expiredTime);
+        log.info("(|) - Checking for expired conversations and deleted {} conversations", rows);
     }
 }

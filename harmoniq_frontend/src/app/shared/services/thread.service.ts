@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { ApiErrorHandlerService } from './api-error-handler.service';
 import { ThreadInterface } from '../interfaces/ThreadInterface';
 import { catchError, map, Observable } from 'rxjs';
-import { ThreadDetailResponse } from '../Models/thread/ThreadDetailResponse';
 import { ThreadDto } from '../Models/thread/ThreadDto';
-import { ThreadHistoryItem, ThreadHistoryResponse } from '../Models/thread/ThreadHistoryResponse';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 import {
   CREATE_THREAD_ENDPOINT,
@@ -54,9 +52,7 @@ export class ThreadService implements ThreadInterface {
   }
 
   // This function updates the thread if it's liked by current user
-  private updateLikedByCurrentUser<T extends ThreadDto | ThreadDetailResponse | ThreadHistoryItem>(
-    threadDto: T,
-  ): T {
+  private updateLikedByCurrentUser<T extends ThreadDto>(threadDto: T): T {
     return {
       ...threadDto,
       isLikedByCurrentUser: threadDto.likedByUserIds.includes(this.user.id!),
@@ -74,10 +70,10 @@ export class ThreadService implements ThreadInterface {
   }
 
   // This function fetches the single thread Data from the backend
-  findById(id: string): Observable<ThreadDetailResponse> {
+  findById(id: string): Observable<ThreadDto> {
     const url: string = FETCH_THREAD_BY_ID_ENDPOINT.replace(':id', id);
 
-    return this.http.get<ResponseWrapper<ThreadDetailResponse>>(url, this.getHeaders()).pipe(
+    return this.http.get<ResponseWrapper<ThreadDto>>(url, this.getHeaders()).pipe(
       map((response) => this.updateLikedByCurrentUser(response.data)),
       catchError(this.apiErrorHandler.handleApiError),
     );
@@ -140,21 +136,21 @@ export class ThreadService implements ThreadInterface {
   }
 
   // This function fetches the current user thread post history
-  fetchThreadHistory(): Observable<ThreadHistoryResponse> {
-    return this.http
-      .get<
-        ResponseWrapper<ThreadHistoryResponse>
-      >(FETCH_CURRENT_USER_THREADS_ENDPOINT, this.getHeaders())
-      .pipe(
-        map((response) => {
-          response.data.threadList = response.data.threadList.map((thread) =>
-            this.updateLikedByCurrentUser(thread),
-          );
+  fetchThreadHistory(pageable: { page: number; size: number }): Observable<PageWrapper<ThreadDto>> {
+    let url: string = FETCH_CURRENT_USER_THREADS_ENDPOINT;
+    url = url.replace(':page', pageable.page.toString());
+    url = url.replace(':size', pageable.size.toString());
 
-          return response.data;
-        }),
-        catchError(this.apiErrorHandler.handleApiError),
-      );
+    return this.http.get<ResponseWrapper<PageWrapper<ThreadDto>>>(url, this.getHeaders()).pipe(
+      map((response) => {
+        response.data.content = response.data.content.map((thread) =>
+          this.updateLikedByCurrentUser(thread),
+        );
+
+        return response.data;
+      }),
+      catchError(this.apiErrorHandler.handleApiError),
+    );
   }
 
   // This function toggles the like status for the given thread

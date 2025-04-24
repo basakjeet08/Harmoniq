@@ -26,11 +26,15 @@ public class UrlConstants {
     public static final String FETCH_CURRENT_USER_THREADS_ENDPOINT = "/api/users/me/threads";
     public static final String DELETE_THREAD_BY_ID_ENDPOINT = "/api/threads/{id}";
 
+    // Tag Endpoints
+    public static final String FETCH_ALL_TAGS = "/api/tags";
+
     // Like Endpoints
     public static final String TOGGLE_LIKE_ENDPOINT = "/api/threads/{threadId}/likes";
 
     // Comment Endpoints
     public static final String CREATE_COMMENT_ENDPOINT = "/api/threads/{threadId}/comments";
+    public static final String FETCH_ALL_COMMENTS_FOR_THREAD_ENDPOINT = "/api/threads/{id}/comments";
 
     // Conversation Endpoints
     public static final String CREATE_CONVERSATION_ENDPOINT = "/api/conversations";

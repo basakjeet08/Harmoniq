@@ -15,7 +15,7 @@ if ollama list | grep -q "mistral"; then
 else
     echo "(/) Retrieving the Model..."
     ollama pull mistral
-    echo "(/) Model Pulled Successfully!"
+    echo "(/) Model Pulled Successfully! You can stop this process now using Ctrl + C"
 fi
 
 # Keep the container running

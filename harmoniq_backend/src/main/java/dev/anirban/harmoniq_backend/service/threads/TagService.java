@@ -111,7 +111,7 @@ public class TagService {
     }
 
     // This function deletes the unused tags automatically
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void deleteUnusedTags() {
         List<Tag> unusedTags = tagRepo.findByThreadTagsIsEmpty();

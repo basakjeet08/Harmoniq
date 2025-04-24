@@ -1,13 +1,11 @@
 import { Observable } from 'rxjs';
 import { ThreadDto } from '../Models/thread/ThreadDto';
-import { ThreadDetailResponse } from '../Models/thread/ThreadDetailResponse';
-import { ThreadHistoryResponse } from '../Models/thread/ThreadHistoryResponse';
 import { PageWrapper } from '../Models/common/PageWrapper';
 
 export interface ThreadInterface {
   create(thread: { description: string }): Observable<ThreadDto>;
 
-  findById(id: string): Observable<ThreadDetailResponse>;
+  findById(id: string): Observable<ThreadDto>;
 
   findThreadsByTag(
     tag: string,
@@ -21,7 +19,7 @@ export interface ThreadInterface {
 
   findPopularThreads(pageable: { page: number; size: number }): Observable<PageWrapper<ThreadDto>>;
 
-  fetchThreadHistory(): Observable<ThreadHistoryResponse>;
+  fetchThreadHistory(pageable: { page: number; size: number }): Observable<PageWrapper<ThreadDto>>;
 
   toggleThreadLike(threadId: string): Observable<void>;
 

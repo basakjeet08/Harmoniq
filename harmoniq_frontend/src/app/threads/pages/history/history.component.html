@@ -1,15 +1,21 @@
 <h2 class="align-start">Your Thread History Page . . .</h2>
 
 <!-- This is the History Thread list container -->
-<div class="w-full col-container g-16" [@staggerAnimation]="threadList.length">
+<div
+  class="w-full col-container g-16"
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  (scrolled)="loadMoreThreads()"
+  [@staggerAnimation]="threadList.length"
+>
   <!-- Each Thread Component -->
   <div class="w-full col-container items-center g-16" *ngFor="let thread of threadList">
     <!-- Thread Card Content -->
     <app-thread-card
-      *ngIf="createdByUser"
-      [createdBy]="createdByUser"
+      *ngIf="thread.createdBy"
       [threadId]="thread.id"
       [description]="thread.description"
+      [createdBy]="thread.createdBy"
       [tagList]="thread.tags"
       [totalLikes]="thread.totalLikes"
       [totalComments]="thread.totalComments"

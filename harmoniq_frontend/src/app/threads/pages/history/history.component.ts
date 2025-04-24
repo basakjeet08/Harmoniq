@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
-import {
-  ThreadHistoryItem,
-  ThreadHistoryResponse,
-} from 'src/app/shared/Models/thread/ThreadHistoryResponse';
-import { UserDto } from 'src/app/shared/Models/user/UserDto';
 import { ThreadService } from 'src/app/shared/services/thread.service';
+import { ThreadDto } from '../../../shared/Models/thread/ThreadDto';
+import { PageWrapper } from '../../../shared/Models/common/PageWrapper';
 
 @Component({
   selector: 'app-history',
@@ -16,34 +13,46 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
   animations: [staggerAnimation],
 })
 export class HistoryComponent implements OnInit {
-  // This is the thread list and user data for the component
-  threadList: ThreadHistoryItem[] = [];
-  createdByUser: UserDto | null = null;
+  // This is the data for the component
+  threadList: ThreadDto[] = [];
+  loaderState!: boolean;
+
+  // Paging data values
+  page: number = 0;
+  pageSize: number = 10;
+  lastPage: boolean = false;
 
   // Injecting the necessary dependencies
   constructor(
     private threadService: ThreadService,
     private toastService: ToastService,
     private loaderService: LoaderService,
-  ) {}
+  ) {
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
+  }
 
   // Fetching the history thread list when the component is loaded
   ngOnInit(): void {
-    this.fetchThreadHistory();
+    this.loadMoreThreads();
   }
 
   // This function fetches the history data from the API
-  fetchThreadHistory(): void {
+  loadMoreThreads(): void {
+    if (this.loaderState || this.lastPage) return;
+
     // Setting the loading state
     this.loaderService.startLoading();
 
     // Calling the API
-    this.threadService.fetchThreadHistory().subscribe({
+    this.threadService.fetchThreadHistory({ page: this.page, size: this.pageSize }).subscribe({
       // Success State
-      next: (threadHistory: ThreadHistoryResponse) => {
+      next: (pageWrapper: PageWrapper<ThreadDto>) => {
         this.loaderService.endLoading();
-        this.threadList = threadHistory.threadList;
-        this.createdByUser = threadHistory.createdBy;
+
+        // Updating the data
+        this.threadList.push(...pageWrapper.content);
+        this.page = pageWrapper.pageable.pageNumber + 1;
+        this.lastPage = pageWrapper.last;
 
         // Checking if the database is empty
         if (!this.threadList || this.threadList.length === 0) {
@@ -73,12 +82,13 @@ export class HistoryComponent implements OnInit {
       next: () => {
         this.loaderService.endLoading();
 
+        // Updating the current list without calling the loading api again
+        this.threadList = this.threadList.filter((thread) => thread.id !== id);
+
         this.toastService.showToast({
           type: 'success',
           message: 'Thread deleted successfully !!',
         });
-
-        this.fetchThreadHistory();
       },
 
       // Error State

@@ -89,9 +89,9 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(cron = "0 0 12 * * *")
     public void deleteExpiredGuests() {
-        LocalDateTime expiredTime = LocalDateTime.now().minusHours(1);
+        LocalDateTime expiredTime = LocalDateTime.now().minusDays(14);
 
         // Find all the guest accounts which have expired
         List<User> expiredGuests = userRepo.findByRoleAndCreatedAtBefore(User.Type.GUEST, expiredTime);

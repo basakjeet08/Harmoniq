@@ -91,12 +91,13 @@ public class InterestService {
     }
 
     // This function fetches all the user interests
-    public List<Interest> findAllUserInterest(User user, List<Tag> tags) {
+    private List<Interest> findAllUserInterest(User user, List<Tag> tags) {
         return interestRepo.findByUserAndTagIn(user, tags);
     }
 
     // This function is a cron job that clears all the un - wanted interests
     @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
     public void clearUnwantedInterest() {
         List<Interest> interestList = interestRepo.findByScore(0);
 

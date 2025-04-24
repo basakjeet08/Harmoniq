@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
-import { ThreadDetailResponse } from 'src/app/shared/Models/thread/ThreadDetailResponse';
 import { Roles } from 'src/app/shared/Models/user/Roles';
 import { CommentService } from 'src/app/shared/services/comment.service';
 import { ProfileService } from 'src/app/shared/services/profile.service';
 import { ThreadService } from 'src/app/shared/services/thread.service';
+import { ThreadDto } from '../../../shared/Models/thread/ThreadDto';
+import { CommentDto } from '../../../shared/Models/comment/CommentDto';
+import { PageWrapper } from '../../../shared/Models/common/PageWrapper';
 
 @Component({
   selector: 'app-details',
@@ -19,8 +21,14 @@ import { ThreadService } from 'src/app/shared/services/thread.service';
 export class DetailsComponent implements OnInit {
   // This is the data for the component
   isGuest: boolean = false;
-  threadDetail: ThreadDetailResponse | null = null;
+  threadDetail: ThreadDto | null = null;
+  commentList: CommentDto[] = [];
   loaderState!: boolean;
+
+  // Paging data values
+  page: number = 0;
+  pageSize: number = 10;
+  lastPage: boolean = false;
 
   // Child Input Component
   @ViewChild(InputComponent) input!: InputComponent;
@@ -44,22 +52,23 @@ export class DetailsComponent implements OnInit {
     const threadId = this.route.snapshot.params['id'];
 
     // Checking if there is a thread ID provided
-    if (threadId) {
-      this.fetchThreadData(threadId);
-    }
+    this.loadThreadData(threadId);
   }
 
   // This function fetches the thread Details from the API Call
-  fetchThreadData(threadId: string): void {
+  loadThreadData(threadId: string): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
     // Calling the Api
     this.threadService.findById(threadId).subscribe({
       // Success State
-      next: (threadDetail: ThreadDetailResponse) => {
+      next: (threadDetail: ThreadDto) => {
         this.loaderService.endLoading();
         this.threadDetail = threadDetail;
+
+        // Loading the initial Comments
+        this.loadMoreComments();
       },
 
       // Error State
@@ -68,6 +77,37 @@ export class DetailsComponent implements OnInit {
         this.toastService.showToast({ type: 'error', message: error.message });
       },
     });
+  }
+
+  loadMoreComments(): void {
+    if (this.loaderState || this.lastPage) return;
+
+    // Setting the loading state
+    this.loaderService.startLoading();
+
+    // Calling the API
+    this.commentService
+      .findCommentsForThread(this.threadDetail!.id, {
+        page: this.page,
+        size: this.pageSize,
+      })
+      .subscribe({
+        //   Success State
+        next: (pageWrapper: PageWrapper<CommentDto>) => {
+          this.loaderService.endLoading();
+
+          // Updating the data and page values
+          this.commentList.push(...pageWrapper.content);
+          this.page = pageWrapper.pageable.pageNumber + 1;
+          this.lastPage = pageWrapper.last;
+        },
+
+        // Error State
+        error: (error: Error) => {
+          this.loaderService.endLoading();
+          this.toastService.showToast({ type: 'error', message: error.message });
+        },
+      });
   }
 
   // This function is invoked when the user clicks on the comment button
@@ -87,7 +127,12 @@ export class DetailsComponent implements OnInit {
         });
 
         this.input.resetComponent();
-        this.fetchThreadData(this.threadDetail!.id);
+
+        // Resetting the comments to fetch again
+        this.page = 0;
+        this.lastPage = false;
+        this.commentList = [];
+        this.loadMoreComments();
       },
 
       // Error State
