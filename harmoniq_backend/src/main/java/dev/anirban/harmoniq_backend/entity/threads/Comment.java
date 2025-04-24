@@ -1,6 +1,7 @@
-package dev.anirban.harmoniq_backend.entity;
+package dev.anirban.harmoniq_backend.entity.threads;
 
 import dev.anirban.harmoniq_backend.dto.comment.CommentDto;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;

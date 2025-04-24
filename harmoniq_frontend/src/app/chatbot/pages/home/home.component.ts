@@ -8,12 +8,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class HomeComponent {
   // Injecting the required dependencies
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   // This function is invoked when the user clicks on the get started button
-  onGetStartedClick() {
-    this.router.navigate(['../', 'conversation-list'], {
-      relativeTo: this.route,
-    });
+  onGetStartedClick(): void {
+    this.router
+      .navigate(['../', 'conversation-list'], {
+        relativeTo: this.route,
+      })
+      .then();
   }
 }

@@ -3,10 +3,7 @@
 <!-- This is the History Thread list container -->
 <div class="w-full col-container g-16" [@staggerAnimation]="threadList.length">
   <!-- Each Thread Component -->
-  <div
-    class="w-full col-container items-center g-16"
-    *ngFor="let thread of threadList"
-  >
+  <div class="w-full col-container items-center g-16" *ngFor="let thread of threadList">
     <!-- Thread Card Content -->
     <app-thread-card
       *ngIf="createdByUser"

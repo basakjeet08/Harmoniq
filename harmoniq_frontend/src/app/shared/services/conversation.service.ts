@@ -3,7 +3,7 @@ import {
   DELETE_CONVERSATION_ENDPOINT,
   FETCH_CONVERSATION_HISTORY,
   FETCH_USER_CONVERSATIONS,
-} from './../constants/url-constants';
+} from '../constants/url-constants';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiErrorHandlerService } from './api-error-handler.service';
@@ -24,7 +24,7 @@ export class ConversationService implements ConversationInterface {
   constructor(
     private http: HttpClient,
     private apiErrorHandler: ApiErrorHandlerService,
-    profileService: ProfileService
+    profileService: ProfileService,
   ) {
     // Storing the token in the variable
     this.token = profileService.getUser()?.token || 'Invalid Token';
@@ -45,14 +45,12 @@ export class ConversationService implements ConversationInterface {
   // This function creates a new Conversation window
   create(conversationRequest: { title: string }): Observable<ConversationDto> {
     return this.http
-      .post<ResponseWrapper<ConversationDto>>(
-        CREATE_CONVERSATION_ENDPOINT,
-        conversationRequest,
-        this.getHeaders()
-      )
+      .post<
+        ResponseWrapper<ConversationDto>
+      >(CREATE_CONVERSATION_ENDPOINT, conversationRequest, this.getHeaders())
       .pipe(
         map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
+        catchError(this.apiErrorHandler.handleApiError),
       );
   }
 
@@ -61,52 +59,41 @@ export class ConversationService implements ConversationInterface {
     page: number;
     size: number;
   }): Observable<PageWrapper<ConversationDto>> {
-    // Page Data
-    const pageString = pageable.page.toString();
-    const pageSize = pageable.size.toString();
+    let url: string = FETCH_USER_CONVERSATIONS;
+    url = url.replace(':page', pageable.page.toString());
+    url = url.replace(':size', pageable.size.toString());
 
     return this.http
-      .get<ResponseWrapper<PageWrapper<ConversationDto>>>(
-        FETCH_USER_CONVERSATIONS.replace(':page', pageString).replace(
-          ':size',
-          pageSize
-        ),
-        this.getHeaders()
-      )
+      .get<ResponseWrapper<PageWrapper<ConversationDto>>>(url, this.getHeaders())
       .pipe(
         map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
+        catchError(this.apiErrorHandler.handleApiError),
       );
   }
 
   // This function fetches the conversation history from the backend
   findConversationHistory(
     id: string,
-    pageable: { page: number; size: number }
+    pageable: { page: number; size: number },
   ): Observable<PageWrapper<ChatMessageDto>> {
-    return this.http
-      .get<ResponseWrapper<PageWrapper<ChatMessageDto>>>(
-        FETCH_CONVERSATION_HISTORY.replace(':id', id)
-          .replace(':page', pageable.page.toString())
-          .replace(':size', pageable.size.toString()),
-        this.getHeaders()
-      )
-      .pipe(
-        map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
-      );
+    let url: string = FETCH_CONVERSATION_HISTORY;
+    url = url.replace(':id', id);
+    url = url.replace(':page', pageable.page.toString());
+    url = url.replace(':size', pageable.size.toString());
+
+    return this.http.get<ResponseWrapper<PageWrapper<ChatMessageDto>>>(url, this.getHeaders()).pipe(
+      map((response) => response.data),
+      catchError(this.apiErrorHandler.handleApiError),
+    );
   }
 
   // This function deletes the given conversation from the database
   deleteById(id: string): Observable<void> {
-    return this.http
-      .delete<ResponseWrapper<void>>(
-        DELETE_CONVERSATION_ENDPOINT.replace(':id', id),
-        this.getHeaders()
-      )
-      .pipe(
-        map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
-      );
+    const url: string = DELETE_CONVERSATION_ENDPOINT.replace(':id', id);
+
+    return this.http.delete<ResponseWrapper<void>>(url, this.getHeaders()).pipe(
+      map((response) => response.data),
+      catchError(this.apiErrorHandler.handleApiError),
+    );
   }
 }

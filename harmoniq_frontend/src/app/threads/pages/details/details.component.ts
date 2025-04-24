@@ -1,4 +1,4 @@
-import { InputComponent } from './../../../shared/components/input/input.component';
+import { InputComponent } from '../../../shared/components/input/input.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { staggerAnimation } from 'src/app/shared/animations/stagger-animation';
@@ -32,11 +32,9 @@ export class DetailsComponent implements OnInit {
     private commentService: CommentService,
     private toastService: ToastService,
     private loaderService: LoaderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
   }
 
   // Fetching the thread id and then fetching its details
@@ -52,7 +50,7 @@ export class DetailsComponent implements OnInit {
   }
 
   // This function fetches the thread Details from the API Call
-  fetchThreadData(threadId: string) {
+  fetchThreadData(threadId: string): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
@@ -73,35 +71,33 @@ export class DetailsComponent implements OnInit {
   }
 
   // This function is invoked when the user clicks on the comment button
-  onCommentClick(comment: string) {
+  onCommentClick(comment: string): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
     // Calling the api to create a comment
-    this.commentService
-      .create({ comment, threadId: this.threadDetail!.id })
-      .subscribe({
-        // Success state
-        next: () => {
-          this.loaderService.endLoading();
+    this.commentService.create({ comment, threadId: this.threadDetail!.id }).subscribe({
+      // Success state
+      next: () => {
+        this.loaderService.endLoading();
 
-          this.toastService.showToast({
-            type: 'success',
-            message: 'New comment is added to this thread !!',
-          });
+        this.toastService.showToast({
+          type: 'success',
+          message: 'New comment is added to this thread !!',
+        });
 
-          this.input.resetComponent();
-          this.fetchThreadData(this.threadDetail!.id);
-        },
+        this.input.resetComponent();
+        this.fetchThreadData(this.threadDetail!.id);
+      },
 
-        // Error State
-        error: (error: Error) => {
-          this.loaderService.endLoading();
-          this.toastService.showToast({
-            type: 'error',
-            message: error.message,
-          });
-        },
-      });
+      // Error State
+      error: (error: Error) => {
+        this.loaderService.endLoading();
+        this.toastService.showToast({
+          type: 'error',
+          message: error.message,
+        });
+      },
+    });
   }
 }

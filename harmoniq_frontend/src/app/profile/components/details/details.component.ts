@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/shared/components/loader/loader.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
@@ -12,9 +12,9 @@ import { UserService } from 'src/app/shared/services/user.service';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit {
   // Bindings with the parent component
-  @Output('onEditClick') editEmitter = new EventEmitter<void>();
+  @Output('onEditClick') editEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   // This is the data for the component
   userData: UserDto | null = null;
@@ -29,20 +29,18 @@ export class DetailsComponent {
     private loaderService: LoaderService,
     private toastService: ToastService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
   }
 
-  // Fetching the User Details on comonent init
+  // Fetching the User Details on component init
   ngOnInit(): void {
     this.route.params.subscribe((params) => this.fetchUserData(params['id']));
   }
 
   // This function fetches the user data from the database
-  fetchUserData(userId: string) {
+  fetchUserData(userId: string): void {
     // Starting the loading state
     this.loaderService.startLoading();
 
@@ -65,7 +63,7 @@ export class DetailsComponent {
   }
 
   // This function is invoked when the user clicks on the delete button
-  onDeleteClick() {
+  onDeleteClick(): void {
     // Starting the loading state
     this.loaderService.startLoading();
 
@@ -81,7 +79,7 @@ export class DetailsComponent {
         });
 
         this.profileService.logout();
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/auth']).then();
       },
 
       // Error State
@@ -93,7 +91,7 @@ export class DetailsComponent {
   }
 
   // This function is invoked when the user clicks on the edit button
-  onEditToggle() {
+  onEditToggle(): void {
     this.editEmitter.emit();
   }
 }

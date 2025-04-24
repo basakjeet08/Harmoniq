@@ -1,5 +1,22 @@
+<!-- This is the Component which chooses which type of fetching do we want -->
+<div class="row-container g-16 items-center justify-center">
+  <button
+    *ngFor="let item of fetchFilters"
+    class="btn card-btn caption-text secondary-text row-container g-4 items-center flex-1"
+    [ngClass]="{ active: fetchType === item }"
+    [disabled]="loaderState"
+    (click)="onFetchTypeChange(item)"
+  >
+    <ng-container *ngIf="item === 'TAG_BASED'"> Search for threads </ng-container>
+
+    <ng-container *ngIf="item === 'PERSONALISED'"> Check Personalised Threads </ng-container>
+
+    <ng-container *ngIf="item === 'POPULAR'"> Explore Popular Threads </ng-container>
+  </button>
+</div>
+
 <!-- This is the Component which draws the Search Input -->
-<div class="input-container">
+<div class="input-container" *ngIf="fetchType === 'TAG_BASED'">
   <app-input
     [placeholder]="'Enter the tag to search'"
     [buttonText]="'Search'"
@@ -10,12 +27,15 @@
 </div>
 
 <!-- This is the Thread list container -->
-<div class="w-full col-container g-16" [@staggerAnimation]="threadList.length">
+<div
+  class="w-full col-container g-16"
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  (scrolled)="loadMoreFeeds()"
+  [@staggerAnimation]="threadList.length"
+>
   <!-- Each Thread Component -->
-  <div
-    class="w-full col-container items-center g-16"
-    *ngFor="let thread of threadList"
-  >
+  <div class="w-full col-container items-center g-16" *ngFor="let thread of threadList">
     <!-- Thread Card Component-->
     <app-thread-card
       [createdBy]="thread.createdBy"

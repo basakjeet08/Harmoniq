@@ -7,7 +7,7 @@ import { Observable, throwError } from 'rxjs';
 export class ApiErrorHandlerService implements ApiErrorHandlerInterface {
   handleApiError(error: HttpErrorResponse): Observable<never> {
     // Default Error Code
-    let errorMessage = 'An unknown error occurred!';
+    let errorMessage: string = 'An unknown error occurred!';
 
     // Checking if the error is a client side error or a server side
     if (error.error instanceof ErrorEvent) {
@@ -16,7 +16,7 @@ export class ApiErrorHandlerService implements ApiErrorHandlerInterface {
       errorMessage = `Server Error: ${error.error.message}`;
     } else if (typeof error.error === 'string') {
       errorMessage = `Server Error : ${error.error}`;
-    } else if (typeof error.message === 'string') {
+    } else {
       errorMessage = error.message;
     }
 

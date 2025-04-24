@@ -1,8 +1,8 @@
 package dev.anirban.harmoniq_backend.repo;
 
-import dev.anirban.harmoniq_backend.entity.Like;
-import dev.anirban.harmoniq_backend.entity.Thread;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.threads.Like;
+import dev.anirban.harmoniq_backend.entity.threads.Thread;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

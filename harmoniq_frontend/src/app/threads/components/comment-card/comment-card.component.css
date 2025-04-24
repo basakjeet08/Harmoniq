@@ -17,7 +17,7 @@
   position: absolute;
 
   top: 56px;
-  left: 0px;
+  left: 0;
 
   width: 56px;
   height: 2px;
@@ -30,7 +30,7 @@
 }
 
 .comment-card {
-  margin: 12px 0px;
+  margin: 12px 0;
 }
 
 .profile-image {

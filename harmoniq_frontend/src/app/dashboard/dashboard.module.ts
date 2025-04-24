@@ -16,19 +16,16 @@ const dashboardRoutes: Routes = [
       { path: '', redirectTo: 'threads', pathMatch: 'full' },
       {
         path: 'threads',
-        loadChildren: () =>
-          import('./../threads/threads.module').then((m) => m.ThreadsModule),
+        loadChildren: () => import('./../threads/threads.module').then((m) => m.ThreadsModule),
       },
       {
         path: 'chatbot',
-        loadChildren: () =>
-          import('./../chatbot/chatbot.module').then((m) => m.ChatbotModule),
+        loadChildren: () => import('./../chatbot/chatbot.module').then((m) => m.ChatbotModule),
         canActivate: [guestGuard],
       },
       {
         path: 'profile/:id',
-        loadChildren: () =>
-          import('../profile/profile.module').then((m) => m.ProfileModule),
+        loadChildren: () => import('../profile/profile.module').then((m) => m.ProfileModule),
       },
     ],
   },

@@ -12,11 +12,6 @@ const routes: Routes = [{ path: '', component: ProfileComponent }];
 
 @NgModule({
   declarations: [ProfileComponent, DetailsComponent, EditComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-  ],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes), FormsModule],
 })
 export class ProfileModule {}

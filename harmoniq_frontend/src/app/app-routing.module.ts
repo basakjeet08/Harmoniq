@@ -3,15 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 // These are the routes for the whole app module
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'helplines',
-    loadChildren: () =>
-      import('./helplines/helplines.module').then((m) => m.HelplinesModule),
+    loadChildren: () => import('./helplines/helplines.module').then((m) => m.HelplinesModule),
   },
   {
     path: 'auth',
@@ -19,8 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
 ];
 

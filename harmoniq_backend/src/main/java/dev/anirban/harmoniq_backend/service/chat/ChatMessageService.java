@@ -1,7 +1,7 @@
-package dev.anirban.harmoniq_backend.service.conversation;
+package dev.anirban.harmoniq_backend.service.chat;
 
-import dev.anirban.harmoniq_backend.entity.ChatMessage;
-import dev.anirban.harmoniq_backend.entity.Conversation;
+import dev.anirban.harmoniq_backend.entity.chat.ChatMessage;
+import dev.anirban.harmoniq_backend.entity.chat.Conversation;
 import dev.anirban.harmoniq_backend.repo.ChatMessageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -15,10 +15,7 @@
 </p>
 
 <!-- Email Component -->
-<p
-  *ngIf="isOwner"
-  class="w-full variant-card-container p-8 body-text muted-text"
->
+<p *ngIf="isOwner" class="w-full variant-card-container p-8 body-text muted-text">
   Email : <span class="accent-text">{{ userData?.email }}</span>
 </p>
 
@@ -30,26 +27,18 @@
   <h4 class="warning-text body-text">Warning</h4>
 
   <p class="body-text muted-text">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas
-    distinctio, molestiae recusandae nam et perferendis. Aliq
+    Guest Profiles can browse through discussions, but to create or comment on threads, you'll need
+    to create an account. Join in, start a conversation, and be part of something meaningful. ✨
   </p>
 </div>
 
 <!-- Button Container -->
 <div class="w-full row-container g-24" *ngIf="isOwner">
-  <button
-    class="btn btn-accent flex-1"
-    (click)="onEditToggle()"
-    [disabled]="isGuestMode"
-  >
+  <button class="btn btn-accent flex-1" (click)="onEditToggle()" [disabled]="isGuestMode">
     Edit Account
   </button>
 
-  <button
-    class="btn btn-destructive flex-1"
-    (click)="onDeleteClick()"
-    [disabled]="loaderState"
-  >
+  <button class="btn btn-destructive flex-1" (click)="onDeleteClick()" [disabled]="loaderState">
     Delete Account
   </button>
 </div>

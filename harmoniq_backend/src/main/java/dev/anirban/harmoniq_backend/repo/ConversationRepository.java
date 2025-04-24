@@ -1,6 +1,6 @@
 package dev.anirban.harmoniq_backend.repo;
 
-import dev.anirban.harmoniq_backend.entity.Conversation;
+import dev.anirban.harmoniq_backend.entity.chat.Conversation;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

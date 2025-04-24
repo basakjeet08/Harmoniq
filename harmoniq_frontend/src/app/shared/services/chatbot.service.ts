@@ -14,7 +14,7 @@ export class ChatbotService implements ChatbotInterface {
   // Injecting the necessary dependencies
   constructor(
     profileService: ProfileService,
-    private apiErrorHandlerService: ApiErrorHandlerService
+    private apiErrorHandlerService: ApiErrorHandlerService,
   ) {
     // Storing the token in the variable
     this.token = profileService.getUser()?.token || 'Invalid Token';
@@ -46,29 +46,23 @@ export class ChatbotService implements ChatbotInterface {
         .then((reader) => {
           // Getting the Stream Reader and text decoder
           const decoder = new TextDecoder();
-          let buffer = '';
+          let buffer: string = '';
 
           // This function creates json objects from the buffer
           const extractJsonObjects = () => {
             // Json Object storage to store Objects from the buffer
             let jsonObjects: ResponseWrapper<string>[] = [];
-            let startIndex = buffer.indexOf('{');
-            let endIndex = buffer.indexOf('}');
+            let startIndex: number = buffer.indexOf('{');
+            let endIndex: number = buffer.indexOf('}');
 
             // Converting the objects from the string to objects until the buffer has no object left
-            while (
-              startIndex !== -1 &&
-              endIndex !== -1 &&
-              startIndex < endIndex
-            ) {
+            while (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex) {
               try {
                 // Getting the JSON String for the object
-                let jsonString = buffer.substring(startIndex, endIndex + 1);
+                let jsonString: string = buffer.substring(startIndex, endIndex + 1);
 
                 // Converting the JSON String to object and pushing it to the array
-                let jsonData = JSON.parse(
-                  jsonString
-                ) as ResponseWrapper<string>;
+                let jsonData = JSON.parse(jsonString) as ResponseWrapper<string>;
                 jsonObjects.push(jsonData);
 
                 // Updating the buffer and removing the processed string
@@ -97,7 +91,7 @@ export class ChatbotService implements ChatbotInterface {
             buffer += decoder.decode(value, { stream: true });
 
             const jsonObjects = extractJsonObjects();
-            jsonObjects.forEach((jsonData) => observer.next(jsonData.data));
+            jsonObjects.forEach((jsonData): void => observer.next(jsonData.data));
 
             // Reading the next chunk
             reader.read().then(process);

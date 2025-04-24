@@ -19,8 +19,8 @@ export class ConversationListComponent implements OnInit {
   loaderState!: boolean;
 
   // Paging data values
-  page = 0;
-  pageSize = 10;
+  page: number = 0;
+  pageSize: number = 10;
   lastPage: boolean = false;
 
   // Injecting the necessary dependencies
@@ -29,11 +29,9 @@ export class ConversationListComponent implements OnInit {
     private loaderService: LoaderService,
     private toastService: ToastService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
   }
 
   // Fetching the necessary conversation list data from the Backend
@@ -42,7 +40,7 @@ export class ConversationListComponent implements OnInit {
   }
 
   // This function fetches the conversation list
-  loadMoreConversations() {
+  loadMoreConversations(): void {
     // If already loading or end of data
     if (this.loaderState || this.lastPage) return;
 
@@ -83,14 +81,14 @@ export class ConversationListComponent implements OnInit {
   }
 
   // This function is invoked when the user adds a new Conversation
-  onCreateNewClick(title: string) {
+  onCreateNewClick(title: string): void {
     // Starting the loading state
     this.loaderService.startLoading();
 
     // Calling the API
     this.conversationService.create({ title }).subscribe({
       // Success State
-      next: (conversation: ConversationDto) => {
+      next: (conversation: ConversationDto): void => {
         this.loaderService.endLoading();
         this.onOpenClick(conversation.id);
       },
@@ -104,14 +102,16 @@ export class ConversationListComponent implements OnInit {
   }
 
   // This function is invoked when the Open button is clicked
-  onOpenClick(conversationId: string) {
-    this.router.navigate(['../', 'conversation-details', conversationId], {
-      relativeTo: this.route,
-    });
+  onOpenClick(conversationId: string): void {
+    this.router
+      .navigate(['../', 'conversation-details', conversationId], {
+        relativeTo: this.route,
+      })
+      .then();
   }
 
   // This function is invoked when the user clicks no the delete button
-  onDeleteClick(conversationId: string) {
+  onDeleteClick(conversationId: string): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
@@ -127,7 +127,7 @@ export class ConversationListComponent implements OnInit {
         });
 
         this.conversationList = this.conversationList.filter(
-          (conversation) => conversation.id !== conversationId
+          (conversation: ConversationDto) => conversation.id !== conversationId,
         );
       },
 

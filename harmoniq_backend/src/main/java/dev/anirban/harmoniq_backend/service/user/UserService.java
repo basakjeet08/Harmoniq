@@ -2,7 +2,7 @@ package dev.anirban.harmoniq_backend.service.user;
 
 import dev.anirban.harmoniq_backend.dto.auth.AuthRequest;
 import dev.anirban.harmoniq_backend.dto.user.UserDto;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.EmailAlreadyExists;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.exception.UserNotFound;
@@ -52,10 +52,11 @@ public class UserService {
                 .avatar(authRequest.getAvatar())
                 .role(User.Type.MEMBER)
                 .createdAt(LocalDateTime.now())
+                .conversations(new ArrayList<>())
                 .threads(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .likes(new HashSet<>())
-                .interests(new HashSet<>())
+                .interests(new ArrayList<>())
                 .build();
 
         // Checking if the email already exists
@@ -150,12 +151,12 @@ public class UserService {
         // Removing the likes from the threads. This way I don't have to manually manage the totalLikes fields
         savedUser
                 .getLikes()
-                .forEach(like -> like.getThread().removeLike(like));
+                .forEach(like -> like.getThread().decrementTotalLikesCount());
 
         // Removing the comments from the threads
         savedUser
                 .getComments()
-                .forEach(comment -> comment.getThread().removeComment(comment));
+                .forEach(comment -> comment.getThread().decrementTotalCommentCount());
 
         userRepo.delete(savedUser);
     }

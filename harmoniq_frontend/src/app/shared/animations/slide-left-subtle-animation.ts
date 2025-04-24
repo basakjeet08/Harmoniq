@@ -4,9 +4,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export const slideLeftSubtleAnimation = trigger('slideLeftSubtleAnimation', [
   transition(':enter', [
     style({ opacity: 1, transform: 'translateX(100px)' }),
-    animate(
-      '500ms 100ms ease-in-out',
-      style({ opacity: 1, transform: 'translateX(0)' })
-    ),
+    animate('500ms 100ms ease-in-out', style({ opacity: 1, transform: 'translateX(0)' })),
   ]),
 ]);

@@ -4,7 +4,7 @@ import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.comment.CommentRequest;
 import dev.anirban.harmoniq_backend.dto.comment.CommentDto;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
-import dev.anirban.harmoniq_backend.service.CommentService;
+import dev.anirban.harmoniq_backend.service.threads.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +22,9 @@ public class CommentController {
     // This function handles the creation request for a Comment
     @PostMapping(UrlConstants.CREATE_COMMENT_ENDPOINT)
     public ResponseWrapper<CommentDto> handleCreateCommentRequest(
+            @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable("threadId") String threadId,
-            @RequestBody CommentRequest commentRequest,
-            @AuthenticationPrincipal UserDetails userDetails
+            @RequestBody CommentRequest commentRequest
     ) {
         CommentDto comment = service.create(threadId, commentRequest, userDetails).toCommentDto();
         return new ResponseWrapper<>("Comment created Successfully !!", comment);

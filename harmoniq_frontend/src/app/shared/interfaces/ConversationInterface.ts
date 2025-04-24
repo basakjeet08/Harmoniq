@@ -13,7 +13,7 @@ export interface ConversationInterface {
 
   findConversationHistory(
     id: string,
-    pageable: { page: number; size: number }
+    pageable: { page: number; size: number },
   ): Observable<PageWrapper<ChatMessageDto>>;
 
   deleteById(id: string): Observable<void>;

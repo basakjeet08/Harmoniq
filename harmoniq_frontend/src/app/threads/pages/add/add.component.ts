@@ -21,15 +21,13 @@ export class AddComponent {
     private threadService: ThreadService,
     private toastService: ToastService,
     private loaderService: LoaderService,
-    private location: Location
+    private location: Location,
   ) {
-    this.loaderService.loaderState$.subscribe(
-      (state) => (this.loaderState = state)
-    );
+    this.loaderService.loaderState$.subscribe((state) => (this.loaderState = state));
   }
 
   // This function is invoked when the user clicks on the post thread button
-  onPostClick() {
+  onPostClick(): void {
     // Setting the loading state
     this.loaderService.startLoading();
 
@@ -56,7 +54,7 @@ export class AddComponent {
   }
 
   // This function is invoked when the user clicks on cancel button
-  onCancelClick() {
+  onCancelClick(): void {
     this.location.back();
   }
 }

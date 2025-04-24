@@ -21,7 +21,7 @@ export class UserService implements UserInterface {
   constructor(
     private http: HttpClient,
     private apiErrorHandler: ApiErrorHandlerService,
-    profileService: ProfileService
+    profileService: ProfileService,
   ) {
     // Storing the token in the variable
     this.token = profileService.getUser()?.token || 'Invalid Token';
@@ -41,47 +41,37 @@ export class UserService implements UserInterface {
 
   // This function fetches all the avatars available from the backend
   fetchAllAvatars(): Observable<string[]> {
-    return this.http
-      .get<ResponseWrapper<string[]>>(USER_AVATAR_FETCH_ALL_ENDPOINT)
-      .pipe(
-        map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
-      );
+    return this.http.get<ResponseWrapper<string[]>>(USER_AVATAR_FETCH_ALL_ENDPOINT).pipe(
+      map((response) => response.data),
+      catchError(this.apiErrorHandler.handleApiError),
+    );
   }
 
   // This function fetches the user data with the given id
   findUserById(id: string): Observable<UserDto> {
     return this.http
-      .get<ResponseWrapper<UserDto>>(
-        FETCH_USER_BY_ID_ENDPOINT.replace(':id', id)
-      )
+      .get<ResponseWrapper<UserDto>>(FETCH_USER_BY_ID_ENDPOINT.replace(':id', id))
       .pipe(
         map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
+        catchError(this.apiErrorHandler.handleApiError),
       );
   }
 
   // This function updates the user details
   updateUser(user: UserDto): Observable<UserDto> {
     return this.http
-      .patch<ResponseWrapper<UserDto>>(
-        UPDATE_USER_ENDPOINT,
-        user,
-        this.getHeaders()
-      )
+      .patch<ResponseWrapper<UserDto>>(UPDATE_USER_ENDPOINT, user, this.getHeaders())
       .pipe(
         map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
+        catchError(this.apiErrorHandler.handleApiError),
       );
   }
 
   // This function deletes the user from the database
   deleteUser(): Observable<void> {
-    return this.http
-      .delete<ResponseWrapper<void>>(DELETE_USER_ENDPOINT, this.getHeaders())
-      .pipe(
-        map((response) => response.data),
-        catchError(this.apiErrorHandler.handleApiError)
-      );
+    return this.http.delete<ResponseWrapper<void>>(DELETE_USER_ENDPOINT, this.getHeaders()).pipe(
+      map((response) => response.data),
+      catchError(this.apiErrorHandler.handleApiError),
+    );
   }
 }

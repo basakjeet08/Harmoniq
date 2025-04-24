@@ -1,8 +1,8 @@
-package dev.anirban.harmoniq_backend.service;
+package dev.anirban.harmoniq_backend.service.threads;
 
-import dev.anirban.harmoniq_backend.entity.Interest;
-import dev.anirban.harmoniq_backend.entity.Tag;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.user.Interest;
+import dev.anirban.harmoniq_backend.entity.threads.Tag;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.repo.InterestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,27 +22,26 @@ public class InterestService {
     private final InterestRepository interestRepo;
 
     // This function creates a new Interest based on the user and tag
-    @Transactional
     public Interest createNewInterest(User user, Tag tag) {
+        log.info("(|) - Creating a new interest for user : {} and tag : {}", user.getEmail(), tag.getId());
+
         // New Interest Object Created
         Interest interest = Interest
                 .builder()
                 .score(1)
                 .lastVisited(LocalDateTime.now())
+                .user(user)
+                .tag(tag)
                 .build();
-
-        // For Managing the Bi Directional Relationship
-        user.addInterest(interest);
-        tag.addInterest(interest);
 
         return interestRepo.save(interest);
     }
 
     // This function updates the interest based on the list of tags and the user
     @Transactional
-    public void addInterestsFromPostTags(List<Tag> tagList, User user) {
+    public void markPositiveInterest(List<Tag> tagList, User user) {
         // Fetching all the current user interest
-        List<Interest> userInterests = findAllUserInterest(user);
+        List<Interest> userInterests = findAllUserInterest(user, tagList);
 
         // Storing all the user interests on the map for a quick look up
         Map<String, Interest> interestMap = userInterests
@@ -68,9 +67,9 @@ public class InterestService {
 
     // This function decreases interests based on tags and user
     @Transactional
-    public void removeInterestFromPostTags(List<Tag> tagList, User user) {
+    public void markNegativeInterest(List<Tag> tagList, User user) {
         // Fetching all the current user interest
-        List<Interest> userInterests = findAllUserInterest(user);
+        List<Interest> userInterests = findAllUserInterest(user, tagList);
 
         // Storing all the user interests on the map for a quick look up
         Map<String, Interest> interestMap = userInterests
@@ -92,8 +91,8 @@ public class InterestService {
     }
 
     // This function fetches all the user interests
-    public List<Interest> findAllUserInterest(User user) {
-        return interestRepo.findByUser(user);
+    public List<Interest> findAllUserInterest(User user, List<Tag> tags) {
+        return interestRepo.findByUserAndTagIn(user, tags);
     }
 
     // This function is a cron job that clears all the un - wanted interests
@@ -122,5 +121,4 @@ public class InterestService {
         // Saving all the interests
         interestRepo.saveAll(allSavedInterest);
     }
-
 }

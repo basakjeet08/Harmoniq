@@ -1,8 +1,8 @@
-package dev.anirban.harmoniq_backend.service.conversation;
+package dev.anirban.harmoniq_backend.service.chat;
 
 import dev.anirban.harmoniq_backend.dto.chat.ChatbotRequest;
-import dev.anirban.harmoniq_backend.entity.Conversation;
-import dev.anirban.harmoniq_backend.entity.User;
+import dev.anirban.harmoniq_backend.entity.chat.Conversation;
+import dev.anirban.harmoniq_backend.entity.user.User;
 import dev.anirban.harmoniq_backend.exception.UnAuthorized;
 import dev.anirban.harmoniq_backend.security.JwtService;
 import dev.anirban.harmoniq_backend.service.user.UserService;

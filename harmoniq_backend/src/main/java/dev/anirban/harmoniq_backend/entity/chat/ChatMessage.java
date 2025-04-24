@@ -1,4 +1,4 @@
-package dev.anirban.harmoniq_backend.entity;
+package dev.anirban.harmoniq_backend.entity.chat;
 
 import dev.anirban.harmoniq_backend.dto.chat.ChatMessageDto;
 import jakarta.persistence.*;

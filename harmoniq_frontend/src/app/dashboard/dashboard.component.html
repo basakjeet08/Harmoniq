@@ -1,17 +1,12 @@
 <!-- This is the page header -->
-<header
-  class="card-container row-container g-24 items-center space header-padding"
->
+<header class="card-container row-container g-24 items-center space header-padding">
   <!-- This is the title for the website -->
   <h1>Harmoniq</h1>
 
   <!-- This is the navigation which is passed by the parent component -->
   <nav class="nav-parent">
     <!-- Profile Pic -->
-    <div
-      class="row-container g-4 items-center pointer"
-      (click)="toggleProfileClick()"
-    >
+    <div class="row-container g-4 items-center pointer" (click)="toggleProfileClick()">
       <img class="avatar" [src]="userData.avatar" alt="User Profile Avatar" />
 
       <svg viewBox="0 0 448 512" class="svg" *ngIf="!isExpanded">
@@ -28,10 +23,7 @@
     </div>
 
     <!-- Inner Navigation Parent Container -->
-    <div
-      *ngIf="isExpanded"
-      class="dropdown-nav-parent card-container col-container p-16 g-16"
-    >
+    <div *ngIf="isExpanded" class="dropdown-nav-parent card-container col-container p-16 g-16">
       <!-- Navigation Options -->
       <button
         *ngFor="let option of ['chatbot', 'threads', 'profile']"
@@ -43,9 +35,7 @@
         {{ option | titlecase }}
       </button>
 
-      <button class="btn btn-destructive" (click)="onLogoutClick()">
-        Logout
-      </button>
+      <button class="btn btn-destructive" (click)="onLogoutClick()">Logout</button>
     </div>
   </nav>
 </header>

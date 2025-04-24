@@ -1,9 +1,6 @@
 <!-- Component that shows the selection -->
-<div
-  class="row-container justify-center chosen-avatar"
-  (click)="onEnableChooseMode()"
->
-  <img [src]="currentChosenAvatar" alt="Choosen Avatar" />
+<div class="row-container justify-center chosen-avatar" (click)="onEnableChooseMode()">
+  <img [src]="currentChosenAvatar" alt="Chosen Avatar" />
 
   <!-- Edit Svg Container -->
   <div class="svg-container" *ngIf="!isButtonDisabled">
@@ -16,22 +13,12 @@
 </div>
 
 <!-- This is the Component Container which shows all the avatars to choose from -->
-<div
-  *ngIf="chooseMode"
-  class="choose-component variant-card-container"
-  @staggerPopAnimation
->
+<div *ngIf="chooseMode" class="choose-component variant-card-container" @staggerPopAnimation>
   <!-- Title Container -->
   <div class="row-container g-32 space items-center">
     <h3>Choose your avatar !!</h3>
 
-    <button
-      class="btn btn-destructive"
-      type="button"
-      (click)="onDisableChoosemode()"
-    >
-      Close
-    </button>
+    <button class="btn btn-destructive" type="button" (click)="onDisableChosenMode()">Close</button>
   </div>
 
   <!-- Image Container which shows all the avatars -->

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ThreadCardComponent } from './components/thread-card/thread-card.component';
 import { CommentCardComponent } from './components/comment-card/comment-card.component';
 import { guestGuard } from '../shared/guards/guest.guard';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 // These are the routes for the threads module
 const threadRoutes: Routes = [
@@ -49,6 +50,7 @@ const threadRoutes: Routes = [
     RouterModule.forChild(threadRoutes),
     SharedModule,
     FormsModule,
+    InfiniteScrollDirective,
   ],
 })
 export class ThreadsModule {}

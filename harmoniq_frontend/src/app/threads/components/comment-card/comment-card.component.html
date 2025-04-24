@@ -17,10 +17,7 @@
     <div>
       <p class="primary-text body-text">{{ createdBy.name | titlecase }}</p>
 
-      <small
-        class="secondary-text caption-text"
-        [ngClass]="{ 'error-text': isModerator }"
-      >
+      <small class="secondary-text caption-text" [ngClass]="{ 'error-text': isModerator }">
         {{ createdBy.role | titlecase }}
       </small>
     </div>

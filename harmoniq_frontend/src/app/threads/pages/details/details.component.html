@@ -27,10 +27,7 @@
   <div class="w-full" [@staggerAnimation]="threadDetail?.comments?.length">
     <div class="w-full" *ngFor="let comment of threadDetail?.comments">
       <!-- Each Comment Card Component -->
-      <app-comment-card
-        [createdBy]="comment.createdBy"
-        [comment]="comment.content"
-      />
+      <app-comment-card [createdBy]="comment.createdBy" [comment]="comment.content" />
     </div>
   </div>
 </div>

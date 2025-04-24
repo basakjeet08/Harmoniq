@@ -2,7 +2,7 @@ package dev.anirban.harmoniq_backend.controllers;
 
 import dev.anirban.harmoniq_backend.constants.UrlConstants;
 import dev.anirban.harmoniq_backend.dto.common.ResponseWrapper;
-import dev.anirban.harmoniq_backend.service.LikeService;
+import dev.anirban.harmoniq_backend.service.threads.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,8 +20,8 @@ public class LikeController {
     // This function handles the incoming toggle like requests
     @PostMapping(UrlConstants.TOGGLE_LIKE_ENDPOINT)
     public ResponseWrapper<Void> handleToggleLikeRequest(
-            @PathVariable(name = "threadId") String threadId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable(name = "threadId") String threadId
     ) {
         service.toggleLike(userDetails, threadId);
         return new ResponseWrapper<>("Like toggled successfully !!", null);
