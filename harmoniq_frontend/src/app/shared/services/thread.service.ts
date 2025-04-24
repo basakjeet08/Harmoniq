@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ApiErrorHandlerService } from './api-error-handler.service';
 import { ThreadInterface } from '../interfaces/ThreadInterface';
 import { catchError, map, Observable } from 'rxjs';
-import { ThreadDetailResponse } from '../Models/thread/ThreadDetailResponse';
 import { ThreadDto } from '../Models/thread/ThreadDto';
 import { ResponseWrapper } from '../Models/common/ResponseWrapper';
 import {
@@ -53,7 +52,7 @@ export class ThreadService implements ThreadInterface {
   }
 
   // This function updates the thread if it's liked by current user
-  private updateLikedByCurrentUser<T extends ThreadDto | ThreadDetailResponse>(threadDto: T): T {
+  private updateLikedByCurrentUser<T extends ThreadDto>(threadDto: T): T {
     return {
       ...threadDto,
       isLikedByCurrentUser: threadDto.likedByUserIds.includes(this.user.id!),
@@ -71,10 +70,10 @@ export class ThreadService implements ThreadInterface {
   }
 
   // This function fetches the single thread Data from the backend
-  findById(id: string): Observable<ThreadDetailResponse> {
+  findById(id: string): Observable<ThreadDto> {
     const url: string = FETCH_THREAD_BY_ID_ENDPOINT.replace(':id', id);
 
-    return this.http.get<ResponseWrapper<ThreadDetailResponse>>(url, this.getHeaders()).pipe(
+    return this.http.get<ResponseWrapper<ThreadDto>>(url, this.getHeaders()).pipe(
       map((response) => this.updateLikedByCurrentUser(response.data)),
       catchError(this.apiErrorHandler.handleApiError),
     );

@@ -24,8 +24,14 @@
   />
 
   <!-- Comment Container -->
-  <div class="w-full" [@staggerAnimation]="threadDetail?.comments?.length">
-    <div class="w-full" *ngFor="let comment of threadDetail?.comments">
+  <div
+    class="w-full"
+    infiniteScroll
+    [infiniteScrollDistance]="1"
+    (scrolled)="loadMoreComments()"
+    [@staggerAnimation]="commentList.length"
+  >
+    <div class="w-full" *ngFor="let comment of commentList">
       <!-- Each Comment Card Component -->
       <app-comment-card [createdBy]="comment.createdBy" [comment]="comment.content" />
     </div>

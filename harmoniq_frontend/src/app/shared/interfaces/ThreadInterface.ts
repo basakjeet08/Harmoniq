@@ -1,12 +1,11 @@
 import { Observable } from 'rxjs';
 import { ThreadDto } from '../Models/thread/ThreadDto';
-import { ThreadDetailResponse } from '../Models/thread/ThreadDetailResponse';
 import { PageWrapper } from '../Models/common/PageWrapper';
 
 export interface ThreadInterface {
   create(thread: { description: string }): Observable<ThreadDto>;
 
-  findById(id: string): Observable<ThreadDetailResponse>;
+  findById(id: string): Observable<ThreadDto>;
 
   findThreadsByTag(
     tag: string,

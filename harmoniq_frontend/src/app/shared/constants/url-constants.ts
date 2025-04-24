@@ -31,6 +31,7 @@ export const TOGGLE_LIKE_ENDPOINTS = `${BASE_URL}/threads/:id/likes`;
 
 // Comment Endpoints
 export const CREATE_COMMENT_ENDPOINT = `${BASE_URL}/threads/:threadId/comments`;
+export const FETCH_ALL_COMMENTS_FOR_THREAD_ENDPOINT = `${BASE_URL}/threads/:threadId/comments?page=:page&size=:size`;
 
 // Conversation Endpoints
 export const CREATE_CONVERSATION_ENDPOINT = `${BASE_URL}/conversations`;
