@@ -28,9 +28,9 @@
     - [1️⃣ Clone the Repository](#1️⃣-clone-the-repository)
     - [2️⃣ Open the Project Directory](#2️⃣-open-the-project-directory)
     - [3️⃣ Build \& Run Using Docker (Recommended)](#3️⃣-build--run-using-docker-recommended)
-    - [4️⃣ Stop the docker containers when done](#4️⃣-stop-the-docker-containers-when-done)
     - [⚡What Does Docker Compose Do?](#what-does-docker-compose-do)
     - [✅ Post-Installation](#-post-installation)
+    - [🛑 Stop the docker containers when done](#-stop-the-docker-containers-when-done)
   - [👨‍💻 Author](#-author)
 
 ## Demo
@@ -190,14 +190,6 @@ docker logs -f --tail 100 ollama
 docker-compose up -d
 ```
 
-### 4️⃣ Stop the docker containers when done
-
-**Stop the Docker containers :** Make sure you stop the docker container and the docker desktop when you are done.
-
-```bash
-docker stop $(docker ps -q)
-```
-
 ### ⚡What Does Docker Compose Do?
 
 This will start four containers:
@@ -214,6 +206,14 @@ The setup is configured for a local development environment, so all the necessar
 - Once the containers are up and running, navigate to the frontend at `http://127.0.0.1:5000` to start using the application.
 - For the backend, you can access it through `http://localhost:8080`.
 - The application will be running locally, and the database will be connected automatically.
+
+### 🛑 Stop the docker containers when done
+
+**Stop the Docker containers :** Make sure you stop the docker container and docker desktop when you are done testing the project.
+
+```bash
+docker stop $(docker ps -q)
+```
 
 ## 👨‍💻 Author
 
